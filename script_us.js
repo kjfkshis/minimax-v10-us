@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (No API Required) - Modded
 // @namespace    mmx-secure
-// @version      24.0
+// @version      25.0
 // @description  Create cloned voice audio as you wish. Unlimited. Added features: Merge dialogue, Batch text replacement & Punctuation settings (including line breaks).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Modified
 // @match        https://www.minimax.io/audio*
@@ -2001,15 +2001,15 @@ async function uSTZrHUt_IC() {
             const remainingFailedChunks = window.failedChunks.length;
 
             if (remainingFailedChunks > 0) {
-                addLogEntry(`⚠️ Hoàn thành với ${SI$acY.length - remainingFailedChunks}/${SI$acY.length} chunk thành công.`, 'warning');
-                addLogEntry(`❌ ${remainingFailedChunks} chunk vẫn thất bại: ${window.failedChunks.map(i => i + 1).join(', ')}`, 'error');
-                addLogEntry(`🔄 Tiếp tục retry các chunk thất bại... (Lần ${window.totalRetryAttempts + 1})`, 'info');
-                addLogEntry(`⏳ Tool sẽ retry VÔ HẠN cho đến khi TẤT CẢ chunk thành công!`, 'info');
-                addLogEntry(`📊 Thống kê: ${window.totalRetryAttempts} lần retry đã thực hiện`, 'info');
+                addLogEntry(`⚠️ Completed with ${SI$acY.length - remainingFailedChunks}/${SI$acY.length} chunks successful.`, 'warning');
+                addLogEntry(`❌ ${remainingFailedChunks} chunks still failed: ${window.failedChunks.map(i => i + 1).join(', ')}`, 'error');
+                addLogEntry(`🔄 Continuing to retry failed chunks... (Attempt ${window.totalRetryAttempts + 1})`, 'info');
+                addLogEntry(`⏳ Tool will retry INFINITELY until ALL chunks succeed!`, 'info');
+                addLogEntry(`📊 Statistics: ${window.totalRetryAttempts} retry attempts performed`, 'info');
                 
                 // Áp dụng cơ chế Reset an toàn: Khôi phục Giao diện một lần
-                addLogEntry(`🔄 Áp dụng cơ chế Reset an toàn: Khôi phục Giao diện...`, 'info');
-                addLogEntry(`🔄 Đang nhấn nút "Tạo lại" để đảm bảo trạng thái web sạch sẽ...`, 'info');
+                addLogEntry(`🔄 Applying safe Reset mechanism: Restoring Interface...`, 'info');
+                addLogEntry(`🔄 Clicking "Regenerate" button to ensure clean web state...`, 'info');
                 
                 // Sử dụng async IIFE để xử lý reset
                 (async () => {
@@ -2033,19 +2033,19 @@ async function uSTZrHUt_IC() {
 
                         if (foundRegenerate) {
                             // Chờ web xử lý reset
-                            addLogEntry(`⏳ Chờ web xử lý reset...`, 'info');
+                            addLogEntry(`⏳ Waiting for web to process reset...`, 'info');
                             await new Promise(resolve => setTimeout(resolve, 3000));
 
                             // Clear textarea để đảm bảo trạng thái sạch
                             const textarea = document.getElementById('gemini-hidden-text-for-request');
                             if (textarea) {
                                 textarea.value = '';
-                                addLogEntry(`🧹 Đã clear textarea`, 'info');
+                                addLogEntry(`🧹 Cleared textarea`, 'info');
                             }
 
                             // Chờ thêm một chút để web ổn định
                             await new Promise(resolve => setTimeout(resolve, 2000));
-                            addLogEntry(`✅ Web đã được reset thành công!`, 'success');
+                            addLogEntry(`✅ Web has been reset successfully!`, 'success');
                         } else {
                             addLogEntry(`⚠️ Reset button not found, continuing...`, 'warning');
                         }
@@ -2059,19 +2059,19 @@ async function uSTZrHUt_IC() {
                     // Nhảy thẳng đến chunk lỗi đầu tiên, không đếm lại từ đầu
                     const firstFailedIndex = Math.min(...window.failedChunks);
                     ttuo$y_KhCV = firstFailedIndex;
-                    addLogEntry(`🔄 RETRY MODE: Nhảy thẳng đến chunk ${firstFailedIndex + 1} (chunk lỗi đầu tiên), chỉ xử lý chunks lỗi`, 'info');
+                    addLogEntry(`🔄 RETRY MODE: Jumping directly to chunk ${firstFailedIndex + 1} (first failed chunk), only processing failed chunks`, 'info');
                     setTimeout(uSTZrHUt_IC, 2000); // Chờ 2 giây rồi bắt đầu lại
                 })();
                 return;
             } else {
-                addLogEntry(`🎉 Hoàn thành xử lý tất cả chunks (đã thử lại các chunk thất bại)!`, 'success');
-                addLogEntry(`✅ TẤT CẢ ${SI$acY.length} chunks đã thành công! Bắt đầu ghép file...`, 'success');
+                addLogEntry(`🎉 Completed processing all chunks (retried failed chunks)!`, 'success');
+                addLogEntry(`✅ ALL ${SI$acY.length} chunks succeeded! Starting to merge files...`, 'success');
                 // CHỈ ghép file khi TẤT CẢ chunk đã thành công
                 tt__SfNwBHDebpWJOqrSTR();
             }
         } else {
-            addLogEntry(`🎉 Tất cả ${SI$acY.length} chunks đã được xử lý xong!`, 'success');
-            addLogEntry(`✅ TẤT CẢ ${SI$acY.length} chunks đã thành công! Bắt đầu ghép file...`, 'success');
+            addLogEntry(`🎉 All ${SI$acY.length} chunks have been processed!`, 'success');
+            addLogEntry(`✅ ALL ${SI$acY.length} chunks succeeded! Starting to merge files...`, 'success');
             // CHỈ ghép file khi TẤT CẢ chunk đã thành công
             tt__SfNwBHDebpWJOqrSTR();
         }
@@ -2104,11 +2104,11 @@ async function uSTZrHUt_IC() {
                 const remainingFailedChunks = window.failedChunks.filter(idx => idx > ttuo$y_KhCV);
                 if (remainingFailedChunks.length > 0) {
                     const nextFailedIndex = Math.min(...remainingFailedChunks);
-                    addLogEntry(`⏭️ [Chunk ${ttuo$y_KhCV + 1}] Đã thành công, nhảy thẳng đến chunk ${nextFailedIndex + 1} (chunk lỗi tiếp theo)`, 'info');
+                    addLogEntry(`⏭️ [Chunk ${ttuo$y_KhCV + 1}] Succeeded, jumping directly to chunk ${nextFailedIndex + 1} (next failed chunk)`, 'info');
                     ttuo$y_KhCV = nextFailedIndex;
                 } else {
                     // Không còn chunk lỗi nào, kết thúc
-                    addLogEntry(`✅ Đã xử lý xong tất cả chunks lỗi!`, 'success');
+                    addLogEntry(`✅ All failed chunks have been processed!`, 'success');
                     ttuo$y_KhCV = SI$acY.length; // Đánh dấu hoàn thành
                     setTimeout(uSTZrHUt_IC, 1000);
                     return;
@@ -2118,7 +2118,7 @@ async function uSTZrHUt_IC() {
 
         // Nếu đang trong giai đoạn kiểm tra cuối và chunk này thất bại, thông báo đang xử lý lại
         if (window.isFinalCheck && window.chunkStatus[ttuo$y_KhCV] === 'failed') {
-            addLogEntry(`🔄 [Chunk ${ttuo$y_KhCV + 1}] Đang xử lý lại chunk thất bại...`, 'warning');
+            addLogEntry(`🔄 [Chunk ${ttuo$y_KhCV + 1}] Reprocessing failed chunk...`, 'warning');
         }
 
 
@@ -2134,7 +2134,7 @@ async function uSTZrHUt_IC() {
         let preferredButtonTexts = (ttuo$y_KhCV === 0) ? possibleGenerateTexts : possibleRegenerateTexts;
         
         // Chờ bất kỳ nút nào xuất hiện trước (nhanh hơn)
-        addLogEntry(`🔍 [Chunk ${ttuo$y_KhCV + 1}] Đang chờ nút xuất hiện...`, 'info');
+        addLogEntry(`🔍 [Chunk ${ttuo$y_KhCV + 1}] Waiting for button to appear...`, 'info');
         await waitForButton(allButtonTexts); // Chờ bất kỳ nút nào xuất hiện
         
         // Sau khi nút đã xuất hiện, tìm nút ưu tiên hoặc bất kỳ nút nào có sẵn
@@ -2163,12 +2163,12 @@ async function uSTZrHUt_IC() {
         // Sử dụng nút ưu tiên nếu có, nếu không thì dùng nút có sẵn
         if (preferredButton) {
             targetButton = preferredButton;
-            addLogEntry(`✅ [Chunk ${ttuo$y_KhCV + 1}] Đã tìm thấy nút ưu tiên: "${targetButton.textContent}"`, 'success');
+            addLogEntry(`✅ [Chunk ${ttuo$y_KhCV + 1}] Found priority button: "${targetButton.textContent}"`, 'success');
         } else if (anyAvailableButton) {
             targetButton = anyAvailableButton;
-            addLogEntry(`✅ [Chunk ${ttuo$y_KhCV + 1}] Đã tìm thấy nút thay thế: "${targetButton.textContent}" (nút ưu tiên không có sẵn)`, 'success');
+            addLogEntry(`✅ [Chunk ${ttuo$y_KhCV + 1}] Found alternative button: "${targetButton.textContent}" (priority button not available)`, 'success');
         } else {
-            throw new Error(`Không tìm thấy bất kỳ nút nào để gửi chunk!`);
+            throw new Error(`No button found to send chunk!`);
         }
 
         // ANTI-DETECTION: Thêm delay ngẫu nhiên trước khi đặt text
@@ -2181,7 +2181,7 @@ async function uSTZrHUt_IC() {
         const textarea = document.getElementById('gemini-hidden-text-for-request');
         if (textarea) {
             textarea.value = '';
-            addLogEntry(`🧹 [Chunk ${ttuo$y_KhCV + 1}] Đã clear textarea trước khi gửi`, 'info');
+            addLogEntry(`🧹 [Chunk ${ttuo$y_KhCV + 1}] Cleared textarea before sending`, 'info');
         }
         
         // Clear audio context và các audio elements để tránh lỗi âm thanh lạ
@@ -2250,10 +2250,10 @@ async function uSTZrHUt_IC() {
             }
             
             if (stoppedCount > 0) {
-                addLogEntry(`🧹 [Chunk ${ttuo$y_KhCV + 1}] Đã dừng ${stoppedCount} audio element(s) và clear audio context`, 'info');
+                addLogEntry(`🧹 [Chunk ${ttuo$y_KhCV + 1}] Stopped ${stoppedCount} audio element(s) and cleared audio context`, 'info');
             }
         } catch (audioError) {
-            addLogEntry(`⚠️ [Chunk ${ttuo$y_KhCV + 1}] Lỗi khi clear audio: ${audioError.message}`, 'warning');
+            addLogEntry(`⚠️ [Chunk ${ttuo$y_KhCV + 1}] Error clearing audio: ${audioError.message}`, 'warning');
         }
         
         // Chờ một chút để đảm bảo clear hoàn tất
@@ -2273,7 +2273,7 @@ async function uSTZrHUt_IC() {
 
         // Cập nhật progress bar
         nWHrScjZnIyNYzztyEWwM(ttuo$y_KhCV, SI$acY[tQqGbytKzpHwhGmeQJucsrq(0x216)]);
-        addLogEntry(`📦 [Chunk ${ttuo$y_KhCV + 1}/${SI$acY.length}] Đang gửi đi... (độ dài: ${chunkText.length} ký tự sau chuẩn hóa)`, 'info');
+        addLogEntry(`📦 [Chunk ${ttuo$y_KhCV + 1}/${SI$acY.length}] Sending... (length: ${chunkText.length} characters after normalization)`, 'info');
 
         // ANTI-DETECTION: Thêm delay ngẫu nhiên trước khi click
         await new Promise(resolve => setTimeout(resolve, Math.random() * 2000 + 1000));
@@ -2285,8 +2285,8 @@ async function uSTZrHUt_IC() {
     } catch (error) {
         // ANTI-DETECTION: Kiểm tra lỗi 403 trước
         if (error.message && error.message.includes('403')) {
-            addLogEntry(`🚨 [Chunk ${ttuo$y_KhCV + 1}] Lỗi 403: Website đã phát hiện automation!`, 'error');
-            addLogEntry(`💡 Giải pháp: Đóng trình duyệt, mở lại và thử profile khác (không có Gmail)`, 'warning');
+            addLogEntry(`🚨 [Chunk ${ttuo$y_KhCV + 1}] Error 403: Website has detected automation!`, 'error');
+            addLogEntry(`💡 Solution: Close browser, reopen and try a different profile (without Gmail)`, 'warning');
             
             if (typeof Swal !== 'undefined') {
                 Swal.fire({
@@ -2319,11 +2319,11 @@ async function uSTZrHUt_IC() {
         window.retryCount++;
 
         if (window.retryCount <= MAX_RETRIES) {
-            addLogEntry(`🔄 [Chunk ${ttuo$y_KhCV + 1}] Thử lại lần ${window.retryCount}/${MAX_RETRIES}...`, 'warning');
+            addLogEntry(`🔄 [Chunk ${ttuo$y_KhCV + 1}] Retrying attempt ${window.retryCount}/${MAX_RETRIES}...`, 'warning');
 
             // THÊM RESET WEB KHI GẶP LỖI
-            addLogEntry(`🔄 Đang reset web về trạng thái ban đầu...`, 'info');
-            addLogEntry(`🔄 Đang khôi phục web về trạng thái như lúc gửi chunk thành công...`, 'info');
+            addLogEntry(`🔄 Resetting web to initial state...`, 'info');
+            addLogEntry(`🔄 Restoring web to state when chunk was sent successfully...`, 'info');
 
             try {
                 // Tìm và click nút "Regenerate" hoặc "Tạo lại" để reset web
@@ -2335,7 +2335,7 @@ async function uSTZrHUt_IC() {
                     if (btnText.includes('regenerate') || btnText.includes('tạo lại') ||
                         btnText.includes('generate') || btnText.includes('tạo')) {
                         if (btn.offsetParent !== null && !btn.disabled) {
-                            addLogEntry(`🔄 Tìm thấy nút "${btn.textContent}" - đang reset...`, 'info');
+                            addLogEntry(`🔄 Found button "${btn.textContent}" - resetting...`, 'info');
                             btn.click();
                             foundRegenerate = true;
                             break;
@@ -2372,12 +2372,12 @@ async function uSTZrHUt_IC() {
                     }
                 }
             } catch (resetError) {
-                addLogEntry(`❌ Lỗi khi reset web: ${resetError.message}`, 'error');
+                addLogEntry(`❌ Error resetting web: ${resetError.message}`, 'error');
             }
 
             setTimeout(uSTZrHUt_IC, 2000 * window.retryCount); // Chờ lâu hơn sau mỗi lần thử
         } else {
-            addLogEntry(`🚫 [Chunk ${ttuo$y_KhCV + 1}] Thất bại sau ${MAX_RETRIES} lần thử. Bỏ qua chunk này.`, 'error');
+            addLogEntry(`🚫 [Chunk ${ttuo$y_KhCV + 1}] Failed after ${MAX_RETRIES} attempts. Skipping this chunk.`, 'error');
             // Đánh dấu chunk này là thất bại
             window.chunkStatus[ttuo$y_KhCV] = 'failed';
             if (!window.failedChunks.includes(ttuo$y_KhCV)) {
@@ -2387,7 +2387,7 @@ async function uSTZrHUt_IC() {
             // KIỂM TRA LỖI CẤU HÌNH: Nếu chunk 1 (index 0) lỗi, đánh dấu
             if (ttuo$y_KhCV === 0) {
                 window.chunk1Failed = true;
-                addLogEntry(`⚠️ [Chunk 1] Đã bị lỗi. Sẽ kiểm tra chunk 2...`, 'warning');
+                addLogEntry(`⚠️ [Chunk 1] Has failed. Will check chunk 2...`, 'warning');
             }
             
             window.retryCount = 0; // Reset retry counter
@@ -2395,8 +2395,8 @@ async function uSTZrHUt_IC() {
             
             // KIỂM TRA LỖI CẤU HÌNH: Nếu chunk 1 đã lỗi và chunk 2 (index 1) cũng lỗi
             if (window.chunk1Failed && ttuo$y_KhCV === 1) {
-                addLogEntry(`🚨 [LỖI CẤU HÌNH] Chunk 1 đã lỗi và Chunk 2 cũng không render thành công!`, 'error');
-                addLogEntry(`💡 Tool yêu cầu: Vui lòng F5 (Refresh) trang và thao tác lại từ đầu!`, 'error');
+                addLogEntry(`🚨 [CONFIGURATION ERROR] Chunk 1 failed and Chunk 2 also did not render successfully!`, 'error');
+                addLogEntry(`💡 Tool requires: Please F5 (Refresh) the page and start over!`, 'error');
                 
                 // Hiển thị thông báo lỗi cấu hình
                 if (typeof Swal !== 'undefined') {
@@ -2439,7 +2439,7 @@ async function uSTZrHUt_IC() {
             
             // KIỂM TRA LỖI CẤU HÌNH: Nếu chunk 1 đã lỗi và đang chuyển sang chunk 2
             if (window.chunk1Failed && ttuo$y_KhCV === 1) {
-                addLogEntry(`⚠️ [Chunk 2] Đang kiểm tra cấu hình... Nếu chunk 2 cũng không render thành công, tool sẽ yêu cầu F5.`, 'warning');
+                addLogEntry(`⚠️ [Chunk 2] Checking configuration... If chunk 2 also does not render successfully, tool will require F5.`, 'warning');
             }
             
             addLogEntry(`➡️ Chuyển sang chunk ${ttuo$y_KhCV + 1}...`, 'info');
@@ -2468,8 +2468,8 @@ async function uSTZrHUt_IC() {
             addLogEntry(`🔄 [Chunk ${ttuo$y_KhCV + 1}] Timeout. Thử lại lần ${window.timeoutRetryCount[ttuo$y_KhCV]}/${MAX_TIMEOUT_RETRIES}...`, 'warning');
             
             // THÊM RESET WEB KHI TIMEOUT - Tương tự như logic trong uSTZrHUt_IC
-            addLogEntry(`🔄 Đang reset web về trạng thái ban đầu...`, 'info');
-            addLogEntry(`🔄 Đang khôi phục web về trạng thái như lúc gửi chunk thành công...`, 'info');
+            addLogEntry(`🔄 Resetting web to initial state...`, 'info');
+            addLogEntry(`🔄 Restoring web to state when chunk was sent successfully...`, 'info');
             
             try {
                 // Tìm và click nút "Regenerate" hoặc "Tạo lại" để reset web
@@ -2481,7 +2481,7 @@ async function uSTZrHUt_IC() {
                     if (btnText.includes('regenerate') || btnText.includes('tạo lại') ||
                         btnText.includes('generate') || btnText.includes('tạo')) {
                         if (btn.offsetParent !== null && !btn.disabled) {
-                            addLogEntry(`🔄 Tìm thấy nút "${btn.textContent}" - đang reset...`, 'info');
+                            addLogEntry(`🔄 Found button "${btn.textContent}" - resetting...`, 'info');
                             btn.click();
                             foundRegenerate = true;
                             break;
@@ -2518,7 +2518,7 @@ async function uSTZrHUt_IC() {
                     }
                 }
             } catch (resetError) {
-                addLogEntry(`❌ Lỗi khi reset web: ${resetError.message}`, 'error');
+                addLogEntry(`❌ Error resetting web: ${resetError.message}`, 'error');
             }
             
             // Thử lại chunk này sau khi đã làm sạch web
@@ -2539,8 +2539,8 @@ async function uSTZrHUt_IC() {
             
             // KIỂM TRA LỖI CẤU HÌNH: Nếu chunk 1 đã lỗi và chunk 2 (index 1) cũng timeout
             if (window.chunk1Failed && ttuo$y_KhCV === 1) {
-                addLogEntry(`🚨 [LỖI CẤU HÌNH] Chunk 1 đã lỗi và Chunk 2 cũng không render thành công!`, 'error');
-                addLogEntry(`💡 Tool yêu cầu: Vui lòng F5 (Refresh) trang và thao tác lại từ đầu!`, 'error');
+                addLogEntry(`🚨 [CONFIGURATION ERROR] Chunk 1 failed and Chunk 2 also did not render successfully!`, 'error');
+                addLogEntry(`💡 Tool requires: Please F5 (Refresh) the page and start over!`, 'error');
                 
                 // Hiển thị thông báo lỗi cấu hình
                 if (typeof Swal !== 'undefined') {
@@ -2587,7 +2587,7 @@ async function uSTZrHUt_IC() {
             
             // KIỂM TRA LỖI CẤU HÌNH: Nếu chunk 1 đã lỗi và đang chuyển sang chunk 2
             if (window.chunk1Failed && ttuo$y_KhCV === 1) {
-                addLogEntry(`⚠️ [Chunk 2] Đang kiểm tra cấu hình... Nếu chunk 2 cũng không render thành công, tool sẽ yêu cầu F5.`, 'warning');
+                addLogEntry(`⚠️ [Chunk 2] Checking configuration... If chunk 2 also does not render successfully, tool will require F5.`, 'warning');
             }
             
             addLogEntry(`➡️ Chuyển sang chunk ${ttuo$y_KhCV + 1}...`, 'info');
@@ -2605,7 +2605,7 @@ async function uSTZrHUt_IC() {
                     GrmINfCyEsyqJbigpyT[ndkpgKnjg(0x24e)]();
 
                     // Log khi thành công
-                    addLogEntry(`✅ [Chunk ${ttuo$y_KhCV + 1}/${SI$acY.length}] Xử lý thành công!`, 'success');
+                    addLogEntry(`✅ [Chunk ${ttuo$y_KhCV + 1}/${SI$acY.length}] Processed successfully!`, 'success');
                     window.retryCount = 0; // Reset retry counter khi thành công
                     // Reset timeout retry count cho chunk này khi thành công
                     if (typeof window.timeoutRetryCount !== 'undefined' && window.timeoutRetryCount[ttuo$y_KhCV] !== undefined) {
@@ -2616,13 +2616,13 @@ async function uSTZrHUt_IC() {
                     // Reset flag chunk1Failed nếu chunk 1 thành công
                     if (ttuo$y_KhCV === 0) {
                         window.chunk1Failed = false;
-                        addLogEntry(`✅ [Chunk 1] Đã thành công - Reset flag kiểm tra cấu hình`, 'success');
+                        addLogEntry(`✅ [Chunk 1] Succeeded - Reset configuration check flag`, 'success');
                     }
 
                     // Nếu đang trong giai đoạn kiểm tra cuối, loại bỏ chunk này khỏi danh sách thất bại
                     if (window.isFinalCheck && window.failedChunks.includes(ttuo$y_KhCV)) {
                         window.failedChunks = window.failedChunks.filter(index => index !== ttuo$y_KhCV);
-                        addLogEntry(`🎉 [Chunk ${ttuo$y_KhCV + 1}] Đã khôi phục thành công từ trạng thái thất bại!`, 'success');
+                        addLogEntry(`🎉 [Chunk ${ttuo$y_KhCV + 1}] Successfully recovered from failed state!`, 'success');
                     }
 
                     // ĐỒNG BỘ HÓA KHI RETRY: Đảm bảo window.chunkBlobs được cập nhật khi retry thành công
@@ -3453,7 +3453,7 @@ async function waitForVoiceModelReady() {
                         iframe.src = 'https://kjfkshis.github.io/kho-am-thanh/';
                     }
                     
-                    addLogEntry('📂 Đã mở kho âm thanh online', 'info');
+                    addLogEntry('📂 Opened online audio library', 'info');
                 });
             }
 
@@ -3466,7 +3466,7 @@ async function waitForVoiceModelReady() {
                     // Xóa src của iframe để dừng âm thanh và tiết kiệm tài nguyên
                     iframe.src = 'about:blank';
                     
-                    addLogEntry('📂 Đã đóng kho âm thanh online', 'info');
+                    addLogEntry('📂 Closed online audio library', 'info');
                 });
             }
 
@@ -3479,7 +3479,7 @@ async function waitForVoiceModelReady() {
                         if (iframe) {
                             iframe.src = 'about:blank';
                         }
-                        addLogEntry('📂 Đã đóng kho âm thanh online', 'info');
+                        addLogEntry('📂 Closed online audio library', 'info');
                     }
                 });
             }
@@ -3499,19 +3499,19 @@ async function waitForVoiceModelReady() {
                 const { url, fileName, fileData } = event.data;
 
                 if (!fileName) {
-                    console.error('Thiếu tên file:', event.data);
+                    console.error('Missing file name:', event.data);
                     return;
                 }
 
                 // Nếu không có fileData và không có URL, báo lỗi
                 if (!fileData && !url) {
-                    console.error('Thiếu URL hoặc dữ liệu file:', event.data);
-                    addLogEntry('❌ Lỗi: Web app cần gửi fileData (base64 hoặc ArrayBuffer) hoặc URL', 'error');
+                    console.error('Missing URL or file data:', event.data);
+                    addLogEntry('❌ Error: Web app needs to send fileData (base64 or ArrayBuffer) or URL', 'error');
                     return;
                 }
 
                 try {
-                    addLogEntry(`📥 Đang tải file từ web app: ${fileName}...`, 'info');
+                    addLogEntry(`📥 Downloading file from web app: ${fileName}...`, 'info');
                     console.log('URL file:', url);
 
                     let blob;
@@ -3519,7 +3519,7 @@ async function waitForVoiceModelReady() {
                     // Kiểm tra xem có dữ liệu file trực tiếp trong event.data không (để tránh CORS)
                     if (event.data.fileData) {
                         // Web app đã gửi dữ liệu file trực tiếp (base64 hoặc ArrayBuffer)
-                        addLogEntry('📥 Nhận dữ liệu file trực tiếp từ web app (tránh CORS)...', 'info');
+                        addLogEntry('📥 Receiving file data directly from web app (avoiding CORS)...', 'info');
                         
                         if (typeof event.data.fileData === 'string') {
                             // Base64 string
@@ -3534,13 +3534,13 @@ async function waitForVoiceModelReady() {
                             // ArrayBuffer
                             blob = new Blob([event.data.fileData], { type: 'audio/mpeg' });
                         } else {
-                            throw new Error('Định dạng dữ liệu file không được hỗ trợ');
+                            throw new Error('File data format not supported');
                         }
                         
-                        console.log('Đã nhận blob từ web app, size:', blob.size);
+                        console.log('Received blob from web app, size:', blob.size);
                     } else {
                         // Thử tải từ URL (có thể bị CORS nếu server không cho phép)
-                        addLogEntry('⚠️ Lưu ý: Tải từ URL có thể bị chặn bởi CORS...', 'warning');
+                        addLogEntry('⚠️ Note: Downloading from URL may be blocked by CORS...', 'warning');
                         
                         blob = await new Promise((resolve, reject) => {
                             const xhr = new XMLHttpRequest();
@@ -3556,11 +3556,11 @@ async function waitForVoiceModelReady() {
                             };
                             
                             xhr.onerror = function() {
-                                reject(new Error('Network error khi tải file. Lỗi CORS: Server chỉ cho phép truy cập từ localhost. Vui lòng cấu hình web app gửi dữ liệu file trực tiếp.'));
+                                reject(new Error('Network error downloading file. CORS error: Server only allows access from localhost. Please configure web app to send file data directly.'));
                             };
                             
                             xhr.ontimeout = function() {
-                                reject(new Error('Timeout khi tải file'));
+                                reject(new Error('Timeout downloading file'));
                             };
                             
                             // Set headers
@@ -3575,7 +3575,7 @@ async function waitForVoiceModelReady() {
                             xhr.send();
                         });
                         
-                        console.log('Đã tải blob từ URL thành công, size:', blob.size);
+                        console.log('Successfully downloaded blob from URL, size:', blob.size);
                     }
 
                     // Tạo File object từ Blob
@@ -3584,8 +3584,8 @@ async function waitForVoiceModelReady() {
                     // Lấy file input của Tool
                     const fileInput = document.getElementById('gemini-file-input');
                     if (!fileInput) {
-                        console.error('Không tìm thấy #gemini-file-input');
-                        addLogEntry('❌ Lỗi: Không tìm thấy ô tải file', 'error');
+                        console.error('Could not find #gemini-file-input');
+                        addLogEntry('❌ Error: File upload input not found', 'error');
                         return;
                     }
 
@@ -3597,7 +3597,7 @@ async function waitForVoiceModelReady() {
                     // Kích hoạt sự kiện 'change' để Tool nhận diện file mới
                     fileInput.dispatchEvent(new Event('change', { bubbles: true }));
 
-                    addLogEntry(`✅ Đã tải file "${fileName}" thành công từ web app!`, 'success');
+                    addLogEntry(`✅ Successfully downloaded file "${fileName}" from web app!`, 'success');
 
                     // Hiển thị thông báo thành công
                     if (typeof Swal !== 'undefined') {
@@ -3605,8 +3605,8 @@ async function waitForVoiceModelReady() {
                             toast: true,
                             position: 'top-end',
                             icon: 'success',
-                            title: '✅ Đã tải file thành công',
-                            text: `File "${fileName}" đã được tải từ kho âm thanh`,
+                            title: '✅ File downloaded successfully',
+                            text: `File "${fileName}" has been downloaded from audio library`,
                             showConfirmButton: false,
                             timer: 3000,
                             timerProgressBar: true,
@@ -3621,7 +3621,7 @@ async function waitForVoiceModelReady() {
                             position: 'top-end',
                             icon: 'error',
                             title: '❌ Lỗi tải file',
-                            text: error.message || 'Không thể tải file từ kho âm thanh. Vui lòng thử lại.',
+                            text: error.message || 'Unable to download file from audio library. Please try again.',
                             showConfirmButton: false,
                             timer: 3000,
                             timerProgressBar: true,
