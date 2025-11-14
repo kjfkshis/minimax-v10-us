@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      27.0
+// @version      28.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -1527,6 +1527,27 @@ button:disabled {
 
         // Khởi tạo database
         async init() {
+            // Nếu đã có database và đang mở, đợi một chút rồi trả về
+            if (this.db && this.db.objectStoreNames.contains(this.storeName)) {
+                // Kiểm tra xem database có đang đóng không
+                try {
+                    // Thử tạo một transaction test để kiểm tra database state
+                    const testTransaction = this.db.transaction([this.storeName], 'readonly');
+                    testTransaction.onerror = () => {
+                        // Database có vấn đề, cần khởi tạo lại
+                        this.db = null;
+                    };
+                    testTransaction.oncomplete = () => {
+                        // Database OK
+                    };
+                    // Nếu database OK, trả về ngay
+                    return Promise.resolve(this.db);
+                } catch (e) {
+                    // Database có vấn đề, khởi tạo lại
+                    this.db = null;
+                }
+            }
+            
             return new Promise((resolve, reject) => {
                 const request = indexedDB.open(this.dbName, this.dbVersion);
 
@@ -1537,8 +1558,57 @@ button:disabled {
 
                 request.onsuccess = () => {
                     this.db = request.result;
-                    console.log('✅ IndexedDB đã sẵn sàng');
-                    resolve(this.db);
+                    
+                    // CẢI THIỆN: Đợi một chút để đảm bảo database hoàn toàn sẵn sàng (đặc biệt cho môi trường exe)
+                    // Kiểm tra xem store đã tồn tại chưa
+                    if (!this.db.objectStoreNames.contains(this.storeName)) {
+                        // Database cần upgrade, đợi một chút
+                        console.warn('⚠️ Database chưa có store, đợi upgrade...');
+                        setTimeout(() => {
+                            console.log('✅ IndexedDB đã sẵn sàng (sau upgrade)');
+                            resolve(this.db);
+                        }, 200);
+                        return;
+                    }
+                    
+                    // Thử tạo transaction test để đảm bảo database sẵn sàng
+                    try {
+                        const testTransaction = this.db.transaction([this.storeName], 'readonly');
+                        let testCompleted = false;
+                        
+                        testTransaction.oncomplete = () => {
+                            if (!testCompleted) {
+                                testCompleted = true;
+                                console.log('✅ IndexedDB đã sẵn sàng và đã test thành công');
+                                resolve(this.db);
+                            }
+                        };
+                        
+                        testTransaction.onerror = () => {
+                            if (!testCompleted) {
+                                testCompleted = true;
+                                console.error('❌ Lỗi test transaction:', testTransaction.error);
+                                // Vẫn resolve để không block, nhưng sẽ retry khi save
+                                setTimeout(() => resolve(this.db), 100);
+                            }
+                        };
+                        
+                        // Nếu transaction không complete trong 500ms, resolve anyway (cho môi trường exe)
+                        setTimeout(() => {
+                            if (!testCompleted) {
+                                testCompleted = true;
+                                console.warn('⚠️ Test transaction timeout, resolve anyway (cho môi trường exe)');
+                                resolve(this.db);
+                            }
+                        }, 500);
+                    } catch (e) {
+                        console.warn('⚠️ Lỗi test transaction, đợi 200ms:', e);
+                        // Đợi một chút rồi resolve (cho môi trường exe)
+                        setTimeout(() => {
+                            console.log('✅ IndexedDB đã sẵn sàng (sau catch)');
+                            resolve(this.db);
+                        }, 200);
+                    }
                 };
 
                 request.onupgradeneeded = (event) => {
@@ -1549,6 +1619,18 @@ button:disabled {
                         objectStore.createIndex('chunkIndex', 'chunkIndex', { unique: false });
                         objectStore.createIndex('sessionChunk', ['sessionId', 'chunkIndex'], { unique: true });
                     }
+                };
+                
+                request.onblocked = () => {
+                    console.warn('⚠️ IndexedDB bị block, đợi...');
+                    // Đợi một chút rồi thử lại
+                    setTimeout(() => {
+                        if (this.db) {
+                            resolve(this.db);
+                        } else {
+                            reject(new Error('IndexedDB bị block quá lâu'));
+                        }
+                    }, 500);
                 };
             });
         }
@@ -1652,7 +1734,28 @@ button:disabled {
             const MAX_RETRIES = 3;
             const RETRY_DELAY = 500; // 500ms
             
-            if (!this.db) await this.init();
+            // CẢI THIỆN: Đảm bảo database hoàn toàn sẵn sàng trước khi lưu (đặc biệt cho môi trường exe)
+            if (!this.db) {
+                await this.init();
+                // Đợi thêm một chút để đảm bảo database sẵn sàng (cho môi trường exe)
+                await new Promise(resolve => setTimeout(resolve, 100));
+            } else {
+                // Kiểm tra database state
+                try {
+                    if (!this.db.objectStoreNames.contains(this.storeName)) {
+                        // Database chưa có store, cần khởi tạo lại
+                        this.db = null;
+                        await this.init();
+                        await new Promise(resolve => setTimeout(resolve, 100));
+                    }
+                } catch (e) {
+                    // Database có vấn đề, khởi tạo lại
+                    this.db = null;
+                    await this.init();
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                }
+            }
+            
             const sessionId = this.getCurrentSessionId();
             
             // Kiểm tra blob size (IndexedDB có giới hạn ~50MB per item)
