@@ -1113,7 +1113,7 @@ button:disabled {
         
         <div id="gemini-quota-display" style="color: #8be9fd; font-weight: bold; margin-left: 15px; margin-top: 10px; font-size: 14px;">Loading quota...</div>
         </div> 
-    <div class="column-content"> <div class="section" style="margin-bottom: 10px!important;"> <h4>1. Upload audio file (Max 1 file, 20-60 seconds duration)</h4> <input type="file" id="gemini-file-input" accept=".wav,.mp3,.mpeg,.mp4,.m4a,.avi,.mov,.wmv,.flv,.mkv,.webm"> </div> <div class="section"> <h4>2. Select language</h4> <select id="gemini-language-select"><option value="Vietnamese">Vietnamese</option><option value="English">English</option><option value="Arabic">Arabic</option><option value="Cantonese">Cantonese</option><option value="Chinese (Mandarin)">Chinese (Mandarin)</option><option value="Dutch">Dutch</option><option value="French">French</option><option value="German">German</option><option value="Indonesian">Indonesian</option><option value="Italian">Italian</option><option value="Japanese">Japanese</option><option value="Korean">Korean</option><option value="Portuguese">Portuguese</option><option value="Russian">Russian</option><option value="Spanish">Spanish</option><option value="Turkish">Turkish</option><option value="Ukrainian">Ukrainian</option><option value="Thai">Thai</option><option value="Polish">Polish</option><option value="Romanian">Romanian</option><option value="Greek">Greek</option><option value="Czech">Czech</option><option value="Finnish">Finnish</option><option value="Hindi">Hindi</option><option value="Bulgarian">Bulgarian</option><option value="Danish">Danish</option><option value="Hebrew">Hebrew</option><option value="Malay">Malay</option><option value="Persian">Persian</option><option value="Slovak">Slovak</option><option value="Swedish">Swedish</option><option value="Croatian">Croatian</option><option value="Filipino">Filipino</option><option value="Hungarian">Hungarian</option><option value="Norwegian">Norwegian</option><option value="Slovenian">Slovenian</option><option value="Catalan">Catalan</option><option value="Nynorsk">Nynorsk</option><option value="Tamil">Tamil</option><option value="Afrikaans">Afrikaans</option></select> </div> <div class="section"> <button id="gemini-upload-btn">Upload & Auto Configure</button> <div id="gemini-upload-status"></div> </div> <div class="log-section"> <h2>Activity Log</h2> <div id="log-container" class="log-container"> <div class="log-entry">Ready to track text chunks</div> </div> <button id="clear-log-btn" class="clear-log-btn">Clear log</button> </div> </div> </div> </div> <div id="gemini-col-2" class="gemini-column"> <div class="column-header box-info-version"><h3>Content Generator</h3><div>Version: 27.0 - Update: 27/01/2025 - Created by: <a href="https://fb.com/HuynhDucLoi/" target="_blank">Huỳnh Đức Lợi</a></div></div> <div class="column-content">     <div id="gemini-col-2-left">     <div class="section text-section"> <h4>Enter text to generate voice</h4>
+    <div class="column-content"> <div class="section" style="margin-bottom: 10px!important;"> <h4>1. Upload audio file (Max 1 file, 20-60 seconds duration)</h4> <input type="file" id="gemini-file-input" accept=".wav,.mp3,.mpeg,.mp4,.m4a,.avi,.mov,.wmv,.flv,.mkv,.webm"> </div> <div class="section"> <h4>2. Select language</h4> <select id="gemini-language-select"><option value="Vietnamese">Vietnamese</option><option value="English">English</option><option value="Arabic">Arabic</option><option value="Cantonese">Cantonese</option><option value="Chinese (Mandarin)">Chinese (Mandarin)</option><option value="Dutch">Dutch</option><option value="French">French</option><option value="German">German</option><option value="Indonesian">Indonesian</option><option value="Italian">Italian</option><option value="Japanese">Japanese</option><option value="Korean">Korean</option><option value="Portuguese">Portuguese</option><option value="Russian">Russian</option><option value="Spanish">Spanish</option><option value="Turkish">Turkish</option><option value="Ukrainian">Ukrainian</option><option value="Thai">Thai</option><option value="Polish">Polish</option><option value="Romanian">Romanian</option><option value="Greek">Greek</option><option value="Czech">Czech</option><option value="Finnish">Finnish</option><option value="Hindi">Hindi</option><option value="Bulgarian">Bulgarian</option><option value="Danish">Danish</option><option value="Hebrew">Hebrew</option><option value="Malay">Malay</option><option value="Persian">Persian</option><option value="Slovak">Slovak</option><option value="Swedish">Swedish</option><option value="Croatian">Croatian</option><option value="Filipino">Filipino</option><option value="Hungarian">Hungarian</option><option value="Norwegian">Norwegian</option><option value="Slovenian">Slovenian</option><option value="Catalan">Catalan</option><option value="Nynorsk">Nynorsk</option><option value="Tamil">Tamil</option><option value="Afrikaans">Afrikaans</option></select> </div> <div class="section"> <button id="gemini-upload-btn">Upload & Auto Configure</button> <div id="gemini-upload-status"></div> </div> <div class="log-section"> <h2>Activity Log</h2> <div id="log-container" class="log-container"> <div class="log-entry">Ready to track text chunks</div> </div> <button id="clear-log-btn" class="clear-log-btn">Clear log</button> </div> </div> </div> </div> <div id="gemini-col-2" class="gemini-column"> <div class="column-header box-info-version"><h3>Content Generator</h3><div>Version: 28.0 - Update: 27/01/2025 - Created by: <a href="https://fb.com/HuynhDucLoi/" target="_blank">Huỳnh Đức Lợi</a></div></div> <div class="column-content">     <div id="gemini-col-2-left">     <div class="section text-section"> <h4>Enter text to generate voice</h4>
     <div class="text-input-options">
         <div class="input-tabs">
             <button id="text-tab" class="tab-btn active">Direct input</button>
@@ -1916,7 +1916,7 @@ button:disabled {
                         
                         putRequest.onsuccess = () => {
                             clearTimeout(timeoutId);
-                            console.log(`💾 Đã lưu chunk ${chunkIndex} vào IndexedDB (session: ${sessionId}, size: ${(blob.size / 1024).toFixed(2)}KB)`);
+                            console.log(`💾 Saved chunk ${chunkIndex} to IndexedDB (session: ${sessionId}, size: ${(blob.size / 1024).toFixed(2)}KB)`);
                             resolve();
                         };
                         
@@ -2046,7 +2046,7 @@ button:disabled {
                             index: item.chunkIndex,
                             blob: item.blob
                         }));
-                    console.log(`📦 Đã lấy ${chunks.length} chunks từ IndexedDB (session: ${sessionId})`);
+                    console.log(`📦 Retrieved ${chunks.length} chunks from IndexedDB (session: ${sessionId})`);
                     resolve(chunks);
                 };
 
@@ -2336,7 +2336,7 @@ button:disabled {
                 
                 const addRequest = store.add(data);
                 addRequest.onsuccess = () => {
-                    console.log(`💾 Đã lưu file "${fileName}" vào lịch sử`);
+                    console.log(`💾 Saved file "${fileName}" to history`);
                     resolve(addRequest.result);
                 };
                 addRequest.onerror = () => {
@@ -2847,7 +2847,7 @@ function dExAbhXwTJeTJBIjWr(EARfsfSN_QdgxH){const tENdSoNDV_gGwQKLZv$sYaZKhl=AP$
                 // Reset biến tạm
                 window.CURRENT_JOB_CHARS = 0; 
                 
-                addLogEntry(`✅ Hoàn tất! Gửi báo cáo trừ ${new Intl.NumberFormat().format(charsToReport)} ký tự về main.py.`, 'success');
+                addLogEntry(`✅ Complete! Sending report to deduct ${new Intl.NumberFormat().format(charsToReport)} characters to main.py.`, 'success');
                 
                 // --- THAY ĐỔI (KHÔNG TRỪ CỤC BỘ NẾU LÀ -1) ---
                 // Chỉ trừ quota cục bộ trên UI nếu không phải là "Không giới hạn"
@@ -2886,9 +2886,9 @@ try {
             return chunk && chunk.blob;
         });
         finalBlobs = validChunks.map(chunk => chunk.blob);
-        addLogEntry(`📦 Đã lấy ${finalBlobs.length} chunks từ IndexedDB (session: ${currentSessionId})`, 'info');
+        addLogEntry(`📦 Retrieved ${finalBlobs.length} chunks from IndexedDB (session: ${currentSessionId})`, 'info');
     } else {
-        addLogEntry('❌ IndexedDB rỗng - không tìm thấy chunks để gộp. Có thể session chưa hoàn thành.', 'error');
+        addLogEntry('❌ IndexedDB is empty - no chunks found to merge. Session may not be completed.', 'error');
     }
 } catch (dbError) {
     console.error('❌ Lỗi đọc từ IndexedDB:', dbError);
@@ -2935,10 +2935,10 @@ try {
     await historyDB.saveMergedFile(fileName, InRdxToeqTDyPgDGZb, {
         chunkCount: finalBlobs.length
     });
-    addLogEntry(`📚 Đã lưu file "${fileName}" vào lịch sử`, 'success');
+    addLogEntry(`📚 Saved file "${fileName}" to history`, 'success');
 } catch (historyError) {
     console.error('❌ Lỗi lưu vào lịch sử:', historyError);
-    addLogEntry('⚠️ Không thể lưu vào lịch sử', 'warning');
+    addLogEntry('⚠️ Cannot save to history', 'warning');
 }if(n_WwsStaC$jzsWjOIjRqedTG)n_WwsStaC$jzsWjOIjRqedTG[VCAHyXsrERcpXVhFPxmgdBjjh(0x26c)]();typeof WaveSurfer===VCAHyXsrERcpXVhFPxmgdBjjh(0x24d)&&await new Promise(dyvridmApUsyBfpYIHkxv=>setTimeout(dyvridmApUsyBfpYIHkxv,parseInt(0xf61)+Math.ceil(-parseInt(0x1e0))+-parseInt(0xb8d))),n_WwsStaC$jzsWjOIjRqedTG=WaveSurfer[VCAHyXsrERcpXVhFPxmgdBjjh(0x240)]({'container':VCAHyXsrERcpXVhFPxmgdBjjh(0x274),'waveColor':VCAHyXsrERcpXVhFPxmgdBjjh(0x26a),'progressColor':VCAHyXsrERcpXVhFPxmgdBjjh(0x228),'cursorColor':VCAHyXsrERcpXVhFPxmgdBjjh(0x20c),'barWidth':0x3,'barRadius':0x3,'cursorWidth':0x1,'height':0x64,'barGap':0x3}),n_WwsStaC$jzsWjOIjRqedTG[VCAHyXsrERcpXVhFPxmgdBjjh(0x1d5)](BBNDYjhHoGkj_qbbbJu),n_WwsStaC$jzsWjOIjRqedTG['on'](VCAHyXsrERcpXVhFPxmgdBjjh(0x1d6),()=>{const Ipo_CDaCvNEfh=VCAHyXsrERcpXVhFPxmgdBjjh;XvyPnqSRdJtYjSxingI[Ipo_CDaCvNEfh(0x1c7)]='⏸️';}),n_WwsStaC$jzsWjOIjRqedTG['on'](VCAHyXsrERcpXVhFPxmgdBjjh(0x22d),()=>{const NdVplyNSVhdzFR=VCAHyXsrERcpXVhFPxmgdBjjh;XvyPnqSRdJtYjSxingI[NdVplyNSVhdzFR(0x1c7)]='▶️';});
 
         // --- BẮT ĐẦU NÂNG CẤP: THÊM NÚT TẢI CHUNKS (ZIP) ---
@@ -2965,9 +2965,9 @@ try {
                         const chunksFromDB = await audioChunkDB.getAllChunks();
                         if (chunksFromDB && chunksFromDB.length > 0) {
                             successfulChunks.push(...chunksFromDB);
-                            addLogEntry(`📦 Đã lấy ${successfulChunks.length} chunks từ IndexedDB (session hiện tại)`, 'info');
+                            addLogEntry(`📦 Retrieved ${successfulChunks.length} chunks from IndexedDB (current session)`, 'info');
                         } else {
-                            addLogEntry('⚠️ IndexedDB rỗng - không có chunks để tải. Có thể session chưa hoàn thành.', 'warning');
+                            addLogEntry('⚠️ IndexedDB is empty - no chunks to download. Session may not be completed.', 'warning');
                         }
                     } catch (dbError) {
                         console.error('❌ Lỗi đọc từ IndexedDB:', dbError);
@@ -3166,11 +3166,11 @@ async function uSTZrHUt_IC() {
         const processedChunks = window.chunkStatus ? window.chunkStatus.filter(status => status === 'success' || status === 'failed').length : 0;
         const failedChunks = window.failedChunks || [];
 
-        addLogEntry(`📊 Kiểm tra: ${processedChunks}/${totalChunks} chunks đã được xử lý`, 'info');
+        addLogEntry(`📊 Check: ${processedChunks}/${totalChunks} chunks have been processed`, 'info');
 
         // Nếu chưa xử lý đủ chunk, tiếp tục chờ
         if (processedChunks < totalChunks) {
-            addLogEntry(`⏳ Còn ${totalChunks - processedChunks} chunk chưa được xử lý. Tiếp tục chờ...`, 'warning');
+            addLogEntry(`⏳ ${totalChunks - processedChunks} chunks remaining to be processed. Continuing to wait...`, 'warning');
             setTimeout(uSTZrHUt_IC, 2000);
             return;
         }
@@ -3314,13 +3314,13 @@ async function uSTZrHUt_IC() {
                 return;
             } else {
                 addLogEntry(`🎉 Hoàn thành xử lý tất cả chunks (đã thử lại các chunk thất bại)!`, 'success');
-                addLogEntry(`✅ TẤT CẢ ${SI$acY.length} chunks đã thành công! Bắt đầu ghép file...`, 'success');
+                addLogEntry(`✅ ALL ${SI$acY.length} chunks succeeded! Starting to merge files...`, 'success');
                 // CHỈ ghép file khi TẤT CẢ chunk đã thành công
                 tt__SfNwBHDebpWJOqrSTR();
             }
         } else {
-            addLogEntry(`🎉 Tất cả ${SI$acY.length} chunks đã được xử lý xong!`, 'success');
-            addLogEntry(`✅ TẤT CẢ ${SI$acY.length} chunks đã thành công! Bắt đầu ghép file...`, 'success');
+            addLogEntry(`🎉 All ${SI$acY.length} chunks have been processed!`, 'success');
+            addLogEntry(`✅ ALL ${SI$acY.length} chunks succeeded! Starting to merge files...`, 'success');
             // CHỈ ghép file khi TẤT CẢ chunk đã thành công
             tt__SfNwBHDebpWJOqrSTR();
         }
@@ -3522,7 +3522,7 @@ async function uSTZrHUt_IC() {
 
         // Cập nhật progress bar
         nWHrScjZnIyNYzztyEWwM(ttuo$y_KhCV, SI$acY[tQqGbytKzpHwhGmeQJucsrq(0x216)]);
-        addLogEntry(`📦 [Chunk ${ttuo$y_KhCV + 1}/${SI$acY.length}] Đang gửi đi... (độ dài: ${chunkText.length} ký tự sau chuẩn hóa)`, 'info');
+        addLogEntry(`📦 [Chunk ${ttuo$y_KhCV + 1}/${SI$acY.length}] Sending... (length: ${chunkText.length} characters after normalization)`, 'info');
 
         // ANTI-DETECTION: Thêm delay ngẫu nhiên trước khi click
         await new Promise(resolve => setTimeout(resolve, Math.random() * 2000 + 1000));
@@ -3896,7 +3896,7 @@ async function uSTZrHUt_IC() {
                         // IMPORTANT: Only mark 'success' AFTER saving to IndexedDB succeeds
                         try {
                             await audioChunkDB.saveChunk(currentChunkIndex, qILAV);
-                            addLogEntry(`💾 Đã lưu chunk ${currentChunkIndex + 1} vào IndexedDB`, 'info');
+                            addLogEntry(`💾 Saved chunk ${currentChunkIndex + 1} to IndexedDB`, 'info');
                             
                             // CHỈ KHI LƯU THÀNH CÔNG MỚI ĐÁNH DẤU 'success'
                             window.chunkStatus[currentChunkIndex] = 'success';
