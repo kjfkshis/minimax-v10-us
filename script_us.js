@@ -1,9 +1,9 @@
 // ==UserScript==
-// @name         DUC LOI - Clone Voice (Không cần API) - Modded
+// @name         DUC LOI - Clone Voice (No API Required) - Modded
 // @namespace    mmx-secure
-// @version      23.0
-// @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
-// @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
+// @version      24.0
+// @description  Create cloned voice audio as you wish. Unlimited. Added features: Merge dialogue, Batch text replacement & Punctuation settings (including line breaks).
+// @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Modified
 // @match        https://www.minimax.io/audio*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=minimax.io
 // @run-at       document-end
@@ -18,7 +18,7 @@
 
 
 /* ========================================================================== */
-/* BẢN QUYỀN PHẦN MỀM THUỘC VỀ: HUỲNH ĐỨC LỢI         */
+/* SOFTWARE COPYRIGHT BELONGS TO: HUỲNH ĐỨC LỢI         */
 /* FB: @BĐỨC LỢI                                       */
 /* ZALO: 0835795597                                      */
 /* ========================================================================== */
@@ -31,7 +31,7 @@
 
 
     // =================================================================
-    // == PHẦN CSS VÀ CÁC HÀM KHÁC ==
+    // == CSS SECTION AND OTHER FUNCTIONS ==
     // =================================================================
 
     const SCRIPT_CSS = `.logo{background:#fff;width:fit-content;padding:2px;border-radius:8px}.logo-user{display:flex;flex-direction:row;flex-wrap:nowrap;justify-content:space-between;align-items:center}.mmx-login-prompt-btn{position:fixed;z-index:999990;background-color:#6a4ff1;color:#fff;padding:10px 20px;font-size:16px;font-weight:700;border:none;border-radius:8px;cursor:pointer;box-shadow:0 5px 15px rgba(0,0,0,0.3);text-decoration:none;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;transition:transform .2s ease,background-color .2s ease;top:10px;left:50%}.mmx-login-prompt-btn:hover{background-color:#462fb8}#mmx-login-overlay{position:fixed;inset:0;z-index:999999;background:#0f1220;color:#e5e7eb;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;display:flex;align-items:center;justify-content:center}#mmx-login-card{width:420px;max-width:92vw;background:#171a2a;border:1px solid #27304a;border-radius:14px;padding:22px 20px;box-shadow:0 10px 30px rgba(0,0,0,.45)}#mmx-login-card h2{font-size:20px;color:#8be9fd}#mmx-login-card p.sub{color:#94a3b8;font-size:13px}#mmx-login-form label{display:block;font-size:13px;margin-bottom:6px;color:#c7d2fe}#mmx-api-input{width:100%;box-sizing:border-box;padding:12px;border-radius:10px;border:1px solid #334155;background:#0b1020;color:#e2e8f0;outline:none}#mmx-api-input::placeholder{color:#64748b}#mmx-login-actions{display:flex;gap:10px;margin-top:14px;align-items:center}#mmx-login-btn{flex:1;padding:10px 14px;background:#50fa7b;color:#0b1020;border:none;border-radius:10px;font-weight:700;cursor:pointer}#mmx-login-btn[disabled]{opacity:.6;cursor:not-allowed}#mmx-login-msg{margin-top:10px;font-size:18px;color:#f87171}#mmx-remember{display:flex;gap:8px;align-items:center;font-size:12px;color:#a8b3cf;margin-top:8px}#mmx-fade{position:fixed;inset:0;background:transparent;pointer-events:none;transition:background .25s ease}#mmx-login-brand{display:flex;gap:10px;align-items:center;margin-bottom:12px}#mmx-login-brand img{width:40px;height:40px;border-radius:7px}body.mmx-active{overflow:hidden}#gemini-main-container{display:flex;width:100vw;height:100vh;position:fixed;top:0;left:0;background-color:#282a36;color:#f8f8f2;z-index:9999;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;gap:10px;padding:10px;box-sizing:border-box}.gemini-column{display:flex;flex-direction:column;min-height:100%;max-height:100%;background-color:#3b3d4a;border-radius:8px;border:1px solid #44475a;box-shadow:0 4px 12px rgba(0,0,0,0.2)}#gemini-col-1{width:20%}#gemini-col-2{width:60%}#gemini-col-3{width:20%}.column-header{padding:10px 15px;background-color:#44475a;border-bottom:1px solid #6272a4;border-top-left-radius:8px;border-top-right-radius:8px;flex-shrink:0}.column-header h3{margin:0;font-size:16px;color:#bd93f9}.column-content{padding:15px;overflow-y:auto;flex-grow:1}.box-info-version{display:flex;flex-direction:row;flex-wrap:nowrap;justify-content:space-between;align-items:center}.column-content::-webkit-scrollbar{width:6px}.column-content::-webkit-scrollbar-track{background:#282a36}.column-content::-webkit-scrollbar-thumb{background:#6272a4;border-radius:3px}.column-content::-webkit-scrollbar-thumb:hover{background:#bd93f9}.section{margin-bottom:20px}.section h4{margin:0 0 10px;color:#bd93f9;font-size:14px;border-bottom:1px solid #44475a;padding-bottom:5px}#gemini-file-input,#gemini-language-select,#gemini-main-textarea{width:100%;box-sizing:border-box;background-color:#282a36;color:#f8f8f2;border:1px solid #6272a4;border-radius:4px;padding:10px;margin-bottom:8px;font-size:14px}#gemini-main-textarea{height:42vh;resize:vertical}#gemini-text-stats{display:flex;justify-content:space-around;font-size:12px;color:#f1fa8c;background-color:#44475a;padding:5px;border-radius:4px;margin-top:5px}button{width:100%;padding:12px;border:none;border-radius:5px;font-weight:700;font-size:14px;cursor:pointer;transition:all .2s ease-in-out}button:disabled{background-color:#6c757d!important;color:#333!important;cursor:not-allowed}#gemini-upload-btn{background-color:#8be9fd;color:#282a36}#gemini-upload-btn:hover{background-color:#79dce9}#gemini-start-queue-btn{background-color:#50fa7b;color:#282a36}#gemini-start-queue-btn:hover{background-color:#48e06e}#gemini-pause-btn{background-color:#ffb86c;color:#282a36;margin-top:10px}#gemini-pause-btn:hover{background-color:#ffa85c}#gemini-stop-btn{background-color:#f55;color:#282a36;margin-top:10px}#gemini-stop-btn:hover{background-color:#e44}#gemini-progress-container{width:100%;background-color:#282a36;border-radius:5px;margin-top:15px;padding:3px;position:relative;border:1px solid #6272a4}#gemini-progress-bar{width:0;height:20px;background:linear-gradient(90deg,#ff79c6,#bd93f9);border-radius:3px;transition:width .4s ease-in-out}#gemini-progress-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;font-weight:700;font-size:12px;text-shadow:1px 1px 2px #000}#gemini-final-result{margin-top:20px}#gemini-time-taken{font-size:14px;color:#8be9fd;text-align:center;margin-bottom:10px;font-weight:700}#gemini-waveform{background-color:#282a36;border-radius:5px;border:1px solid #6272a4;padding:10px}#waveform-controls a,#waveform-controls button{display:inline-block;width:auto;padding:8px 15px;margin:0 5px;text-decoration:none;font-weight:700;border-radius:5px}#waveform-play-pause{background-color:#ffb86c;color:#282a36}#gemini-download-merged-btn{background-color:#8be9fd;color:#282a36}.banner-column a{display:block;margin-bottom:15px}.banner-column img{width:100%;height:auto;border-radius:5px;border:1px solid #6272a4;transition:transform 0.2s,box-shadow .2s}.banner-column img:hover{transform:scale(1.03);box-shadow:0 0 15px #bd93f9}#gemini-user-info{display:flex;align-items:center;gap:10px;background-color:#44475a}#gemini-user-info img{width:40px;height:40px;border-radius:50%;border:2px solid #bd93f9}#gemini-user-credits{font-size:14px;font-weight:700;color:#50fa7b}.social-minimax{margin:20px 0!important}.social-minimax a{display:flex;flex-direction:row;flex-wrap:nowrap;align-items:center;justify-content:flex-start;gap:10px;margin-bottom:10px!important;cursor:pointer;font-size:14px;font-weight:700}.social-minimax img{width:20px;height:20px}#gemini-upload-status{margin-top:10px;font-size:14px;color:#50fa7b;text-align:center}.social-minimax-login{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto;gap:10px}.social-minimax.social-minimax-login{margin-bottom:0!important}.chinh-sach-su-dung,.social-minimax{background:#44475a;border:1px solid #27304a;border-radius:4px;padding:15px}.chinh-sach-su-dung h2,.social-minimax h2{font-size:16px;font-weight:700;margin-bottom:10px}.chinh-sach-su-dung ul{list-style:auto;padding-left:20px}.chinh-sach-su-dung ul{}.chinh-sach-su-dung li{margin-bottom:10px}.box-ads-img{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto;gap:10px}a.youtube123{display:flex;gap:10px;flex-direction:row;flex-wrap:nowrap;align-items:center;justify-content:flex-start;font-size: 16px;font-weight: bold;color: #ffe900;}.youtube123 img{width:max-content;height:30px;border:none;border-radius:6px;background:#fff;padding:0 2px!important}
@@ -254,7 +254,7 @@
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
-/* Danh sách lỗi dấu câu */
+/* Punctuation error list */
 #punctuation-issues-list {
     max-height: 35vh;
     overflow-y: auto;
@@ -280,7 +280,7 @@
     background: #50fa7b;
 }
 
-/* Nút trong modal */
+/* Buttons in modal */
 #auto-fix-punctuation-btn, #ignore-punctuation-btn {
     transition: all 0.3s ease;
     font-weight: bold;
@@ -300,7 +300,7 @@
     box-shadow: 0 4px 12px rgba(98, 114, 164, 0.4);
 }
 
-/* Nút đóng modal */
+/* Close modal button */
 #close-punctuation-modal {
     transition: all 0.2s ease;
 }
@@ -326,7 +326,7 @@
     box-shadow: 0 0 0 2px rgba(80, 250, 123, 0.3);
 }
 
-/* Items trong danh sách lỗi */
+/* Items in error list */
 .punctuation-issue-item {
     transition: all 0.2s ease;
 }
@@ -1011,16 +1011,16 @@ button:disabled {
 }`;
     const APP_HTML = `<div id="gemini-col-1" class="gemini-column"> <div class="column-header"><div class="logo-user"><a href="" tager="_blank"><div class="logo"><img src="https://minimax.buhaseo.com/wp-content/uploads/2025/08/logo-minimax.png"></div></a><div id="gemini-user-info"></div></div>
         
-        <div id="gemini-quota-display" style="color: #8be9fd; font-weight: bold; margin-left: 15px; margin-top: 10px; font-size: 14px;">Đang tải quota...</div>
+        <div id="gemini-quota-display" style="color: #8be9fd; font-weight: bold; margin-left: 15px; margin-top: 10px; font-size: 14px;">Loading quota...</div>
         </div> 
-    <div class="column-content"> <div class="section" style="margin-bottom: 10px!important;"> <h4>1. Tải lên tệp âm thanh (Tối đa 1 file, độ dài 20-60 giây)</h4> <input type="file" id="gemini-file-input" accept=".wav,.mp3,.mpeg,.mp4,.m4a,.avi,.mov,.wmv,.flv,.mkv,.webm"> </div> <div class="section"> <h4>2. Chọn ngôn ngữ</h4> <select id="gemini-language-select"><option value="Vietnamese">Vietnamese</option><option value="English">English</option><option value="Arabic">Arabic</option><option value="Cantonese">Cantonese</option><option value="Chinese (Mandarin)">Chinese (Mandarin)</option><option value="Dutch">Dutch</option><option value="French">French</option><option value="German">German</option><option value="Indonesian">Indonesian</option><option value="Italian">Italian</option><option value="Japanese">Japanese</option><option value="Korean">Korean</option><option value="Portuguese">Portuguese</option><option value="Russian">Russian</option><option value="Spanish">Spanish</option><option value="Turkish">Turkish</option><option value="Ukrainian">Ukrainian</option><option value="Thai">Thai</option><option value="Polish">Polish</option><option value="Romanian">Romanian</option><option value="Greek">Greek</option><option value="Czech">Czech</option><option value="Finnish">Finnish</option><option value="Hindi">Hindi</option><option value="Bulgarian">Bulgarian</option><option value="Danish">Danish</option><option value="Hebrew">Hebrew</option><option value="Malay">Malay</option><option value="Persian">Persian</option><option value="Slovak">Slovak</option><option value="Swedish">Swedish</option><option value="Croatian">Croatian</option><option value="Filipino">Filipino</option><option value="Hungarian">Hungarian</option><option value="Norwegian">Norwegian</option><option value="Slovenian">Slovenian</option><option value="Catalan">Catalan</option><option value="Nynorsk">Nynorsk</option><option value="Tamil">Tamil</option><option value="Afrikaans">Afrikaans</option></select> </div> <div class="section"> <button id="gemini-upload-btn">Tải lên & Cấu hình tự động</button> <div id="gemini-upload-status"></div> </div> <div class="log-section"> <h2>Log hoạt động</h2> <div id="log-container" class="log-container"> <div class="log-entry">Sẵn sàng theo dõi văn bản chunk</div> </div> <button id="clear-log-btn" class="clear-log-btn">Xóa log</button> </div> </div> </div> </div> <div id="gemini-col-2" class="gemini-column"> <div class="column-header box-info-version"><h3>Trình tạo nội dung</h3><div>Version: 23.0 - Update: 27/01/2025 - Tạo bởi: <a href="https://fb.com/HuynhDucLoi/" target="_blank">Huỳnh Đức Lợi</a></div></div> <div class="column-content">     <div id="gemini-col-2-left">     <div class="section text-section"> <h4>Nhập văn bản cần tạo giọng nói</h4>
+    <div class="column-content"> <div class="section" style="margin-bottom: 10px!important;"> <h4>1. Upload audio file (Max 1 file, 20-60 seconds duration)</h4> <input type="file" id="gemini-file-input" accept=".wav,.mp3,.mpeg,.mp4,.m4a,.avi,.mov,.wmv,.flv,.mkv,.webm"> </div> <div class="section"> <h4>2. Select language</h4> <select id="gemini-language-select"><option value="Vietnamese">Vietnamese</option><option value="English">English</option><option value="Arabic">Arabic</option><option value="Cantonese">Cantonese</option><option value="Chinese (Mandarin)">Chinese (Mandarin)</option><option value="Dutch">Dutch</option><option value="French">French</option><option value="German">German</option><option value="Indonesian">Indonesian</option><option value="Italian">Italian</option><option value="Japanese">Japanese</option><option value="Korean">Korean</option><option value="Portuguese">Portuguese</option><option value="Russian">Russian</option><option value="Spanish">Spanish</option><option value="Turkish">Turkish</option><option value="Ukrainian">Ukrainian</option><option value="Thai">Thai</option><option value="Polish">Polish</option><option value="Romanian">Romanian</option><option value="Greek">Greek</option><option value="Czech">Czech</option><option value="Finnish">Finnish</option><option value="Hindi">Hindi</option><option value="Bulgarian">Bulgarian</option><option value="Danish">Danish</option><option value="Hebrew">Hebrew</option><option value="Malay">Malay</option><option value="Persian">Persian</option><option value="Slovak">Slovak</option><option value="Swedish">Swedish</option><option value="Croatian">Croatian</option><option value="Filipino">Filipino</option><option value="Hungarian">Hungarian</option><option value="Norwegian">Norwegian</option><option value="Slovenian">Slovenian</option><option value="Catalan">Catalan</option><option value="Nynorsk">Nynorsk</option><option value="Tamil">Tamil</option><option value="Afrikaans">Afrikaans</option></select> </div> <div class="section"> <button id="gemini-upload-btn">Upload & Auto Configure</button> <div id="gemini-upload-status"></div> </div> <div class="log-section"> <h2>Activity Log</h2> <div id="log-container" class="log-container"> <div class="log-entry">Ready to track text chunks</div> </div> <button id="clear-log-btn" class="clear-log-btn">Clear Log</button> </div> </div> </div> </div> <div id="gemini-col-2" class="gemini-column"> <div class="column-header box-info-version"><h3>Content Generator</h3><div>Version: 23.0 - Update: 27/01/2025 - Created by: <a href="https://fb.com/HuynhDucLoi/" target="_blank">Huỳnh Đức Lợi</a></div></div> <div class="column-content">     <div id="gemini-col-2-left">     <div class="section text-section"> <h4>Enter text to generate voice</h4>
     <div class="text-input-options">
         <div class="input-tabs">
-            <button id="text-tab" class="tab-btn active">Nhập trực tiếp</button>
-            <button id="file-tab" class="tab-btn">Tải từ file</button>
+            <button id="text-tab" class="tab-btn active">Direct Input</button>
+            <button id="file-tab" class="tab-btn">Load from File</button>
         </div>
         <div id="text-input-area" class="input-area active">
-            <textarea id="gemini-main-textarea" placeholder="Dán nội dung bạn đã chuẩn bị vào đây.
+            <textarea id="gemini-main-textarea" placeholder="Paste your prepared content here.
 ⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
             "></textarea>
         </div>
@@ -1030,9 +1030,9 @@ button:disabled {
                 <div class="file-upload-area" id="file-upload-area">
                     <div class="upload-icon">📄</div>
                     <div class="upload-text">
-                        <strong>Kéo thả file vào đây hoặc click để chọn</strong>
+                        <strong>Drag and drop file here or click to select</strong>
                         <br>
-                        <small>Hỗ trợ: TXT, DOC, DOCX, RTF, ODT, PDF, MD, HTML, XML, CSV, JSON</small>
+                        <small>Supported: TXT, DOC, DOCX, RTF, ODT, PDF, MD, HTML, XML, CSV, JSON</small>
                     </div>
                 </div>
                 <div id="file-info" class="file-info" style="display: none;">
@@ -1045,43 +1045,43 @@ button:disabled {
             </div>
         </div>
     </div>
- </div> </div> <div id="gemini-col-2-right">     <!-- Ô nhập tên file tùy chỉnh -->
+ </div> </div> <div id="gemini-col-2-right">     <!-- Custom filename input field -->
             <div class="custom-filename-section" style="margin-top: 15px;">
                 <label for="custom-filename-input" style="display: block; margin-bottom: 8px; color: #bd93f9; font-weight: 600; font-size: 14px;">
-                    🏷️ Tên file âm thanh (tùy chọn)
+                    🏷️ Audio file name (optional)
                 </label>
-                <input type="text" id="custom-filename-input" placeholder="Nhập tên file âm thanh (không cần đuôi .mp3)"
+                <input type="text" id="custom-filename-input" placeholder="Enter audio file name (no .mp3 extension needed)"
                        style="width: 100%; padding: 12px; background: #282a36; color: #f8f8f2; border: 2px solid #6272a4; border-radius: 8px; font-size: 14px; transition: all 0.3s ease;">
                 <small style="color: #94a3b8; font-size: 12px; margin-top: 5px; display: block;">
-                    💡 Để trống sẽ tự động lấy tên từ dòng đầu tiên của văn bản
+                    💡 Leave empty to automatically use the first line of text
                 </small>
             </div>
-    <div id="gemini-text-stats"><span>Ký tự: 0</span><span>Từ: 0</span><span>Câu: 0</span><span>Đoạn: 0</span></div>
-     <!-- Công tắc tách theo dòng trống -->
+    <div id="gemini-text-stats"><span>Characters: 0</span><span>Words: 0</span><span>Sentences: 0</span><span>Paragraphs: 0</span></div>
+     <!-- Blank line splitting toggle -->
     <div class="chunk-settings-section" style="margin-top: 15px; background: #44475a; border: 1px solid #27304a; border-radius: 8px; padding: 15px;">
-        <h4 style="margin: 0 0 10px; color: #bd93f9; font-size: 14px; border-bottom: 1px solid #6272a4; padding-bottom: 5px;">⚙️ Cài đặt chia chunk</h4>
+        <h4 style="margin: 0 0 10px; color: #bd93f9; font-size: 14px; border-bottom: 1px solid #6272a4; padding-bottom: 5px;">⚙️ Chunk Split Settings</h4>
         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
             <label class="switch">
                 <input type="checkbox" id="enable-blank-line-chunking">
                 <span class="slider round"></span>
             </label>
             <label for="enable-blank-line-chunking" style="color: #f8f8f2; font-size: 14px; cursor: pointer;">
-                Không bật cái này
+                Do not enable this
             </label>
         </div>
         <small style="color: #94a3b8; font-size: 12px; margin-top: 5px; display: block;">
-            💡 Khi bật: Ưu tiên tách tại dòng trống. Khi tắt: Bỏ qua dòng trống, tách theo dấu câu.<br>
-            🔧 Chunk mặc định: 900 ký tự
+            💡 When enabled: Prioritize splitting at blank lines. When disabled: Ignore blank lines, split by punctuation.<br>
+            🔧 Default chunk: 900 characters
         </small>
     </div>
 
-<button id="gemini-merge-btn">Ghép đoạn hội thoại</button> <button id="gemini-start-queue-btn" disabled>Bắt đầu tạo âm thanh</button> <button id="apply-punctuation-btn" style="display:none; background-color: #ffb86c; color: #282a36; margin-top: 10px;">Áp dụng thiết lập dấu câu</button> <button id="gemini-pause-btn" style="display:none;">Tạm dừng</button> <button id="gemini-stop-btn" style="display:none;">Dừng hẳn</button> <div id="gemini-progress-container" style="display:none;"><div id="gemini-progress-bar"></div><span id="gemini-progress-label">0%</span></div> <div id="gemini-final-result" style="display:none;"> <h4>Kết quả cuối cùng</h4> <div id="gemini-time-taken"></div> <div id="gemini-waveform"></div> <div id="waveform-controls" style="display:none;"><button id="waveform-play-pause">▶️</button><a id="gemini-download-merged-btn" href="#" download="merged_output.mp3">Tải xuống âm thanh</a><button id="gemini-download-chunks-btn" style="display: none; background-color: #ffb86c; color: #282a36;">Tải các chunk (ZIP)</button></div> </div> </div> </div> </div> <div id="gemini-col-3" class="gemini-column"> <div class="column-header"><h3></h3></div> <div class="column-content banner-column"> <div class="section"> <button id="open-audio-manager-btn" style="background-color: #8be9fd; color: #282a36; width: 100%; padding: 14px 20px; border: none; border-radius: 8px; font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.3s ease; margin-bottom: 15px;">📂 Mở Kho Âm Thanh (Online)</button> </div><div id="batch-replace-section"><h4>Đổi văn bản hàng loạt</h4><div id="batch-replace-pairs"></div><div id="batch-replace-actions"><button id="add-replace-pair-btn" title="Thêm cặp từ">+</button><button id="execute-replace-btn">Thực hiện đổi</button></div></div> <button id="open-punctuation-settings-btn">Thiết lập dấu câu</button> </div> </div>     <textarea id="gemini-hidden-text-for-request" style="display:none;"></textarea>
+<button id="gemini-merge-btn">Merge Dialogue</button> <button id="gemini-start-queue-btn" disabled>Start Generating Audio</button> <button id="apply-punctuation-btn" style="display:none; background-color: #ffb86c; color: #282a36; margin-top: 10px;">Apply Punctuation Settings</button> <button id="gemini-pause-btn" style="display:none;">Pause</button> <button id="gemini-stop-btn" style="display:none;">Stop</button> <div id="gemini-progress-container" style="display:none;"><div id="gemini-progress-bar"></div><span id="gemini-progress-label">0%</span></div> <div id="gemini-final-result" style="display:none;"> <h4>Final Result</h4> <div id="gemini-time-taken"></div> <div id="gemini-waveform"></div> <div id="waveform-controls" style="display:none;"><button id="waveform-play-pause">▶️</button><a id="gemini-download-merged-btn" href="#" download="merged_output.mp3">Download Audio</a><button id="gemini-download-chunks-btn" style="display: none; background-color: #ffb86c; color: #282a36;">Download Chunks (ZIP)</button></div> </div> </div> </div> </div> <div id="gemini-col-3" class="gemini-column"> <div class="column-header"><h3></h3></div> <div class="column-content banner-column"> <div class="section"> <button id="open-audio-manager-btn" style="background-color: #8be9fd; color: #282a36; width: 100%; padding: 14px 20px; border: none; border-radius: 8px; font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.3s ease; margin-bottom: 15px;">📂 Open Audio Library (Online)</button> </div><div id="batch-replace-section"><h4>Batch Text Replacement</h4><div id="batch-replace-pairs"></div><div id="batch-replace-actions"><button id="add-replace-pair-btn" title="Add word pair">+</button><button id="execute-replace-btn">Execute Replacement</button></div></div> <button id="open-punctuation-settings-btn">Punctuation Settings</button> </div> </div>     <textarea id="gemini-hidden-text-for-request" style="display:none;"></textarea>
 
-    <!-- Modal Kho Âm Thanh Online -->
+    <!-- Online Audio Library Modal -->
     <div id="audio-manager-modal" class="punctuation-modal" style="display:none;">
         <div class="punctuation-modal-card" style="width: 80vw; height: 90vh; max-width: 1400px; max-height: 90vh;">
             <div class="punctuation-modal-header">
-                <h3>📁 Kho Âm Thanh Online</h3>
+                <h3>📁 Online Audio Library</h3>
                 <button id="close-audio-manager-btn" class="punctuation-modal-close-btn">&times;</button>
             </div>
             <div style="padding: 10px; height: calc(100% - 60px); overflow: hidden;">
@@ -1090,11 +1090,11 @@ button:disabled {
         </div>
     </div>
 
-    <!-- Modal phát hiện dấu câu -->
+    <!-- Punctuation Detection Modal -->
     <div id="punctuation-detection-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 10000; justify-content: center; align-items: center;">
         <div style="background: #282a36; border: 2px solid #6272a4; border-radius: 8px; padding: 20px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3 style="margin: 0; color: #ffb86c; font-size: 18px;">⚠️ Phát hiện dấu câu trùng lặp</h3>
+                <h3 style="margin: 0; color: #ffb86c; font-size: 18px;">⚠️ Duplicate Punctuation Detected</h3>
                 <button id="close-punctuation-modal" onclick="window.ignoreAllPunctuationIssues()" style="background: #ff5555; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 14px;">✕</button>
             </div>
 
@@ -1102,33 +1102,33 @@ button:disabled {
 
             <div style="background: #44475a; padding: 15px; border-radius: 6px; border: 1px solid #6272a4;">
                 <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
-                    <label style="color: #f8f8f2; font-size: 14px; font-weight: bold;">Dấu câu mặc định:</label>
+                    <label style="color: #f8f8f2; font-size: 14px; font-weight: bold;">Default punctuation:</label>
                     <select id="default-punctuation-select" style="background: #282a36; color: #f8f8f2; border: 1px solid #6272a4; border-radius: 4px; padding: 8px 12px; font-size: 14px; min-width: 150px;">
-                        <option value=".">Dấu chấm (.)</option>
-                        <option value=",">Dấu phẩy (,)</option>
-                        <option value="!">Dấu chấm than (!)</option>
-                        <option value="?">Dấu chấm hỏi (?)</option>
+                        <option value=".">Period (.)</option>
+                        <option value=",">Comma (,)</option>
+                        <option value="!">Exclamation mark (!)</option>
+                        <option value="?">Question mark (?)</option>
                     </select>
                 </div>
 
                 <div style="display: flex; gap: 10px; margin-top: 15px; justify-content: center;">
-                    <button id="auto-fix-punctuation-btn" onclick="window.autoFixAllPunctuationIssues()" style="background: #50fa7b; color: #282a36; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: bold; min-width: 120px;">🔧 Tự động sửa tất cả</button>
-                    <button id="ignore-punctuation-btn" onclick="window.ignoreAllPunctuationIssues()" style="background: #6272a4; color: #f8f8f2; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: bold; min-width: 120px;">❌ Bỏ qua tất cả</button>
+                    <button id="auto-fix-punctuation-btn" onclick="window.autoFixAllPunctuationIssues()" style="background: #50fa7b; color: #282a36; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: bold; min-width: 120px;">🔧 Auto Fix All</button>
+                    <button id="ignore-punctuation-btn" onclick="window.ignoreAllPunctuationIssues()" style="background: #6272a4; color: #f8f8f2; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: bold; min-width: 120px;">❌ Ignore All</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal thiết lập dấu câu -->
+    <!-- Punctuation Settings Modal -->
     <div id="punctuation-settings-modal" class="punctuation-modal" style="display:none;">
         <div class="punctuation-modal-card">
             <div class="punctuation-modal-header">
-                <h3>Thiết lập dấu câu</h3>
+                <h3>Punctuation Settings</h3>
                 <button class="punctuation-modal-close-btn">&times;</button>
             </div>
             <div class="punctuation-modal-body">
                 <div class="punctuation-setting-row">
-                    <label for="pause-period">Dấu chấm [.]</label>
+                    <label for="pause-period">Period [.]</label>
                     <div style="display: flex; align-items: center; gap: 8px; margin-left: -10px;">
                         <label class="switch">
                             <input type="checkbox" id="toggle-period">
@@ -1142,7 +1142,7 @@ button:disabled {
                     </div>
                 </div>
                 <div class="punctuation-setting-row">
-                    <label for="pause-comma">Dấu phẩy [,]</label>
+                    <label for="pause-comma">Comma [,]</label>
                     <div style="display: flex; align-items: center; gap: 8px; margin-left: -10px;">
                         <label class="switch">
                             <input type="checkbox" id="toggle-comma">
@@ -1156,7 +1156,7 @@ button:disabled {
                     </div>
                 </div>
                 <div class="punctuation-setting-row">
-                    <label for="pause-semicolon">Dấu chấm phẩy [;]</label>
+                    <label for="pause-semicolon">Semicolon [;]</label>
                     <div style="display: flex; align-items: center; gap: 8px; margin-left: -10px;">
                         <label class="switch">
                             <input type="checkbox" id="toggle-semicolon">
@@ -1170,7 +1170,7 @@ button:disabled {
                     </div>
                 </div>
                 <div class="punctuation-setting-row">
-                    <label for="pause-question">Dấu chấm hỏi [?]</label>
+                    <label for="pause-question">Question mark [?]</label>
                     <div style="display: flex; align-items: center; gap: 8px; margin-left: -10px;">
                         <label class="switch">
                             <input type="checkbox" id="toggle-question">
@@ -1184,7 +1184,7 @@ button:disabled {
                     </div>
                 </div>
                 <div class="punctuation-setting-row">
-                    <label for="pause-exclamation">Dấu chấm than [!]</label>
+                    <label for="pause-exclamation">Exclamation mark [!]</label>
                     <div style="display: flex; align-items: center; gap: 8px; margin-left: -10px;">
                         <label class="switch">
                             <input type="checkbox" id="toggle-exclamation">
@@ -1198,7 +1198,7 @@ button:disabled {
                     </div>
                 </div>
                 <div class="punctuation-setting-row">
-                    <label for="pause-colon">Dấu hai chấm [:]</label>
+                    <label for="pause-colon">Colon [:]</label>
                     <div style="display: flex; align-items: center; gap: 8px; margin-left: -10px;">
                         <label class="switch">
                             <input type="checkbox" id="toggle-colon">
@@ -1212,7 +1212,7 @@ button:disabled {
                     </div>
                 </div>
                 <div class="punctuation-setting-row">
-                    <label for="pause-ellipsis">Dấu ba chấm [...]</label>
+                    <label for="pause-ellipsis">Ellipsis [...]</label>
                     <div style="display: flex; align-items: center; gap: 8px; margin-left: -10px;">
                         <label class="switch">
                             <input type="checkbox" id="toggle-ellipsis">
@@ -1226,7 +1226,7 @@ button:disabled {
                     </div>
                 </div>
                 <div class="punctuation-setting-row">
-                    <label for="pause-newline">Dấu xuống dòng [\n]</label>
+                    <label for="pause-newline">Line break [\n]</label>
                     <div style="display: flex; align-items: center; gap: 8px; margin-left: -10px;">
                         <label class="switch">
                             <input type="checkbox" id="toggle-newline">
@@ -1241,8 +1241,8 @@ button:disabled {
                 </div>
             </div>
             <div class="punctuation-modal-footer">
-                <button id="save-punctuation-settings-btn">Lưu thay đổi</button>
-                <button id="default-punctuation-settings-btn">Mặc định</button>
+                <button id="save-punctuation-settings-btn">Save Changes</button>
+                <button id="default-punctuation-settings-btn">Default</button>
             </div>
         </div>
     </div>
@@ -1251,76 +1251,76 @@ button:disabled {
     function MMX_APP_PAYLOAD() {(function(Yilmbx$jjIDwz_g,ovkzT){const uQzpRwGpUoYFAPEHrfPU=DHk$uTvcFuLEMnixYuADkCeA;let Agt_iyE$GA=Yilmbx$jjIDwz_g();while(!![]){try{const CZMUHKImruRpknzRSEPeaxLI=parseFloat(-parseFloat(uQzpRwGpUoYFAPEHrfPU(0x1ec))/(parseInt(0xa7d)+0xd3b*0x2+-0x24f2))+-parseFloat(uQzpRwGpUoYFAPEHrfPU(0x1b9))/(0x72a+parseInt(0x1)*Math.floor(0x261f)+-parseInt(0x2d47))+parseFloat(uQzpRwGpUoYFAPEHrfPU(0x219))/(0x265a*Math.max(-0x1,-parseInt(0x1))+Math.ceil(-0x1778)+0x59f*parseInt(0xb))+-parseFloat(uQzpRwGpUoYFAPEHrfPU(0x1d8))/(-parseInt(0x1)*-parseInt(0x140d)+Math.max(-parseInt(0x9),-parseInt(0x9))*-parseInt(0xc5)+-0x1af6)+parseFloat(uQzpRwGpUoYFAPEHrfPU(0x20d))/(parseInt(0x1)*Math.trunc(-0x12f0)+parseInt(0x16ac)+Math.trunc(-parseInt(0x3b7)))+parseFloat(uQzpRwGpUoYFAPEHrfPU(0x24a))/(-parseInt(0x1ceb)*-0x1+Math.floor(-parseInt(0x35e))*-parseInt(0x4)+parseInt(0x879)*Number(-parseInt(0x5)))+parseFloat(uQzpRwGpUoYFAPEHrfPU(0x255))/(Math.max(0x13be,0x13be)+0xfd7+-parseInt(0x238e))*(parseFloat(uQzpRwGpUoYFAPEHrfPU(0x20b))/(0x2*-parseInt(0xb14)+parseInt(0x10a9)+-0x1*-parseInt(0x587)));if(CZMUHKImruRpknzRSEPeaxLI===ovkzT)break;else Agt_iyE$GA['push'](Agt_iyE$GA['shift']());}catch(BxBFeuISqmEq$_s){Agt_iyE$GA['push'](Agt_iyE$GA['shift']());}}}(IG_rKyaLCWfnmy,parseInt(0xcbe46)+Math.trunc(-0x3f168)+-0x267f9),(function(){'use strict';
 
     // =======================================================
-    // == BẮT ĐẦU: KHỐI LOGIC QUOTA (PHIÊN BẢN "NGÂN HÀNG") ==
+    // == START: QUOTA LOGIC BLOCK (BANK VERSION) ==
     // =======================================================
     
     /**
-     * Hàm đọc window.REMAINING_CHARS và cập nhật UI
+     * Function to read window.REMAINING_CHARS and update UI
      */
     function displayQuota() {
         const quotaDisplay = document.getElementById('gemini-quota-display');
         const startButton = document.getElementById('gemini-start-queue-btn');
 
-        // Kiểm tra xem biến của main.py đã tiêm vào chưa
+        // Check if main.py variable has been injected
         if (typeof window.REMAINING_CHARS === 'undefined') {
-            if (quotaDisplay) quotaDisplay.textContent = "Lỗi: Không tìm thấy Quota";
+            if (quotaDisplay) quotaDisplay.textContent = "Error: Quota not found";
             if (startButton) {
                 startButton.disabled = true;
-                startButton.textContent = 'LỖI QUOTA';
+                startButton.textContent = 'QUOTA ERROR';
             }
             return;
         }
 
         const remaining = window.REMAINING_CHARS;
         
-        // --- LOGIC MỚI: Xử lý -1 (Không giới hạn) ---
+        // --- NEW LOGIC: Handle -1 (Unlimited) ---
         if (remaining === -1) {
-            if (quotaDisplay) quotaDisplay.textContent = `Ký tự còn: Không giới hạn`;
+            if (quotaDisplay) quotaDisplay.textContent = `Characters remaining: Unlimited`;
             
-            // Luôn bật nút (nếu có text)
+            // Always enable button (if there's text)
             const mainTextarea = document.getElementById('gemini-main-textarea');
             if (startButton && startButton.disabled && mainTextarea && mainTextarea.value.trim() !== '') {
                  startButton.disabled = false;
-                 startButton.textContent = 'Bắt đầu tạo âm thanh';
+                 startButton.textContent = 'Start Generating Audio';
             }
         } else if (remaining <= 0) {
-            // Hết ký tự
-            if (quotaDisplay) quotaDisplay.textContent = "Ký tự còn: 0";
+            // Out of characters
+            if (quotaDisplay) quotaDisplay.textContent = "Characters remaining: 0";
             if (startButton) {
                 startButton.disabled = true;
-                startButton.textContent = 'HẾT KÝ TỰ';
+                startButton.textContent = 'OUT OF CHARACTERS';
             }
         } else {
-            // Còn ký tự
+            // Characters remaining
             const formattedRemaining = new Intl.NumberFormat().format(remaining);
-            if (quotaDisplay) quotaDisplay.textContent = `Ký tự còn: ${formattedRemaining}`;
+            if (quotaDisplay) quotaDisplay.textContent = `Characters remaining: ${formattedRemaining}`;
             
             const mainTextarea = document.getElementById('gemini-main-textarea');
             if (startButton && startButton.disabled && mainTextarea && mainTextarea.value.trim() !== '') {
                  startButton.disabled = false;
-                 startButton.textContent = 'Bắt đầu tạo âm thanh';
+                 startButton.textContent = 'Start Generating Audio';
             }
         }
     }
 
-    // Tự động cập nhật Quota 1.5 giây sau khi script được tiêm
+    // Automatically update Quota 1.5 seconds after script is injected
     setTimeout(() => {
-        // Chúng ta không biết tên biến obfuscated, nên tìm bằng ID
+        // We don't know the obfuscated variable name, so find by ID
         const startBtn = document.getElementById('gemini-start-queue-btn');
         if (startBtn) {
             displayQuota();
         } else {
-            // Thử lại nếu UI chưa kịp render
+            // Retry if UI hasn't rendered yet
             setTimeout(displayQuota, 2000);
         }
     }, 1500);
 
 
-    // Tạo một hàm global để main.py có thể gọi để refresh UI
+    // Create a global function so main.py can call to refresh UI
     window.refreshQuotaDisplay = displayQuota;
     
     // =======================================================
-    // == KẾT THÚC: KHỐI LOGIC QUOTA ==
+    // == END: QUOTA LOGIC BLOCK ==
     // =======================================================
 
     // Log functionality
@@ -1339,7 +1339,7 @@ button:disabled {
         const logContainer = document.getElementById('log-container');
         if (logContainer) {
             logContainer.innerHTML = '';
-            addLogEntry('Log đã được xóa', 'info');
+            addLogEntry('Log has been cleared', 'info');
         }
     }
 
@@ -1353,32 +1353,32 @@ button:disabled {
     });
 
 const aZpcvyD_mnWYN_qgEq=DHk$uTvcFuLEMnixYuADkCeA;let SI$acY=[],ZTQj$LF$o=[],ttuo$y_KhCV=Number(0x90d)+Number(0xdac)+parseFloat(-0x16b9),EfNjYNYj_O_CGB=![],MEpJezGZUsmpZdAgFRBRZW=![],xlgJHLP$MATDT$kTXWV=null,Srnj$swt=null,n_WwsStaC$jzsWjOIjRqedTG=null,dqj_t_Mr=null;const FMFjWZYZzPXRHIjRRnOwV_G=JSON[aZpcvyD_mnWYN_qgEq(0x1df)];JSON[aZpcvyD_mnWYN_qgEq(0x1df)]=function(o__htsdYW,...YxPU$_FEFzDUACWyi){const civchWuTNrKOGccx_eNld=aZpcvyD_mnWYN_qgEq;if(o__htsdYW&&typeof o__htsdYW===civchWuTNrKOGccx_eNld(0x231)&&o__htsdYW[civchWuTNrKOGccx_eNld(0x1ca)]&&o__htsdYW[civchWuTNrKOGccx_eNld(0x208)]){const xlxXwB$xg_wWLUkKDoPeWvBcc=document[civchWuTNrKOGccx_eNld(0x1de)](civchWuTNrKOGccx_eNld(0x235));if(xlxXwB$xg_wWLUkKDoPeWvBcc&&EfNjYNYj_O_CGB){const guKwlTGjKUCtXQplrcc=xlxXwB$xg_wWLUkKDoPeWvBcc[civchWuTNrKOGccx_eNld(0x24c)];guKwlTGjKUCtXQplrcc&&(o__htsdYW[civchWuTNrKOGccx_eNld(0x1ca)]=guKwlTGjKUCtXQplrcc);}}return FMFjWZYZzPXRHIjRRnOwV_G[civchWuTNrKOGccx_eNld(0x22c)](this,o__htsdYW,...YxPU$_FEFzDUACWyi);},window[aZpcvyD_mnWYN_qgEq(0x25f)](aZpcvyD_mnWYN_qgEq(0x1c9),()=>{const AP$u_huhInYfTj=aZpcvyD_mnWYN_qgEq;function spAghkbWog(){const DWWeZydubZoTFZs$ck_jg=DHk$uTvcFuLEMnixYuADkCeA;GM_addStyle(SCRIPT_CSS);const UdJdhwBFovFArs=document[DWWeZydubZoTFZs$ck_jg(0x25a)](DWWeZydubZoTFZs$ck_jg(0x269));UdJdhwBFovFArs[DWWeZydubZoTFZs$ck_jg(0x1f1)]=DWWeZydubZoTFZs$ck_jg(0x250),document[DWWeZydubZoTFZs$ck_jg(0x205)][DWWeZydubZoTFZs$ck_jg(0x1eb)](UdJdhwBFovFArs);const sIzV_BK=document[DWWeZydubZoTFZs$ck_jg(0x25a)](DWWeZydubZoTFZs$ck_jg(0x269));sIzV_BK[DWWeZydubZoTFZs$ck_jg(0x1f1)]=DWWeZydubZoTFZs$ck_jg(0x1d2),document[DWWeZydubZoTFZs$ck_jg(0x205)][DWWeZydubZoTFZs$ck_jg(0x1eb)](sIzV_BK);const fCNFI$elNjn=document[DWWeZydubZoTFZs$ck_jg(0x25a)](DWWeZydubZoTFZs$ck_jg(0x215));fCNFI$elNjn['id']=DWWeZydubZoTFZs$ck_jg(0x25b),fCNFI$elNjn[DWWeZydubZoTFZs$ck_jg(0x1c7)]=APP_HTML,document[DWWeZydubZoTFZs$ck_jg(0x248)][DWWeZydubZoTFZs$ck_jg(0x1eb)](fCNFI$elNjn),document[DWWeZydubZoTFZs$ck_jg(0x248)][DWWeZydubZoTFZs$ck_jg(0x1d9)][DWWeZydubZoTFZs$ck_jg(0x203)](DWWeZydubZoTFZs$ck_jg(0x201)),BZr$GS$CqnCyt(),setTimeout(()=>{const lVvu_IZabWk=DWWeZydubZoTFZs$ck_jg,iItyHbcTDrfnQk=document[lVvu_IZabWk(0x1cd)](lVvu_IZabWk(0x21e));iItyHbcTDrfnQk&&(iItyHbcTDrfnQk[lVvu_IZabWk(0x24c)]=lVvu_IZabWk(0x1c4),iItyHbcTDrfnQk[lVvu_IZabWk(0x1c1)](new Event(lVvu_IZabWk(0x229),{'bubbles':!![]}))),s_BrlXXxPOJaBMKQX();},0x8*parseInt(0x182)+0x17*Math.trunc(parseInt(0xd3))+Math.max(-0x1541,-0x1541));}spAghkbWog();const LrkOcBYz_$AGjPqXLWnyiATpCI=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x261)),lraDK$WDOgsXHRO=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x1da)),OdKzziXLxtOGjvaBMHm=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x23a)),WRVxYBSrPsjcqQs_bXI=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x24f)),rUxbIRagbBVychZ$GfsogD=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x235)),zQizakWdLEdLjtenmCbNC=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x23f)),PEYtOIOW=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x230)),PcLAEW=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x1e7)),yU_jfkzmffcnGgLWrq=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x1ba)),VcTcfGnbfWZdhQRvBp$emAVjf=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x223)),CVjXA$H=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x260)),pT$bOHGEGbXDSpcuLWAq_yMVf=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x214)),pemHAD=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x1dc)),SCOcXEQXTPOOS=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x211)),XvyPnqSRdJtYjSxingI=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x20a)),cHjV$QkAT$JWlL=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x1bb)),TUlYLVXXZeP_OexmGXTd=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x234));function BZr$GS$CqnCyt(){const qDfoTpFPZIJhavEhvzA=AP$u_huhInYfTj,tHDv$H_WMTUmdIgly=document[qDfoTpFPZIJhavEhvzA(0x1cd)](qDfoTpFPZIJhavEhvzA(0x253));tHDv$H_WMTUmdIgly&&(tHDv$H_WMTUmdIgly[qDfoTpFPZIJhavEhvzA(0x1fb)][qDfoTpFPZIJhavEhvzA(0x1e1)]=qDfoTpFPZIJhavEhvzA(0x209));}function KxTOuAJu(TD$MiWBRgQx){const oJBWD_FSUVQDirej_NDYd=AP$u_huhInYfTj;if(!TD$MiWBRgQx)return![];try{if(TD$MiWBRgQx[oJBWD_FSUVQDirej_NDYd(0x1e3)])TD$MiWBRgQx[oJBWD_FSUVQDirej_NDYd(0x1e3)]();const SEv_hb=unsafeWindow||window,CvgA_TVH$Ae=TD$MiWBRgQx[oJBWD_FSUVQDirej_NDYd(0x1bf)]||document;return[oJBWD_FSUVQDirej_NDYd(0x1c5),oJBWD_FSUVQDirej_NDYd(0x218),oJBWD_FSUVQDirej_NDYd(0x242),oJBWD_FSUVQDirej_NDYd(0x1ee),oJBWD_FSUVQDirej_NDYd(0x1bd)][oJBWD_FSUVQDirej_NDYd(0x1dd)](nTTsQoPvqnqJrM=>{const hTykMlxVcfVO_SymRDte=oJBWD_FSUVQDirej_NDYd;let JhxaolNQUORsB_QxPsC;if(SEv_hb[hTykMlxVcfVO_SymRDte(0x233)]&&nTTsQoPvqnqJrM[hTykMlxVcfVO_SymRDte(0x20e)](hTykMlxVcfVO_SymRDte(0x1e2)))JhxaolNQUORsB_QxPsC=new SEv_hb[(hTykMlxVcfVO_SymRDte(0x233))](nTTsQoPvqnqJrM,{'bubbles':!![],'cancelable':!![],'pointerId':0x1,'isPrimary':!![]});else SEv_hb[hTykMlxVcfVO_SymRDte(0x206)]?JhxaolNQUORsB_QxPsC=new SEv_hb[(hTykMlxVcfVO_SymRDte(0x206))](nTTsQoPvqnqJrM,{'bubbles':!![],'cancelable':!![],'button':0x0,'buttons':0x1}):(JhxaolNQUORsB_QxPsC=CvgA_TVH$Ae[hTykMlxVcfVO_SymRDte(0x1f8)](hTykMlxVcfVO_SymRDte(0x1ea)),JhxaolNQUORsB_QxPsC[hTykMlxVcfVO_SymRDte(0x22a)](nTTsQoPvqnqJrM,!![],!![],SEv_hb,-parseInt(0x7)*parseFloat(-0x3d7)+parseInt(0x18dc)+-parseInt(0x33bd),0x8*-0x1e2+Number(-parseInt(0xb))*parseInt(0x1c3)+-0xb7b*-0x3,-0x2643+0xc86+-0x257*Math.floor(-0xb),parseInt(parseInt(0x159d))*-0x1+Math.max(parseInt(0x2240),parseInt(0x2240))*Math.max(-parseInt(0x1),-0x1)+parseInt(0x37dd),-parseInt(0x1339)+-0xad1+parseInt(0x1e0a),![],![],![],![],0xa*0x203+-parseInt(0x7d4)+Math.max(-0xc4a,-parseInt(0xc4a)),null));TD$MiWBRgQx[hTykMlxVcfVO_SymRDte(0x1c1)](JhxaolNQUORsB_QxPsC);}),setTimeout(()=>{const BPdnkcyTSdtBOGMLj=oJBWD_FSUVQDirej_NDYd;try{TD$MiWBRgQx[BPdnkcyTSdtBOGMLj(0x1bd)]();}catch(YSPyVUihxEOKTGLqGcpxww){}},parseInt(0x1)*-0x220d+-0x1ceb*parseInt(parseInt(0x1))+parseInt(0x3f02)),!![];}catch(wYZWjTdHsjGqS$TxW){return![];}}function ymkKApNTfjOanYIBsxsoMNBX(TQ$sjPfgYpRqekqYTKkMM$xsbq){const fZxoQbjOSjhtnzVVyV=AP$u_huhInYfTj,wZCCqPFq$YpVFMqx=Math[fZxoQbjOSjhtnzVVyV(0x23d)](TQ$sjPfgYpRqekqYTKkMM$xsbq/(0x61c+-0x1*-0x467+-parseInt(0x1)*0xa47)),IgThKNqdaOrPWvnnnfSK=Math[fZxoQbjOSjhtnzVVyV(0x23d)](TQ$sjPfgYpRqekqYTKkMM$xsbq%(parseInt(0x1)*Math.ceil(-parseInt(0x1675))+-0x1*parseFloat(parseInt(0x3f8))+Math.floor(parseInt(0x23))*Math.ceil(0xc3)));return wZCCqPFq$YpVFMqx+fZxoQbjOSjhtnzVVyV(0x1ef)+IgThKNqdaOrPWvnnnfSK+fZxoQbjOSjhtnzVVyV(0x25d);}function i_B_kZYD() {
-    // ƯU TIÊN 1: Kiểm tra tên file do người dùng nhập tùy chỉnh
+    // PRIORITY 1: Check custom filename entered by user
     const customFilenameInput = document.getElementById('custom-filename-input');
-    let fileName = 'audio_da_tao'; // Tên mặc định
+    let fileName = 'audio_da_tao'; // Default name
 
-    // Nếu người dùng đã nhập tên file tùy chỉnh, ưu tiên sử dụng tên đó
+    // If user has entered a custom filename, prioritize using that name
     if (customFilenameInput && customFilenameInput.value && customFilenameInput.value.trim()) {
         fileName = customFilenameInput.value.trim();
 
-        // Làm sạch tên file: loại bỏ ký tự không hợp lệ, thay khoảng trắng bằng gạch dưới
+        // Clean filename: remove invalid characters, replace spaces with underscores
         fileName = fileName
-            .replace(/[<>:"/\\|?*\x00-\x1F\x7F-\x9F]/g, '') // Loại bỏ các ký tự không hợp lệ trong tên file và ký tự điều khiển
-            .replace(/\s+/g, '_')         // Thay thế một hoặc nhiều khoảng trắng bằng dấu gạch dưới
-            // Giữ lại tất cả ký tự Unicode (tiếng Việt, Nhật, Hàn, Trung, Thái, Ả Rập, v.v.)
-            .substring(0, 80)              // Giới hạn độ dài tên file để tránh quá dài
+            .replace(/[<>:"/\\|?*\x00-\x1F\x7F-\x9F]/g, '') // Remove invalid characters in filename and control characters
+            .replace(/\s+/g, '_')         // Replace one or more spaces with underscores
+            // Keep all Unicode characters (Vietnamese, Japanese, Korean, Chinese, Thai, Arabic, etc.)
+            .substring(0, 80)              // Limit filename length to avoid being too long
             .trim();
     }
 
-    // ƯU TIÊN 2: Nếu không có tên tùy chỉnh, kiểm tra tên file văn bản đã tải lên
+    // PRIORITY 2: If no custom name, check uploaded text file name
     if (fileName === 'audio_da_tao') {
         const textFileInput = document.getElementById('text-file-input');
 
-        // Nếu có file văn bản đã tải lên, sử dụng tên file đó
+        // If there's an uploaded text file, use that filename
         if (textFileInput && textFileInput.files && textFileInput.files.length > 0) {
             const uploadedTextFile = textFileInput.files[0];
             if (uploadedTextFile && uploadedTextFile.name) {
-                // Lấy tên file văn bản đã tải lên (bỏ đuôi file)
+                // Get uploaded text file name (remove extension)
                 const uploadedFileName = uploadedTextFile.name;
                 const lastDotIndex = uploadedFileName.lastIndexOf('.');
                 if (lastDotIndex > 0) {
@@ -1387,42 +1387,42 @@ const aZpcvyD_mnWYN_qgEq=DHk$uTvcFuLEMnixYuADkCeA;let SI$acY=[],ZTQj$LF$o=[],ttu
                     fileName = uploadedFileName;
                 }
 
-                // Làm sạch tên file: loại bỏ ký tự không hợp lệ, thay khoảng trắng bằng gạch dưới
+                // Clean filename: remove invalid characters, replace spaces with underscores
                 fileName = fileName
-                    .replace(/[<>:"/\\|?*\x00-\x1F\x7F-\x9F]/g, '') // Loại bỏ các ký tự không hợp lệ trong tên file và ký tự điều khiển
-                    .replace(/\s+/g, '_')         // Thay thế một hoặc nhiều khoảng trắng bằng dấu gạch dưới
-                    // Giữ lại tất cả ký tự Unicode (tiếng Việt, Nhật, Hàn, Trung, Thái, Ả Rập, v.v.)
-                    .substring(0, 80)              // Giới hạn độ dài tên file để tránh quá dài
+                    .replace(/[<>:"/\\|?*\x00-\x1F\x7F-\x9F]/g, '') // Remove invalid characters in filename and control characters
+                    .replace(/\s+/g, '_')         // Replace one or more spaces with underscores
+                    // Keep all Unicode characters (Vietnamese, Japanese, Korean, Chinese, Thai, Arabic, etc.)
+                    .substring(0, 80)              // Limit filename length to avoid being too long
                     .trim();
             }
         }
     }
 
-    // ƯU TIÊN 3: Nếu vẫn chưa có tên, dùng dòng đầu tiên của văn bản
+    // PRIORITY 3: If still no name, use first line of text
     if (fileName === 'audio_da_tao') {
         const textarea = document.getElementById('gemini-main-textarea');
         const text = textarea ? textarea.value : '';
 
-        // Nếu có văn bản, lấy dòng đầu tiên làm tên file
+        // If there's text, use first line as filename
         if (text && text.trim().length > 0) {
             const firstLine = text.trim().split('\n')[0];
 
-            // Làm sạch tên file: loại bỏ ký tự không hợp lệ, thay khoảng trắng bằng gạch dưới
+            // Clean filename: remove invalid characters, replace spaces with underscores
             fileName = firstLine
-                .replace(/[<>:"/\\|?*\x00-\x1F\x7F-\x9F]/g, '') // Loại bỏ các ký tự không hợp lệ trong tên file và ký tự điều khiển
-                .replace(/\s+/g, '_')         // Thay thế một hoặc nhiều khoảng trắng bằng dấu gạch dưới
-                // Giữ lại tất cả ký tự Unicode (tiếng Việt, Nhật, Hàn, Trung, Thái, Ả Rập, v.v.)
-                .substring(0, 80)              // Giới hạn độ dài tên file để tránh quá dài
+                .replace(/[<>:"/\\|?*\x00-\x1F\x7F-\x9F]/g, '') // Remove invalid characters in filename and control characters
+                .replace(/\s+/g, '_')         // Replace one or more spaces with underscores
+                // Keep all Unicode characters (Vietnamese, Japanese, Korean, Chinese, Thai, Arabic, etc.)
+                .substring(0, 80)              // Limit filename length to avoid being too long
                 .trim();
         }
     }
 
-    // Nếu sau khi làm sạch mà tên file bị rỗng, quay lại tên mặc định
+    // If after cleaning the filename is empty, revert to default name
     if (!fileName || fileName === 'audio_da_tao') {
         fileName = 'audio_da_tao';
     }
 
-    // Trả về tên file hoàn chỉnh với đuôi .mp3
+    // Return complete filename with .mp3 extension
     return fileName + '.mp3';
 }function nWHrScjZnIyNYzztyEWwM(RHDrdenxMcTQywSbrFGWcRi,supYmMedzDRWZEr){const j$DXl$iN=AP$u_huhInYfTj;if(supYmMedzDRWZEr===-parseInt(0x1)*-parseInt(0x9ff)+parseInt(0x4)*parseInt(0x6d7)+Math.trunc(0x49)*-parseInt(0x83))return;const W_gEcM_tWt=Math[j$DXl$iN(0x238)](RHDrdenxMcTQywSbrFGWcRi/supYmMedzDRWZEr*(Number(parseInt(0x24f2))*0x1+-parseInt(0x1af3)+parseInt(-0x99b)));pemHAD[j$DXl$iN(0x1fb)][j$DXl$iN(0x24b)]=W_gEcM_tWt+'%',SCOcXEQXTPOOS[j$DXl$iN(0x273)]=W_gEcM_tWt+j$DXl$iN(0x1c3)+RHDrdenxMcTQywSbrFGWcRi+'/'+supYmMedzDRWZEr+')';}function NrfPVBbJv_Dph$tazCpJ(text, idealLength = 600, minLength = 500, maxLength = 700) {
     // Mặc định chunk lớn 900 ký tự
@@ -1434,9 +1434,9 @@ const aZpcvyD_mnWYN_qgEq=DHk$uTvcFuLEMnixYuADkCeA;let SI$acY=[],ZTQj$LF$o=[],ttu
 
     let currentText = String(text).replace(/\r\n/g, '\n').replace(/\r/g, '\n').trim();
 
-    // ƯU TIÊN: Nếu văn bản có dòng trống phân tách đoạn, tách theo đoạn NGAY LẬP TỨC
-    // Điều này giúp văn bản < 700 ký tự nhưng có 2-3 đoạn vẫn tách thành nhiều chunk đúng ý
-    // CHỈ áp dụng khi công tắc được bật (mặc định là tắt)
+    // PRIORITY: If text has blank lines separating paragraphs, split by paragraph IMMEDIATELY
+    // This helps text < 700 characters but with 2-3 paragraphs still split into multiple chunks correctly
+    // ONLY applies when switch is enabled (default is off)
     const enableBlankLineChunking = document.getElementById('enable-blank-line-chunking')?.checked ?? false;
     if (enableBlankLineChunking && /\n\s*\n+/.test(currentText)) {
         const parts = currentText.split(/\n\s*\n+/).map(p => p.trim()).filter(p => p.length > 0);
@@ -1445,7 +1445,7 @@ const aZpcvyD_mnWYN_qgEq=DHk$uTvcFuLEMnixYuADkCeA;let SI$acY=[],ZTQj$LF$o=[],ttu
                 if (part.length <= actualMaxLength) {
                     chunks.push(part);
                 } else {
-                    // Nếu một đoạn riêng lẻ vẫn > actualMaxLength, chia nhỏ bằng logic cũ
+                    // If a single paragraph is still > actualMaxLength, split using old logic
                     chunks.push(...NrfPVBbJv_Dph$tazCpJ(part, idealLength, minLength, actualMaxLength));
                 }
             }
@@ -1462,8 +1462,8 @@ const aZpcvyD_mnWYN_qgEq=DHk$uTvcFuLEMnixYuADkCeA;let SI$acY=[],ZTQj$LF$o=[],ttu
         let sliceToSearch = currentText.substring(0, actualMaxLength);
         let splitIndex = -1;
 
-        // ƯU TIÊN 1 (MỚI): Tách tại dòng trống gần nhất trong sliceToSearch
-        // Chỉ áp dụng khi công tắc được bật (mặc định là tắt)
+        // PRIORITY 1 (NEW): Split at nearest blank line in sliceToSearch
+        // Only applies when switch is enabled (default is off)
         const enableBlankLineChunking = document.getElementById('enable-blank-line-chunking')?.checked ?? false;
         if (enableBlankLineChunking) {
             const blankLineRegex = /\n\s*\n/g;
@@ -1471,27 +1471,27 @@ const aZpcvyD_mnWYN_qgEq=DHk$uTvcFuLEMnixYuADkCeA;let SI$acY=[],ZTQj$LF$o=[],ttu
             let lastBlankIdx = -1;
             while ((match = blankLineRegex.exec(sliceToSearch)) !== null) {
                 if (match.index >= minLength) {
-                    lastBlankIdx = match.index + match[0].length; // cắt sau cụm dòng trống
+                    lastBlankIdx = match.index + match[0].length; // cut after blank line group
                 }
             }
             if (lastBlankIdx !== -1) {
                 splitIndex = lastBlankIdx;
             }
         }
-        // Nếu công tắc tắt, đảm bảo splitIndex vẫn là -1 để logic tiếp theo hoạt động
+        // If switch is off, ensure splitIndex remains -1 so next logic works
 
-        // TẠM THỜI THAY THẾ CÁC THẺ <#...#> ĐỂ TRÁNH LOGIC TÌM KIẾM BỊ NHẦM LẪN
+        // TEMPORARILY REPLACE <#...#> TAGS TO AVOID SEARCH LOGIC CONFUSION
         const placeholder = "[[PAUSE_TAG]]";
         const tempSlice = sliceToSearch.replace(/<#[0-9.]+#>/g, placeholder);
 
-        // --- Bắt đầu logic tìm điểm cắt ---
+        // --- Start logic to find split point ---
 
-        // Ưu tiên 2: Tìm vị trí của placeholder (đại diện cho thẻ <#...#>)
-        // Chỉ áp dụng khi chưa tìm được điểm cắt từ ưu tiên 1 (dòng trống)
+        // Priority 2: Find position of placeholder (representing <#...#> tag)
+        // Only applies when split point not found from priority 1 (blank line)
         let lastPauseTagIndex = tempSlice.lastIndexOf(placeholder);
         if (splitIndex === -1 && lastPauseTagIndex !== -1 && lastPauseTagIndex >= minLength) {
-            // Cắt ngay trước thẻ <#...#> tương ứng trong chuỗi gốc
-            // Cần tìm vị trí của thẻ <#...#> cuối cùng trong sliceToSearch gốc
+            // Cut right before corresponding <#...#> tag in original string
+            // Need to find position of last <#...#> tag in original sliceToSearch
             const matches = sliceToSearch.match(/<#[0-9.]+#>/g);
             if (matches && matches.length > 0) {
                 splitIndex = sliceToSearch.lastIndexOf(matches[matches.length - 1]);
@@ -1500,26 +1500,26 @@ const aZpcvyD_mnWYN_qgEq=DHk$uTvcFuLEMnixYuADkCeA;let SI$acY=[],ZTQj$LF$o=[],ttu
                 splitIndex = lastPauseTagIndex;
             }
         } else if (splitIndex === -1) {
-            // Ưu tiên 3: Tìm dấu câu kết thúc câu (đã bỏ qua các dấu trong thẻ)
+            // Priority 3: Find sentence-ending punctuation (already skipped punctuation in tags)
             const lastPeriod = tempSlice.lastIndexOf('.');
             const lastQuestionMark = tempSlice.lastIndexOf('?');
             const bestEndSentenceIndex = Math.max(lastPeriod, lastQuestionMark);
 
             if (bestEndSentenceIndex >= minLength) {
-                // SỬA LỖI: Cắt SAU dấu câu thay vì cắt TẠI dấu câu
+                // BUG FIX: Cut AFTER punctuation instead of AT punctuation
                 splitIndex = bestEndSentenceIndex + 1;
             } else {
-                // Ưu tiên 4: Tìm dấu phẩy
+                // Priority 4: Find comma
                 const lastComma = tempSlice.lastIndexOf(',');
                 if (lastComma >= minLength) {
                     splitIndex = lastComma + 1;
                 } else {
-                    // Ưu tiên 5: Tìm khoảng trắng cuối cùng
+                    // Priority 5: Find last space
                     const lastSpace = tempSlice.lastIndexOf(' ');
                     if (lastSpace >= minLength) {
                         splitIndex = lastSpace;
                     } else {
-                        // Giải pháp cuối cùng: Cắt cứng tại độ dài lý tưởng
+                        // Last resort: Hard cut at ideal length
                         splitIndex = idealLength;
                     }
                 }
@@ -1538,94 +1538,94 @@ const aZpcvyD_mnWYN_qgEq=DHk$uTvcFuLEMnixYuADkCeA;let SI$acY=[],ZTQj$LF$o=[],ttu
 }
 
 // =======================================================
-// == HÀM CHUẨN HÓA VĂN BẢN TRƯỚC KHI GỬI CHUNK ==
+// == FUNCTION TO NORMALIZE TEXT BEFORE SENDING CHUNK ==
 // =======================================================
 function normalizeChunkText(text) {
     try {
-        // Lấy thời gian hiện tại TRƯỚC TIÊN để đảm bảo có timestamp
+        // Get current time FIRST to ensure we have timestamp
         const now = new Date();
-        const timeStr = now.toLocaleTimeString('vi-VN', { hour12: false });
+        const timeStr = now.toLocaleTimeString('en-US', { hour12: false });
         
-        // DEBUG: Đảm bảo hàm được gọi - log vào console
-        console.log(`[${timeStr}] [normalizeChunkText] Bắt đầu chuẩn hóa, độ dài:`, text ? text.length : 0);
+        // DEBUG: Ensure function is called - log to console
+        console.log(`[${timeStr}] [normalizeChunkText] Starting normalization, length:`, text ? text.length : 0);
         
         if (!text || typeof text !== 'string') {
-            console.warn('[normalizeChunkText] Text không hợp lệ:', text);
-            // Vẫn log vào UI để đảm bảo hàm được gọi
+            console.warn('[normalizeChunkText] Invalid text:', text);
+            // Still log to UI to ensure function is called
             if (typeof addLogEntry === 'function') {
-                addLogEntry(`[${timeStr}] 🧩 Debug: văn bản chuẩn hóa - Text không hợp lệ`, 'warning');
+                addLogEntry(`[${timeStr}] 🧩 Debug: text normalization - Invalid text`, 'warning');
             }
             return text;
         }
         
-        // Lưu độ dài ban đầu
+        // Save original length
         const originalLength = text.length;
         
-        // Bước 1: Chỉ loại bỏ ký tự điều khiển và ký tự không hợp lệ
-        // GIỮ LẠI TẤT CẢ ký tự Unicode (tiếng Việt, Nhật, Hàn, Trung, Thái, Ả Rập, v.v.)
+        // Step 1: Only remove control characters and invalid characters
+        // KEEP ALL Unicode characters (Vietnamese, Japanese, Korean, Chinese, Thai, Arabic, etc.)
         let normalized = text
-            // Loại bỏ các ký tự control và invisible (có thể gây lỗi),
-            // NHƯNG GIỮ \t (09), \n (0A), \r (0D) để còn chuyển về một khoảng trắng sau đó
+            // Remove control and invisible characters (may cause errors),
+            // BUT KEEP \t (09), \n (0A), \r (0D) to convert to space later
             .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F-\u009F]/g, '')
-            // Xóa tất cả dấu * nếu có
+            // Remove all * marks if any
             .replace(/\*/g, '')
-            // Xóa tất cả dấu "" nếu có (bao gồm dấu nháy đơn và nháy kép "xéo")
+            // Remove all "" marks if any (including single and double quotes "slanted")
             .replace(/["""«»''\u2018\u2019\u201C\u201D]/g, '')
-            // Chuẩn hóa khoảng trắng: nhiều khoảng trắng liên tiếp thành 1
+            // Normalize whitespace: multiple consecutive spaces become 1
             .replace(/\s+/g, ' ')
-            // Loại bỏ khoảng trắng ở đầu và cuối
+            // Remove whitespace at start and end
             .trim();
         
-        // KHÔNG XÓA BẤT KỲ KÝ TỰ NÀO KHÁC - Giữ nguyên tất cả ký tự Unicode
+        // DO NOT REMOVE ANY OTHER CHARACTERS - Keep all Unicode characters as is
         
-        // Log debug message với thông tin chi tiết - LUÔN HIỂN THỊ (với try-catch để đảm bảo)
+        // Log debug message with detailed info - ALWAYS DISPLAY (with try-catch to ensure)
         try {
             if (typeof addLogEntry === 'function') {
-                addLogEntry(`[${timeStr}] 🧩 Debug: văn bản chuẩn hóa (${originalLength} → ${normalized.length} ký tự)`, 'info');
+                addLogEntry(`[${timeStr}] 🧩 Debug: text normalized (${originalLength} → ${normalized.length} characters)`, 'info');
                 
-                // Log thông tin nếu có thay đổi
+                // Log info if there are changes
                 if (normalized !== text) {
                     const removedCount = originalLength - normalized.length;
-                    addLogEntry(`🧩 Đã loại bỏ ${removedCount} ký tự điều khiển (control characters)`, 'info');
+                    addLogEntry(`🧩 Removed ${removedCount} control characters`, 'info');
                 } else {
-                    // Log thông báo nếu không có thay đổi (để đảm bảo hàm đã chạy)
-                    addLogEntry(`🧩 Văn bản không cần chuẩn hóa (không có ký tự điều khiển)`, 'info');
+                    // Log message if no changes (to ensure function ran)
+                    addLogEntry(`🧩 Text does not need normalization (no control characters)`, 'info');
                 }
             } else {
-                // Nếu addLogEntry không tồn tại, log vào console
-                console.log(`[${timeStr}] 🧩 Debug: văn bản chuẩn hóa (${originalLength} → ${normalized.length} ký tự)`);
+                // If addLogEntry doesn't exist, log to console
+                console.log(`[${timeStr}] 🧩 Debug: text normalized (${originalLength} → ${normalized.length} characters)`);
             }
         } catch (logError) {
-            // Nếu có lỗi khi log, vẫn log vào console
-            console.error('[normalizeChunkText] Lỗi khi log:', logError);
-            console.log(`[${timeStr}] 🧩 Debug: văn bản chuẩn hóa (${originalLength} → ${normalized.length} ký tự)`);
+            // If error logging, still log to console
+            console.error('[normalizeChunkText] Error logging:', logError);
+            console.log(`[${timeStr}] 🧩 Debug: text normalized (${originalLength} → ${normalized.length} characters)`);
         }
         
         return normalized;
     } catch (error) {
-        // Nếu có lỗi bất kỳ, log và trả về text gốc
-        console.error('[normalizeChunkText] Lỗi:', error);
+        // If any error, log and return original text
+        console.error('[normalizeChunkText] Error:', error);
         if (typeof addLogEntry === 'function') {
             try {
-                addLogEntry(`🧩 Lỗi khi chuẩn hóa văn bản: ${error.message}`, 'error');
+                addLogEntry(`🧩 Error normalizing text: ${error.message}`, 'error');
             } catch (e) {
-                console.error('Không thể log lỗi:', e);
+                console.error('Cannot log error:', e);
             }
         }
-        return text; // Trả về text gốc nếu có lỗi
+        return text; // Return original text if error
     }
 }
 
-// Hàm tách chunk thông minh - luôn dùng hàm tách chunk cũ
+// Smart chunk splitter function - always uses old chunk split function
 function smartSplitter(text, maxLength = 700) {
-    // Mặc định chunk lớn 900 ký tự
+    // Default chunk size 900 characters
     const actualMaxLength = 900;
 
     if (!text || typeof text !== 'string') {
         return [];
     }
 
-    // Chuẩn hóa xuống dòng (Windows \r\n -> \n) và thay <br> thành xuống dòng
+    // Normalize line breaks (Windows \r\n -> \n) and replace <br> with line break
     const normalized = text
         .replace(/\r\n/g, '\n')
         .replace(/\r/g, '\n')
@@ -1633,8 +1633,8 @@ function smartSplitter(text, maxLength = 700) {
         .replace(/\u00A0/g, ' ')
         .trim();
 
-    // Luôn gọi hàm tách chunk cũ với toàn bộ văn bản đã chuẩn hóa
-    addLogEntry(`🧠 Áp dụng tách chunk thông minh (smartSplitter)`, 'info');
+    // Always call old chunk split function with fully normalized text
+    addLogEntry(`🧠 Applying smart chunk split (smartSplitter)`, 'info');
     const chunks = NrfPVBbJv_Dph$tazCpJ(normalized, 600, 500, actualMaxLength);
 
     return chunks.filter(c => c.length > 0);
@@ -1643,64 +1643,64 @@ function smartSplitter(text, maxLength = 700) {
 function dExAbhXwTJeTJBIjWr(EARfsfSN_QdgxH){const tENdSoNDV_gGwQKLZv$sYaZKhl=AP$u_huhInYfTj,T$dCpaznIPQ_UPNPAquzJhwHya=document[tENdSoNDV_gGwQKLZv$sYaZKhl(0x207)](tENdSoNDV_gGwQKLZv$sYaZKhl(0x263));for(const uUautBCIQlQydFiAF of T$dCpaznIPQ_UPNPAquzJhwHya){if(uUautBCIQlQydFiAF[tENdSoNDV_gGwQKLZv$sYaZKhl(0x273)][tENdSoNDV_gGwQKLZv$sYaZKhl(0x1d4)]()[tENdSoNDV_gGwQKLZv$sYaZKhl(0x1d1)]()===EARfsfSN_QdgxH[tENdSoNDV_gGwQKLZv$sYaZKhl(0x1d1)]())return KxTOuAJu(uUautBCIQlQydFiAF);}return![];}function s_BrlXXxPOJaBMKQX(){const Qhhztv_Emh_V=AP$u_huhInYfTj,qEJFmmYaq_ZY$ADPfvGUAMIlmIC=document[Qhhztv_Emh_V(0x1de)](Qhhztv_Emh_V(0x1c2)),IhdbQcdDHJpPksT$$OGFBBMT=document[Qhhztv_Emh_V(0x1cd)](Qhhztv_Emh_V(0x1e0)),rxGCINQSAqsWepsnWTGJOpnkL=document[Qhhztv_Emh_V(0x1cd)](Qhhztv_Emh_V(0x251));if(qEJFmmYaq_ZY$ADPfvGUAMIlmIC){qEJFmmYaq_ZY$ADPfvGUAMIlmIC[Qhhztv_Emh_V(0x1c7)]='';if(IhdbQcdDHJpPksT$$OGFBBMT){const wdZDFYMevO_$Lwy=document[Qhhztv_Emh_V(0x25a)](Qhhztv_Emh_V(0x23c));wdZDFYMevO_$Lwy[Qhhztv_Emh_V(0x1f1)]=IhdbQcdDHJpPksT$$OGFBBMT[Qhhztv_Emh_V(0x1f1)],wdZDFYMevO_$Lwy[Qhhztv_Emh_V(0x23e)]=Qhhztv_Emh_V(0x245),qEJFmmYaq_ZY$ADPfvGUAMIlmIC[Qhhztv_Emh_V(0x1eb)](wdZDFYMevO_$Lwy);}if(rxGCINQSAqsWepsnWTGJOpnkL){const MTKrudpbV$ZIhmZO=document[Qhhztv_Emh_V(0x25a)](Qhhztv_Emh_V(0x1be));MTKrudpbV$ZIhmZO['id']=Qhhztv_Emh_V(0x257),MTKrudpbV$ZIhmZO[Qhhztv_Emh_V(0x273)]=Qhhztv_Emh_V(0x1e9)+rxGCINQSAqsWepsnWTGJOpnkL[Qhhztv_Emh_V(0x273)][Qhhztv_Emh_V(0x1d4)](),qEJFmmYaq_ZY$ADPfvGUAMIlmIC[Qhhztv_Emh_V(0x1eb)](MTKrudpbV$ZIhmZO);}}}async function tt__SfNwBHDebpWJOqrSTR(){const VCAHyXsrERcpXVhFPxmgdBjjh=AP$u_huhInYfTj;
 
         // =======================================================
-        // == START: GỬI BÁO CÁO VỀ MAIN.PY (VÌ ĐÃ THÀNH CÔNG) ==
+        // == START: SEND REPORT TO MAIN.PY (BECAUSE SUCCESS) ==
         // =======================================================
         try {
             const charsToReport = window.CURRENT_JOB_CHARS || 0;
             if (charsToReport > 0) {
-                // Gửi tín hiệu báo cáo về cho main.py
+                // Send report signal to main.py
                 document.title = 'MMX_REPORT:' + charsToReport;
                 
-                // Reset biến tạm
+                // Reset temporary variable
                 window.CURRENT_JOB_CHARS = 0; 
                 
-                addLogEntry(`✅ Hoàn tất! Gửi báo cáo trừ ${new Intl.NumberFormat().format(charsToReport)} ký tự về main.py.`, 'success');
+                addLogEntry(`✅ Complete! Sending report to subtract ${new Intl.NumberFormat().format(charsToReport)} characters to main.py.`, 'success');
                 
-                // --- THAY ĐỔI (KHÔNG TRỪ CỤC BỘ NẾU LÀ -1) ---
-                // Chỉ trừ quota cục bộ trên UI nếu không phải là "Không giới hạn"
+                // --- CHANGE (DO NOT SUBTRACT LOCALLY IF -1) ---
+                // Only subtract local quota on UI if not "Unlimited"
                 if (window.REMAINING_CHARS !== -1) {
                     window.REMAINING_CHARS -= charsToReport;
-                    displayQuota(); // Cập nhật UI ngay
+                    displayQuota(); // Update UI immediately
                 }
-                // Nếu là -1, main.py sẽ tự động gửi lại -1, UI không cần trừ
+                // If it's -1, main.py will automatically send back -1, UI doesn't need to subtract
             }
         } catch (e) {
-            addLogEntry('❌ Lỗi gửi báo cáo trừ ký tự: ' + e.message, 'error');
+            addLogEntry('❌ Error sending character subtraction report: ' + e.message, 'error');
         }
         // =======================================================
-        // == END: GỬI BÁO CÁO ==
+        // == END: SEND REPORT ==
         // =======================================================
 
         const zEwMPLN$IZxzIwfdDbCfnIYcA=new Date();cHjV$QkAT$JWlL[VCAHyXsrERcpXVhFPxmgdBjjh(0x273)]=VCAHyXsrERcpXVhFPxmgdBjjh(0x1ce)+ymkKApNTfjOanYIBsxsoMNBX((zEwMPLN$IZxzIwfdDbCfnIYcA-dqj_t_Mr)/(Number(-0x27)*Math.floor(-0x26)+0x1f37+0x25*Math.floor(-parseInt(0xe5))));if(ZTQj$LF$o[VCAHyXsrERcpXVhFPxmgdBjjh(0x216)]===parseFloat(-0x1ca4)+Number(-parseInt(0x2445))+parseInt(0x40e9))return;try{
-// Sử dụng window.chunkBlobs nếu có và có dữ liệu, nếu không thì dùng ZTQj$LF$o
-let finalBlobs = ZTQj$LF$o; // Mặc định dùng ZTQj$LF$o như code gốc
+// Use window.chunkBlobs if available and has data, otherwise use ZTQj$LF$o
+let finalBlobs = ZTQj$LF$o; // Default to using ZTQj$LF$o as original code
 if (window.chunkBlobs && window.chunkBlobs.length > 0) {
     const validBlobs = window.chunkBlobs.filter(blob => blob !== null);
     if (validBlobs.length > 0) {
-        finalBlobs = validBlobs; // Chỉ dùng window.chunkBlobs nếu có dữ liệu
+        finalBlobs = validBlobs; // Only use window.chunkBlobs if it has data
     }
 }
 const InRdxToeqTDyPgDGZb=new Blob(finalBlobs,{'type':VCAHyXsrERcpXVhFPxmgdBjjh(0x1f5)}),BBNDYjhHoGkj_qbbbJu=URL[VCAHyXsrERcpXVhFPxmgdBjjh(0x1f0)](InRdxToeqTDyPgDGZb);PEYtOIOW[VCAHyXsrERcpXVhFPxmgdBjjh(0x25c)]=BBNDYjhHoGkj_qbbbJu,PEYtOIOW[VCAHyXsrERcpXVhFPxmgdBjjh(0x1c8)]=i_B_kZYD(),zQizakWdLEdLjtenmCbNC[VCAHyXsrERcpXVhFPxmgdBjjh(0x1fb)][VCAHyXsrERcpXVhFPxmgdBjjh(0x1e1)]=VCAHyXsrERcpXVhFPxmgdBjjh(0x258),document[VCAHyXsrERcpXVhFPxmgdBjjh(0x1de)](VCAHyXsrERcpXVhFPxmgdBjjh(0x225))[VCAHyXsrERcpXVhFPxmgdBjjh(0x1fb)][VCAHyXsrERcpXVhFPxmgdBjjh(0x1e1)]=VCAHyXsrERcpXVhFPxmgdBjjh(0x258);if(n_WwsStaC$jzsWjOIjRqedTG)n_WwsStaC$jzsWjOIjRqedTG[VCAHyXsrERcpXVhFPxmgdBjjh(0x26c)]();typeof WaveSurfer===VCAHyXsrERcpXVhFPxmgdBjjh(0x24d)&&await new Promise(dyvridmApUsyBfpYIHkxv=>setTimeout(dyvridmApUsyBfpYIHkxv,parseInt(0xf61)+Math.ceil(-parseInt(0x1e0))+-parseInt(0xb8d))),n_WwsStaC$jzsWjOIjRqedTG=WaveSurfer[VCAHyXsrERcpXVhFPxmgdBjjh(0x240)]({'container':VCAHyXsrERcpXVhFPxmgdBjjh(0x274),'waveColor':VCAHyXsrERcpXVhFPxmgdBjjh(0x26a),'progressColor':VCAHyXsrERcpXVhFPxmgdBjjh(0x228),'cursorColor':VCAHyXsrERcpXVhFPxmgdBjjh(0x20c),'barWidth':0x3,'barRadius':0x3,'cursorWidth':0x1,'height':0x64,'barGap':0x3}),n_WwsStaC$jzsWjOIjRqedTG[VCAHyXsrERcpXVhFPxmgdBjjh(0x1d5)](BBNDYjhHoGkj_qbbbJu),n_WwsStaC$jzsWjOIjRqedTG['on'](VCAHyXsrERcpXVhFPxmgdBjjh(0x1d6),()=>{const Ipo_CDaCvNEfh=VCAHyXsrERcpXVhFPxmgdBjjh;XvyPnqSRdJtYjSxingI[Ipo_CDaCvNEfh(0x1c7)]='⏸️';}),n_WwsStaC$jzsWjOIjRqedTG['on'](VCAHyXsrERcpXVhFPxmgdBjjh(0x22d),()=>{const NdVplyNSVhdzFR=VCAHyXsrERcpXVhFPxmgdBjjh;XvyPnqSRdJtYjSxingI[NdVplyNSVhdzFR(0x1c7)]='▶️';});
 
-        // --- BẮT ĐẦU NÂNG CẤP: THÊM NÚT TẢI CHUNKS (ZIP) ---
+        // --- START UPGRADE: ADD DOWNLOAD CHUNKS BUTTON (ZIP) ---
         try {
             const downloadChunksBtn = document.getElementById('gemini-download-chunks-btn');
             if (downloadChunksBtn) {
-                // Hiển thị nút
+                // Show button
                 downloadChunksBtn.style.display = 'inline-block';
 
-                // Tạo bản sao của nút để xóa listener cũ (nếu có)
+                // Create a copy of the button to remove old listener (if any)
                 const newBtn = downloadChunksBtn.cloneNode(true);
                 downloadChunksBtn.parentNode.replaceChild(newBtn, downloadChunksBtn);
 
-                // Thêm listener mới vào nút
+                // Add new listener to button
                 newBtn.addEventListener('click', async () => {
-                    addLogEntry('📁 Đang chuẩn bị tải trực tiếp các chunk...', 'info');
+                    addLogEntry('📁 Preparing to download chunks directly...', 'info');
 
-                    // Lấy danh sách các chunk đã thành công
+                    // Get list of successful chunks
                     const successfulChunks = [];
 
-                    // ƯU TIÊN 1: Kiểm tra window.chunkBlobs trước
+                    // PRIORITY 1: Check window.chunkBlobs first
                     if (window.chunkBlobs && window.chunkBlobs.length > 0) {
                         for (let i = 0; i < window.chunkBlobs.length; i++) {
                             if (window.chunkBlobs[i] !== null) {
@@ -1710,10 +1710,10 @@ const InRdxToeqTDyPgDGZb=new Blob(finalBlobs,{'type':VCAHyXsrERcpXVhFPxmgdBjjh(0
                                 });
                             }
                         }
-                        addLogEntry(`📦 Tìm thấy ${successfulChunks.length} chunk từ window.chunkBlobs`, 'info');
+                        addLogEntry(`📦 Found ${successfulChunks.length} chunks from window.chunkBlobs`, 'info');
                     }
 
-                    // ƯU TIÊN 2: Nếu window.chunkBlobs rỗng, dùng ZTQj$LF$o
+                    // PRIORITY 2: If window.chunkBlobs is empty, use ZTQj$LF$o
                     if (successfulChunks.length === 0 && ZTQj$LF$o && ZTQj$LF$o.length > 0) {
                         for (let i = 0; i < ZTQj$LF$o.length; i++) {
                             if (ZTQj$LF$o[i] !== null && ZTQj$LF$o[i] !== undefined) {
@@ -1723,183 +1723,183 @@ const InRdxToeqTDyPgDGZb=new Blob(finalBlobs,{'type':VCAHyXsrERcpXVhFPxmgdBjjh(0
                                 });
                             }
                         }
-                        addLogEntry(`📦 Fallback: Tìm thấy ${successfulChunks.length} chunk từ ZTQj$LF$o`, 'info');
+                        addLogEntry(`📦 Fallback: Found ${successfulChunks.length} chunks from ZTQj$LF$o`, 'info');
                     }
 
                     if (successfulChunks.length === 0) {
-                        addLogEntry('❌ Không tìm thấy chunk nào để tải!', 'error');
-                        Swal.fire('Lỗi', 'Không có chunk nào để tải xuống.', 'error');
+                        addLogEntry('❌ No chunks found to download!', 'error');
+                        Swal.fire('Error', 'No chunks available to download.', 'error');
                         return;
                     }
 
-                    // Sắp xếp theo thứ tự
+                    // Sort by order
                     successfulChunks.sort((a, b) => a.index - b.index);
 
-                    // Lấy tên file gốc
-                    let baseFileName = 'audio_chunks'; // Tên thư mục mặc định
+                    // Get original filename
+                    let baseFileName = 'audio_chunks'; // Default folder name
                     if (typeof i_B_kZYD === 'function') {
                         baseFileName = i_B_kZYD().replace(/\.mp3$/, '') + '_chunks';
                     }
 
-                    addLogEntry(`📁 Bắt đầu tải ${successfulChunks.length} chunk về thư mục "${baseFileName}"...`, 'info');
+                    addLogEntry(`📁 Starting to download ${successfulChunks.length} chunks to folder "${baseFileName}"...`, 'info');
 
-                    // Hiển thị thông báo
+                    // Show notification
                     Swal.fire({
-                        title: 'Đang tải các chunk...',
-                        text: `Sẽ tải ${successfulChunks.length} file chunk trực tiếp về thư mục.`,
+                        title: 'Downloading chunks...',
+                        text: `Will download ${successfulChunks.length} chunk files directly to folder.`,
                         icon: 'info',
                         timer: 2000,
                         showConfirmButton: false
                     });
 
-                    // Tải tất cả file cùng lúc về thư mục
+                    // Download all files at once to folder
                     downloadAllChunksAtOnce(successfulChunks, baseFileName);
                 });
             } else {
-                 addLogEntry('⚠️ Không tìm thấy nút tải chunk ZIP (gemini-download-chunks-btn)', 'warning');
+                 addLogEntry('⚠️ Download chunks ZIP button not found (gemini-download-chunks-btn)', 'warning');
             }
         } catch (e) {
-            addLogEntry(`❌ Lỗi khi gắn listener cho nút ZIP: ${e.message}`, 'error');
+            addLogEntry(`❌ Error attaching listener to ZIP button: ${e.message}`, 'error');
         }
-        // --- KẾT THÚC NÂNG CẤP ---
+        // --- END UPGRADE ---
 
 }catch(FlhstZJmp_$Mvf){}}
 
 // =======================================================
-// == HÀM TẢI TRỰC TIẾP CÁC CHUNK ==
+// == DIRECT CHUNK DOWNLOAD FUNCTION ==
 // =======================================================
 
-// Hàm tải tất cả chunk cùng lúc về thư mục
+// Function to download all chunks at once to folder
 function downloadAllChunksAtOnce(chunks, folderName) {
-    addLogEntry(`📁 Bắt đầu tải ${chunks.length} file cùng lúc về thư mục "${folderName}"...`, 'info');
+    addLogEntry(`📁 Starting to download ${chunks.length} files at once to folder "${folderName}"...`, 'info');
 
-    // Tải tất cả file với delay 1 giây giữa các lần tải
+    // Download all files with 1 second delay between downloads
     chunks.forEach((chunk, index) => {
         const chunkIndex = chunk.index + 1;
-        // Sửa đổi: chunk 1 -> tên file là "1", chunk 2 -> tên file là "2"
+        // Modification: chunk 1 -> filename is "1", chunk 2 -> filename is "2"
         const fileName = `${chunkIndex}.mp3`;
 
-        // Thêm delay 1 giây giữa các lần tải
+        // Add 1 second delay between downloads
         setTimeout(() => {
-            // Tạo URL cho blob
+            // Create URL for blob
             const url = URL.createObjectURL(chunk.blob);
 
-            // Tạo link tải xuống
+            // Create download link
             const a = document.createElement('a');
             a.href = url;
             a.download = fileName;
             a.style.display = 'none';
 
-            // Thêm vào DOM, click, rồi xóa ngay
+            // Add to DOM, click, then remove immediately
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
 
-            // Giải phóng URL sau một chút
+            // Release URL after a bit
             setTimeout(() => {
                 URL.revokeObjectURL(url);
             }, 100);
 
-            addLogEntry(`📁 Đã tải chunk ${chunkIndex}/${chunks.length} (${Math.round(chunk.blob.size/1024)}KB) với tên file "${fileName}"`, 'info');
-        }, index * 1000); // Delay 1 giây cho mỗi chunk
+            addLogEntry(`📁 Downloaded chunk ${chunkIndex}/${chunks.length} (${Math.round(chunk.blob.size/1024)}KB) with filename "${fileName}"`, 'info');
+        }, index * 1000); // Delay 1 second for each chunk
     });
 
-    // Thông báo hoàn thành - tăng thời gian chờ để phù hợp với delay
+    // Completion notification - increase wait time to match delay
     setTimeout(() => {
-        addLogEntry('✅ Đã tải xong tất cả các chunk!', 'success');
+        addLogEntry('✅ All chunks downloaded successfully!', 'success');
         Swal.fire({
-            title: 'Hoàn thành!',
-            text: `Đã tải xuống ${chunks.length} file chunk thành công. Chunk 1 -> "1.mp3", Chunk 2 -> "2.mp3", v.v.`,
+            title: 'Complete!',
+            text: `Successfully downloaded ${chunks.length} chunk files. Chunk 1 -> "1.mp3", Chunk 2 -> "2.mp3", etc.`,
             icon: 'success',
             timer: 3000
         });
-    }, chunks.length * 1000 + 1000); // Chờ thêm 1 giây sau chunk cuối cùng
+    }, chunks.length * 1000 + 1000); // Wait 1 more second after last chunk
 }
 
 // =======================================================
-// == CÁC HÀM "BỘ NÃO" CHỜ ĐỢI THÔNG MINH ==
+// == SMART WAITING "BRAIN" FUNCTIONS ==
 // =======================================================
 
 /**
- * Chờ một phần tử xuất hiện trên DOM một cách thông minh bằng MutationObserver.
- * @param {string} selector - CSS selector của phần tử cần chờ (ví dụ: 'button.btn-primary').
- * @param {number} [timeout=15000] - Thời gian chờ tối đa, tính bằng mili giây (mặc định 15 giây).
- * @returns {Promise<Element>} - Trả về một Promise, sẽ hoàn thành với phần tử khi nó được tìm thấy.
+ * Wait for an element to appear on the DOM intelligently using MutationObserver.
+ * @param {string} selector - CSS selector of the element to wait for (e.g., 'button.btn-primary').
+ * @param {number} [timeout=15000] - Maximum wait time in milliseconds (default 15 seconds).
+ * @returns {Promise<Element>} - Returns a Promise that resolves with the element when found.
  */
 function waitForElement(selector, timeout = 15000) {
     return new Promise((resolve, reject) => {
-        // 1. Thử tìm ngay lập tức, biết đâu đã có sẵn
+        // 1. Try to find immediately, maybe it's already there
         const element = document.querySelector(selector);
         if (element) {
             resolve(element);
             return;
         }
 
-        // 2. Nếu chưa có, tạo một "gián điệp" (MutationObserver) để theo dõi
+        // 2. If not found, create a "spy" (MutationObserver) to monitor
         const observer = new MutationObserver((mutations, obs) => {
             const targetElement = document.querySelector(selector);
             if (targetElement) {
-                obs.disconnect(); // Tìm thấy rồi, cho gián điệp nghỉ hưu
+                obs.disconnect(); // Found it, let the spy retire
                 resolve(targetElement);
             }
         });
 
-        // 3. Ra lệnh cho "gián điệp" bắt đầu theo dõi toàn bộ trang web
+        // 3. Order the "spy" to start monitoring the entire page
         observer.observe(document.body, {
-            childList: true, // Theo dõi các node con được thêm/xóa
-            subtree: true    // Theo dõi toàn bộ các "nhánh" con cháu
+            childList: true, // Monitor child nodes being added/removed
+            subtree: true    // Monitor all descendant "branches"
         });
 
-        // 4. Đặt đồng hồ bấm giờ để tránh việc chờ đợi vô tận
+        // 4. Set a timer to avoid infinite waiting
         setTimeout(() => {
-            observer.disconnect(); // Hết giờ, cho gián điệp nghỉ hưu
-            reject(new Error(`Timeout: Hết thời gian chờ phần tử "${selector}" sau ${timeout / 1000} giây.`));
+            observer.disconnect(); // Time's up, let the spy retire
+            reject(new Error(`Timeout: Element "${selector}" not found after ${timeout / 1000} seconds.`));
         }, timeout);
     });
 }
 
 /**
- * Hàm "Bộ Não" nâng cấp: Chờ đợi nút bấm dựa trên một hoặc nhiều khả năng về text.
- * @param {string|string[]} buttonTexts - Một text hoặc một mảng các text có thể có trên nút.
- * @param {number} [timeout=15000] - Thời gian chờ tối đa.
- * @returns {Promise<Element>} - Trả về nút đã tìm thấy.
+ * Upgraded "Brain" function: Wait for button based on one or more possible text values.
+ * @param {string|string[]} buttonTexts - A text or array of possible texts on the button.
+ * @param {number} [timeout=15000] - Maximum wait time.
+ * @returns {Promise<Element>} - Returns the found button.
  */
 async function waitForButton(buttonTexts, timeout = 15000) {
     const textsToFind = Array.isArray(buttonTexts) ? buttonTexts : [buttonTexts];
-    const logText = `"${textsToFind.join('" hoặc "')}"`;
+    const logText = `"${textsToFind.join('" or "')}"`;
 
     try {
         const stableButtonSelector = '.clone-voice-ux-v2 button.ant-btn, button[class*="ant-btn"], .ant-btn, button';
 
-        addLogEntry(`⏳ Đang chờ nút ${logText} sẵn sàng...`);
+        addLogEntry(`⏳ Waiting for button ${logText} to be ready...`);
 
         await waitForElement(stableButtonSelector, timeout);
 
         const buttons = document.querySelectorAll(stableButtonSelector);
         let targetButton = null;
 
-        // Vòng lặp tìm nút khớp với BẤT KỲ text nào trong mảng
+        // Loop to find button matching ANY text in the array
         for (const btn of buttons) {
             const btnText = (btn.textContent || btn.innerText || '').toLowerCase().trim();
             if (btnText && textsToFind.some(text => btnText.includes(text.toLowerCase()))) {
                 targetButton = btn;
-                break; // Tìm thấy thì dừng ngay
+                break; // Found it, stop immediately
             }
         }
 
         if (!targetButton) {
-            throw new Error(`Đã tìm thấy các nút chung nhưng không có nút nào chứa text ${logText}`);
+            throw new Error(`Found common buttons but none contain text ${logText}`);
         }
 
         if (targetButton.disabled) {
-            throw new Error(`Nút ${logText} đang bị khóa`);
+            throw new Error(`Button ${logText} is disabled`);
         }
 
-        addLogEntry(`✅ Nút ${logText} đã sẵn sàng!`);
+        addLogEntry(`✅ Button ${logText} is ready!`);
         return targetButton;
 
     } catch (error) {
-        addLogEntry(`❌ Lỗi chờ nút: ${error.message}`, 'error');
+        addLogEntry(`❌ Error waiting for button: ${error.message}`, 'error');
         throw error;
     }
 }
@@ -1910,37 +1910,37 @@ async function uSTZrHUt_IC() {
     const tQqGbytKzpHwhGmeQJucsrq = AP$u_huhInYfTj;
     if (MEpJezGZUsmpZdAgFRBRZW) return;
 
-    // Logic xử lý khi đã hoàn thành tất cả các chunk
+    // Logic to handle when all chunks are completed
     if (ttuo$y_KhCV >= SI$acY[tQqGbytKzpHwhGmeQJucsrq(0x216)]) {
-        // Kiểm tra xem tất cả chunk đã được xử lý đầy đủ chưa
+        // Check if all chunks have been fully processed
         const totalChunks = SI$acY.length;
         const processedChunks = window.chunkStatus ? window.chunkStatus.filter(status => status === 'success' || status === 'failed').length : 0;
         const failedChunks = window.failedChunks || [];
 
-        addLogEntry(`📊 Kiểm tra: ${processedChunks}/${totalChunks} chunks đã được xử lý`, 'info');
+        addLogEntry(`📊 Check: ${processedChunks}/${totalChunks} chunks have been processed`, 'info');
 
-        // Nếu chưa xử lý đủ chunk, tiếp tục chờ
+        // If not enough chunks processed, continue waiting
         if (processedChunks < totalChunks) {
-            addLogEntry(`⏳ Còn ${totalChunks - processedChunks} chunk chưa được xử lý. Tiếp tục chờ...`, 'warning');
+            addLogEntry(`⏳ ${totalChunks - processedChunks} chunks still not processed. Continuing to wait...`, 'warning');
             setTimeout(uSTZrHUt_IC, 2000);
             return;
         }
 
-        // Nếu có chunk thất bại và chưa kiểm tra cuối
+        // If there are failed chunks and final check not done
         if (failedChunks.length > 0 && !window.isFinalCheck) {
-            addLogEntry(`🔍 Phát hiện ${failedChunks.length} chunk thất bại. Bắt đầu xử lý lại...`, 'warning');
-            addLogEntry(`📋 Danh sách chunk thất bại: ${failedChunks.map(i => i + 1).join(', ')}`, 'info');
+            addLogEntry(`🔍 Detected ${failedChunks.length} failed chunks. Starting retry...`, 'warning');
+            addLogEntry(`📋 Failed chunks list: ${failedChunks.map(i => i + 1).join(', ')}`, 'info');
             window.isFinalCheck = true;
-            window.retryCount = 0; // Reset bộ đếm retry
+            window.retryCount = 0; // Reset retry counter
             
-            // Áp dụng cơ chế Reset an toàn: Khôi phục Giao diện một lần
-            addLogEntry(`🔄 Áp dụng cơ chế Reset an toàn: Khôi phục Giao diện...`, 'info');
-            addLogEntry(`🔄 Đang nhấn nút "Tạo lại" để đảm bảo trạng thái web sạch sẽ...`, 'info');
+            // Apply safe Reset mechanism: Restore Interface once
+            addLogEntry(`🔄 Applying safe Reset mechanism: Restoring Interface...`, 'info');
+            addLogEntry(`🔄 Clicking "Regenerate" button to ensure clean web state...`, 'info');
             
-            // Sử dụng async IIFE để xử lý reset
+            // Use async IIFE to handle reset
             (async () => {
                 try {
-                    // Tìm và click nút "Regenerate" hoặc "Tạo lại"
+                    // Find and click "Regenerate" or "Tạo lại" button
                     const regenerateButtons = document.querySelectorAll('button, .ant-btn');
                     let foundRegenerate = false;
 
@@ -1949,7 +1949,7 @@ async function uSTZrHUt_IC() {
                         if (btnText.includes('regenerate') || btnText.includes('tạo lại') ||
                             btnText.includes('generate') || btnText.includes('tạo')) {
                             if (btn.offsetParent !== null && !btn.disabled) {
-                                addLogEntry(`🔄 Tìm thấy nút "${btn.textContent}" - đang reset...`, 'info');
+                                addLogEntry(`🔄 Found button "${btn.textContent}" - resetting...`, 'info');
                                 btn.click();
                                 foundRegenerate = true;
                                 break;
@@ -1958,25 +1958,25 @@ async function uSTZrHUt_IC() {
                     }
 
                     if (foundRegenerate) {
-                        // Chờ web xử lý reset
-                        addLogEntry(`⏳ Chờ web xử lý reset...`, 'info');
+                        // Wait for web to process reset
+                        addLogEntry(`⏳ Waiting for web to process reset...`, 'info');
                         await new Promise(resolve => setTimeout(resolve, 3000));
 
-                        // Clear textarea để đảm bảo trạng thái sạch
+                        // Clear textarea to ensure clean state
                         const textarea = document.getElementById('gemini-hidden-text-for-request');
                         if (textarea) {
                             textarea.value = '';
-                            addLogEntry(`🧹 Đã clear textarea`, 'info');
+                            addLogEntry(`🧹 Cleared textarea`, 'info');
                         }
 
-                        // Chờ thêm một chút để web ổn định
+                        // Wait a bit more for web to stabilize
                         await new Promise(resolve => setTimeout(resolve, 2000));
-                        addLogEntry(`✅ Web đã được reset thành công!`, 'success');
+                        addLogEntry(`✅ Web has been reset successfully!`, 'success');
                     } else {
-                        addLogEntry(`⚠️ Không tìm thấy nút reset, tiếp tục...`, 'warning');
+                        addLogEntry(`⚠️ Reset button not found, continuing...`, 'warning');
                     }
                 } catch (resetError) {
-                    addLogEntry(`❌ Lỗi khi reset web: ${resetError.message}, tiếp tục...`, 'error');
+                    addLogEntry(`❌ Error resetting web: ${resetError.message}, continuing...`, 'error');
                 }
                 
                 // Nhảy thẳng đến chunk lỗi đầu tiên, không đếm lại từ đầu
@@ -2023,7 +2023,7 @@ async function uSTZrHUt_IC() {
                             if (btnText.includes('regenerate') || btnText.includes('tạo lại') ||
                                 btnText.includes('generate') || btnText.includes('tạo')) {
                                 if (btn.offsetParent !== null && !btn.disabled) {
-                                    addLogEntry(`🔄 Tìm thấy nút "${btn.textContent}" - đang reset...`, 'info');
+                                    addLogEntry(`🔄 Found button "${btn.textContent}" - resetting...`, 'info');
                                     btn.click();
                                     foundRegenerate = true;
                                     break;
@@ -2047,14 +2047,14 @@ async function uSTZrHUt_IC() {
                             await new Promise(resolve => setTimeout(resolve, 2000));
                             addLogEntry(`✅ Web đã được reset thành công!`, 'success');
                         } else {
-                            addLogEntry(`⚠️ Không tìm thấy nút reset, tiếp tục...`, 'warning');
+                            addLogEntry(`⚠️ Reset button not found, continuing...`, 'warning');
                         }
                     } catch (resetError) {
-                        addLogEntry(`❌ Lỗi khi reset web: ${resetError.message}, tiếp tục...`, 'error');
+                        addLogEntry(`❌ Error resetting web: ${resetError.message}, continuing...`, 'error');
                     }
                     
                     // KHÔNG ghép file khi còn chunk thất bại - tiếp tục retry VÔ HẠN
-                    window.retryCount = 0; // Reset bộ đếm retry
+                    window.retryCount = 0; // Reset retry counter
                     window.totalRetryAttempts++; // Tăng bộ đếm retry tổng thể
                     // Nhảy thẳng đến chunk lỗi đầu tiên, không đếm lại từ đầu
                     const firstFailedIndex = Math.min(...window.failedChunks);
@@ -2390,7 +2390,7 @@ async function uSTZrHUt_IC() {
                 addLogEntry(`⚠️ [Chunk 1] Đã bị lỗi. Sẽ kiểm tra chunk 2...`, 'warning');
             }
             
-            window.retryCount = 0; // Reset bộ đếm retry
+            window.retryCount = 0; // Reset retry counter
             ttuo$y_KhCV++; // Chuyển sang chunk tiếp theo
             
             // KIỂM TRA LỖI CẤU HÌNH: Nếu chunk 1 đã lỗi và chunk 2 (index 1) cũng lỗi
@@ -2606,7 +2606,7 @@ async function uSTZrHUt_IC() {
 
                     // Log khi thành công
                     addLogEntry(`✅ [Chunk ${ttuo$y_KhCV + 1}/${SI$acY.length}] Xử lý thành công!`, 'success');
-                    window.retryCount = 0; // Reset bộ đếm retry khi thành công
+                    window.retryCount = 0; // Reset retry counter khi thành công
                     // Reset timeout retry count cho chunk này khi thành công
                     if (typeof window.timeoutRetryCount !== 'undefined' && window.timeoutRetryCount[ttuo$y_KhCV] !== undefined) {
                         window.timeoutRetryCount[ttuo$y_KhCV] = 0;
