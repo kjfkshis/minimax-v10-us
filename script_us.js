@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      26.0
+// @version      27.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -1113,7 +1113,7 @@ button:disabled {
         
         <div id="gemini-quota-display" style="color: #8be9fd; font-weight: bold; margin-left: 15px; margin-top: 10px; font-size: 14px;">Đang tải quota...</div>
         </div> 
-    <div class="column-content"> <div class="section" style="margin-bottom: 10px!important;"> <h4>1. Tải lên tệp âm thanh (Tối đa 1 file, độ dài 20-60 giây)</h4> <input type="file" id="gemini-file-input" accept=".wav,.mp3,.mpeg,.mp4,.m4a,.avi,.mov,.wmv,.flv,.mkv,.webm"> </div> <div class="section"> <h4>2. Chọn ngôn ngữ</h4> <select id="gemini-language-select"><option value="Vietnamese">Vietnamese</option><option value="English">English</option><option value="Arabic">Arabic</option><option value="Cantonese">Cantonese</option><option value="Chinese (Mandarin)">Chinese (Mandarin)</option><option value="Dutch">Dutch</option><option value="French">French</option><option value="German">German</option><option value="Indonesian">Indonesian</option><option value="Italian">Italian</option><option value="Japanese">Japanese</option><option value="Korean">Korean</option><option value="Portuguese">Portuguese</option><option value="Russian">Russian</option><option value="Spanish">Spanish</option><option value="Turkish">Turkish</option><option value="Ukrainian">Ukrainian</option><option value="Thai">Thai</option><option value="Polish">Polish</option><option value="Romanian">Romanian</option><option value="Greek">Greek</option><option value="Czech">Czech</option><option value="Finnish">Finnish</option><option value="Hindi">Hindi</option><option value="Bulgarian">Bulgarian</option><option value="Danish">Danish</option><option value="Hebrew">Hebrew</option><option value="Malay">Malay</option><option value="Persian">Persian</option><option value="Slovak">Slovak</option><option value="Swedish">Swedish</option><option value="Croatian">Croatian</option><option value="Filipino">Filipino</option><option value="Hungarian">Hungarian</option><option value="Norwegian">Norwegian</option><option value="Slovenian">Slovenian</option><option value="Catalan">Catalan</option><option value="Nynorsk">Nynorsk</option><option value="Tamil">Tamil</option><option value="Afrikaans">Afrikaans</option></select> </div> <div class="section"> <button id="gemini-upload-btn">Tải lên & Cấu hình tự động</button> <div id="gemini-upload-status"></div> </div> <div class="log-section"> <h2>Log hoạt động</h2> <div id="log-container" class="log-container"> <div class="log-entry">Sẵn sàng theo dõi văn bản chunk</div> </div> <button id="clear-log-btn" class="clear-log-btn">Xóa log</button> </div> </div> </div> </div> <div id="gemini-col-2" class="gemini-column"> <div class="column-header box-info-version"><h3>Trình tạo nội dung</h3><div>Version: 26.0 - Update: 27/01/2025 - Tạo bởi: <a href="https://fb.com/HuynhDucLoi/" target="_blank">Huỳnh Đức Lợi</a></div></div> <div class="column-content">     <div id="gemini-col-2-left">     <div class="section text-section"> <h4>Nhập văn bản cần tạo giọng nói</h4>
+    <div class="column-content"> <div class="section" style="margin-bottom: 10px!important;"> <h4>1. Tải lên tệp âm thanh (Tối đa 1 file, độ dài 20-60 giây)</h4> <input type="file" id="gemini-file-input" accept=".wav,.mp3,.mpeg,.mp4,.m4a,.avi,.mov,.wmv,.flv,.mkv,.webm"> </div> <div class="section"> <h4>2. Chọn ngôn ngữ</h4> <select id="gemini-language-select"><option value="Vietnamese">Vietnamese</option><option value="English">English</option><option value="Arabic">Arabic</option><option value="Cantonese">Cantonese</option><option value="Chinese (Mandarin)">Chinese (Mandarin)</option><option value="Dutch">Dutch</option><option value="French">French</option><option value="German">German</option><option value="Indonesian">Indonesian</option><option value="Italian">Italian</option><option value="Japanese">Japanese</option><option value="Korean">Korean</option><option value="Portuguese">Portuguese</option><option value="Russian">Russian</option><option value="Spanish">Spanish</option><option value="Turkish">Turkish</option><option value="Ukrainian">Ukrainian</option><option value="Thai">Thai</option><option value="Polish">Polish</option><option value="Romanian">Romanian</option><option value="Greek">Greek</option><option value="Czech">Czech</option><option value="Finnish">Finnish</option><option value="Hindi">Hindi</option><option value="Bulgarian">Bulgarian</option><option value="Danish">Danish</option><option value="Hebrew">Hebrew</option><option value="Malay">Malay</option><option value="Persian">Persian</option><option value="Slovak">Slovak</option><option value="Swedish">Swedish</option><option value="Croatian">Croatian</option><option value="Filipino">Filipino</option><option value="Hungarian">Hungarian</option><option value="Norwegian">Norwegian</option><option value="Slovenian">Slovenian</option><option value="Catalan">Catalan</option><option value="Nynorsk">Nynorsk</option><option value="Tamil">Tamil</option><option value="Afrikaans">Afrikaans</option></select> </div> <div class="section"> <button id="gemini-upload-btn">Tải lên & Cấu hình tự động</button> <div id="gemini-upload-status"></div> </div> <div class="log-section"> <h2>Log hoạt động</h2> <div id="log-container" class="log-container"> <div class="log-entry">Sẵn sàng theo dõi văn bản chunk</div> </div> <button id="clear-log-btn" class="clear-log-btn">Xóa log</button> </div> </div> </div> </div> <div id="gemini-col-2" class="gemini-column"> <div class="column-header box-info-version"><h3>Trình tạo nội dung</h3><div>Version: 27.0 - Update: 27/01/2025 - Tạo bởi: <a href="https://fb.com/HuynhDucLoi/" target="_blank">Huỳnh Đức Lợi</a></div></div> <div class="column-content">     <div id="gemini-col-2-left">     <div class="section text-section"> <h4>Nhập văn bản cần tạo giọng nói</h4>
     <div class="text-input-options">
         <div class="input-tabs">
             <button id="text-tab" class="tab-btn active">Nhập trực tiếp</button>
@@ -1599,6 +1599,7 @@ button:disabled {
         }
 
         // Xóa session theo session ID cụ thể (dùng để xóa session cũ trước khi tạo mới)
+        // CẢI THIỆN: Đảm bảo xóa HOÀN TOÀN tất cả chunks của session cũ
         async clearSessionById(sessionId) {
             if (!this.db) await this.init();
             if (!sessionId) {
@@ -1608,15 +1609,23 @@ button:disabled {
                 const transaction = this.db.transaction([this.storeName], 'readwrite');
                 const store = transaction.objectStore(this.storeName);
                 const index = store.index('sessionId');
+                let deletedCount = 0;
+                
                 const request = index.openCursor(IDBKeyRange.only(sessionId));
 
                 request.onsuccess = (event) => {
                     const cursor = event.target.result;
                     if (cursor) {
+                        deletedCount++;
                         cursor.delete();
                         cursor.continue();
                     } else {
-                        console.log('🧹 Đã xóa tất cả audio của session:', sessionId);
+                        // Đã xóa xong tất cả chunks của session
+                        if (deletedCount > 0) {
+                            console.log(`🧹 Đã xóa ${deletedCount} chunks của session: ${sessionId}`);
+                        } else {
+                            console.log(`🧹 Không có chunks nào của session: ${sessionId}`);
+                        }
                         resolve();
                     }
                 };
@@ -1625,67 +1634,192 @@ button:disabled {
                     console.error('❌ Lỗi xóa session:', request.error);
                     reject(request.error);
                 };
+                
+                // Đảm bảo transaction hoàn thành
+                transaction.oncomplete = () => {
+                    console.log(`✅ Transaction xóa session ${sessionId} hoàn thành`);
+                };
+                
+                transaction.onerror = () => {
+                    console.error('❌ Lỗi transaction khi xóa session:', transaction.error);
+                    reject(transaction.error || new Error('Transaction error'));
+                };
             });
         }
 
-        // Lưu audio chunk vào IndexedDB
-        async saveChunk(chunkIndex, blob) {
+        // Lưu audio chunk vào IndexedDB với retry logic và error handling cải thiện
+        async saveChunk(chunkIndex, blob, retryCount = 0) {
+            const MAX_RETRIES = 3;
+            const RETRY_DELAY = 500; // 500ms
+            
             if (!this.db) await this.init();
             const sessionId = this.getCurrentSessionId();
             
+            // Kiểm tra blob size (IndexedDB có giới hạn ~50MB per item)
+            if (blob && blob.size > 50 * 1024 * 1024) {
+                const error = new Error(`Blob quá lớn: ${(blob.size / 1024 / 1024).toFixed(2)}MB (giới hạn: 50MB)`);
+                console.error('❌ Lỗi lưu chunk:', error);
+                throw error;
+            }
+            
             return new Promise((resolve, reject) => {
-                const transaction = this.db.transaction([this.storeName], 'readwrite');
-                const store = transaction.objectStore(this.storeName);
+                // Timeout cho transaction (30 giây)
+                const timeoutId = setTimeout(() => {
+                    const timeoutError = new Error('Transaction timeout sau 30 giây');
+                    console.error('❌ Lỗi lưu chunk (timeout):', timeoutError);
+                    reject(timeoutError);
+                }, 30000);
                 
-                // Xóa chunk cũ nếu có (để tránh trùng lặp)
-                const index = store.index('sessionChunk');
-                const range = IDBKeyRange.only([sessionId, chunkIndex]);
-                const deleteRequest = index.openCursor(range);
-                
-                deleteRequest.onsuccess = (event) => {
-                    const cursor = event.target.result;
-                    if (cursor) {
-                        cursor.delete();
+                try {
+                    const transaction = this.db.transaction([this.storeName], 'readwrite');
+                    const store = transaction.objectStore(this.storeName);
+                    const index = store.index('sessionChunk');
+                    
+                    // Tìm chunk cũ để lấy id (nếu có) hoặc xóa nó
+                    const range = IDBKeyRange.only([sessionId, chunkIndex]);
+                    const getRequest = index.get(range);
+                    let existingId = null;
+                    
+                    getRequest.onsuccess = () => {
+                        const existingRecord = getRequest.result;
+                        if (existingRecord) {
+                            existingId = existingRecord.id;
+                        }
+                        
+                        // Tạo data object
+                        const data = {
+                            sessionId: sessionId,
+                            chunkIndex: chunkIndex,
+                            blob: blob,
+                            timestamp: Date.now()
+                        };
+                        
+                        // Nếu có record cũ, thêm id vào để PUT sẽ update thay vì tạo mới
+                        if (existingId) {
+                            data.id = existingId;
+                        }
+                        
+                        // Dùng PUT để tự động update nếu có id, hoặc tạo mới nếu không có
+                        const putRequest = store.put(data);
+                        
+                        putRequest.onsuccess = () => {
+                            clearTimeout(timeoutId);
+                            const action = existingId ? 'cập nhật' : 'lưu';
+                            console.log(`💾 Đã ${action} chunk ${chunkIndex} vào IndexedDB (session: ${sessionId}, size: ${(blob.size / 1024).toFixed(2)}KB)`);
+                            resolve();
+                        };
+                        
+                        putRequest.onerror = () => {
+                            clearTimeout(timeoutId);
+                            const error = putRequest.error;
+                            console.error(`❌ Lỗi lưu chunk ${chunkIndex} (lần thử ${retryCount + 1}/${MAX_RETRIES}):`, error);
+                            
+                            // Retry logic với exponential backoff
+                            if (retryCount < MAX_RETRIES - 1) {
+                                const delay = RETRY_DELAY * Math.pow(2, retryCount);
+                                console.log(`🔄 Sẽ retry sau ${delay}ms...`);
+                                setTimeout(() => {
+                                    this.saveChunk(chunkIndex, blob, retryCount + 1)
+                                        .then(resolve)
+                                        .catch(reject);
+                                }, delay);
+                            } else {
+                                const finalError = new Error(`Không thể lưu chunk sau ${MAX_RETRIES} lần thử. Lỗi: ${error.name} - ${error.message}`);
+                                console.error('❌ Lỗi lưu chunk (final):', finalError);
+                                reject(finalError);
+                            }
+                        };
+                    };
+                    
+                    getRequest.onerror = () => {
+                        // Nếu không tìm thấy chunk cũ (hoặc lỗi khi tìm), vẫn tiếp tục lưu mới
+                        const data = {
+                            sessionId: sessionId,
+                            chunkIndex: chunkIndex,
+                            blob: blob,
+                            timestamp: Date.now()
+                        };
+                        
+                        const putRequest = store.put(data);
+                        
+                        putRequest.onsuccess = () => {
+                            clearTimeout(timeoutId);
+                            console.log(`💾 Đã lưu chunk ${chunkIndex} vào IndexedDB (session: ${sessionId}, size: ${(blob.size / 1024).toFixed(2)}KB)`);
+                            resolve();
+                        };
+                        
+                        putRequest.onerror = () => {
+                            clearTimeout(timeoutId);
+                            const error = putRequest.error;
+                            console.error(`❌ Lỗi lưu chunk ${chunkIndex} (lần thử ${retryCount + 1}/${MAX_RETRIES}):`, error);
+                            
+                            if (retryCount < MAX_RETRIES - 1) {
+                                const delay = RETRY_DELAY * Math.pow(2, retryCount);
+                                console.log(`🔄 Sẽ retry sau ${delay}ms...`);
+                                setTimeout(() => {
+                                    this.saveChunk(chunkIndex, blob, retryCount + 1)
+                                        .then(resolve)
+                                        .catch(reject);
+                                }, delay);
+                            } else {
+                                const finalError = new Error(`Không thể lưu chunk sau ${MAX_RETRIES} lần thử. Lỗi: ${error.name} - ${error.message}`);
+                                console.error('❌ Lỗi lưu chunk (final):', finalError);
+                                reject(finalError);
+                            }
+                        };
+                    };
+                    
+                    transaction.onerror = () => {
+                        clearTimeout(timeoutId);
+                        const error = transaction.error || new Error('Transaction error');
+                        console.error(`❌ Lỗi transaction khi lưu chunk ${chunkIndex}:`, error);
+                        
+                        if (retryCount < MAX_RETRIES - 1) {
+                            const delay = RETRY_DELAY * Math.pow(2, retryCount);
+                            console.log(`🔄 Sẽ retry sau ${delay}ms...`);
+                            setTimeout(() => {
+                                this.saveChunk(chunkIndex, blob, retryCount + 1)
+                                    .then(resolve)
+                                    .catch(reject);
+                            }, delay);
+                        } else {
+                            const finalError = new Error(`Transaction failed sau ${MAX_RETRIES} lần thử. Lỗi: ${error.name} - ${error.message}`);
+                            reject(finalError);
+                        }
+                    };
+                    
+                    transaction.onabort = () => {
+                        clearTimeout(timeoutId);
+                        const error = new Error('Transaction bị abort');
+                        console.error(`❌ Transaction abort khi lưu chunk ${chunkIndex}:`, error);
+                        
+                        if (retryCount < MAX_RETRIES - 1) {
+                            const delay = RETRY_DELAY * Math.pow(2, retryCount);
+                            setTimeout(() => {
+                                this.saveChunk(chunkIndex, blob, retryCount + 1)
+                                    .then(resolve)
+                                    .catch(reject);
+                            }, delay);
+                        } else {
+                            reject(new Error(`Transaction abort sau ${MAX_RETRIES} lần thử`));
+                        }
+                    };
+                    
+                } catch (syncError) {
+                    clearTimeout(timeoutId);
+                    console.error(`❌ Lỗi sync khi lưu chunk ${chunkIndex}:`, syncError);
+                    
+                    if (retryCount < MAX_RETRIES - 1) {
+                        const delay = RETRY_DELAY * Math.pow(2, retryCount);
+                        setTimeout(() => {
+                            this.saveChunk(chunkIndex, blob, retryCount + 1)
+                                .then(resolve)
+                                .catch(reject);
+                        }, delay);
+                    } else {
+                        reject(syncError);
                     }
-                    
-                    // Lưu chunk mới
-                    const data = {
-                        sessionId: sessionId,
-                        chunkIndex: chunkIndex,
-                        blob: blob,
-                        timestamp: Date.now()
-                    };
-                    
-                    const addRequest = store.add(data);
-                    addRequest.onsuccess = () => {
-                        console.log(`💾 Đã lưu chunk ${chunkIndex} vào IndexedDB (session: ${sessionId})`);
-                        resolve();
-                    };
-                    addRequest.onerror = () => {
-                        console.error('❌ Lỗi lưu chunk:', addRequest.error);
-                        reject(addRequest.error);
-                    };
-                };
-                
-                deleteRequest.onerror = () => {
-                    // Nếu không tìm thấy chunk cũ, tiếp tục lưu mới
-                    const data = {
-                        sessionId: sessionId,
-                        chunkIndex: chunkIndex,
-                        blob: blob,
-                        timestamp: Date.now()
-                    };
-                    
-                    const addRequest = store.add(data);
-                    addRequest.onsuccess = () => {
-                        console.log(`💾 Đã lưu chunk ${chunkIndex} vào IndexedDB (session: ${sessionId})`);
-                        resolve();
-                    };
-                    addRequest.onerror = () => {
-                        console.error('❌ Lỗi lưu chunk:', addRequest.error);
-                        reject(addRequest.error);
-                    };
-                };
+                }
             });
         }
 
@@ -2291,6 +2425,7 @@ function dExAbhXwTJeTJBIjWr(EARfsfSN_QdgxH){const tENdSoNDV_gGwQKLZv$sYaZKhl=AP$
 // ĐỌC TỪ INDEXEDDB - CHỈ DÙNG INDEXEDDB, KHÔNG DÙNG RAM
 // QUAN TRỌNG: Chỉ đọc từ IndexedDB, không fallback về RAM
 // QUAN TRỌNG: Chỉ lấy chunks từ session hiện tại, không lấy session cũ
+// CẢI THIỆN: Merge từng batch để xử lý file lớn tốt hơn (tránh load quá nhiều vào RAM)
 let finalBlobs = [];
 try {
     // Đảm bảo lấy session ID hiện tại (không phải session cũ)
@@ -2322,7 +2457,35 @@ if (finalBlobs.length === 0) {
     addLogEntry('❌ Không có chunks để gộp file', 'error');
     return;
 }
-const InRdxToeqTDyPgDGZb=new Blob(finalBlobs,{'type':VCAHyXsrERcpXVhFPxmgdBjjh(0x1f5)}),BBNDYjhHoGkj_qbbbJu=URL[VCAHyXsrERcpXVhFPxmgdBjjh(0x1f0)](InRdxToeqTDyPgDGZb);PEYtOIOW[VCAHyXsrERcpXVhFPxmgdBjjh(0x25c)]=BBNDYjhHoGkj_qbbbJu,PEYtOIOW[VCAHyXsrERcpXVhFPxmgdBjjh(0x1c8)]=i_B_kZYD(),zQizakWdLEdLjtenmCbNC[VCAHyXsrERcpXVhFPxmgdBjjh(0x1fb)][VCAHyXsrERcpXVhFPxmgdBjjh(0x1e1)]=VCAHyXsrERcpXVhFPxmgdBjjh(0x258),document[VCAHyXsrERcpXVhFPxmgdBjjh(0x1de)](VCAHyXsrERcpXVhFPxmgdBjjh(0x225))[VCAHyXsrERcpXVhFPxmgdBjjh(0x1fb)][VCAHyXsrERcpXVhFPxmgdBjjh(0x1e1)]=VCAHyXsrERcpXVhFPxmgdBjjh(0x258);
+
+// CẢI THIỆN: Merge từng batch để xử lý file lớn tốt hơn
+// Nếu có nhiều hơn 100 chunks, merge từng batch 50 chunks để tránh lag
+let InRdxToeqTDyPgDGZb;
+if (finalBlobs.length > 100) {
+    addLogEntry(`🔄 File lớn (${finalBlobs.length} chunks) - Đang merge từng batch để tránh lag...`, 'info');
+    const BATCH_SIZE = 50; // Merge 50 chunks mỗi batch
+    const mergedBatches = [];
+    
+    for (let i = 0; i < finalBlobs.length; i += BATCH_SIZE) {
+        const batch = finalBlobs.slice(i, i + BATCH_SIZE);
+        const batchBlob = new Blob(batch, {'type': 'audio/mpeg'});
+        mergedBatches.push(batchBlob);
+        const progress = Math.min(100, Math.round(((i + batch.length) / finalBlobs.length) * 100));
+        addLogEntry(`📊 Đang merge batch ${Math.floor(i / BATCH_SIZE) + 1}/${Math.ceil(finalBlobs.length / BATCH_SIZE)} (${progress}%)...`, 'info');
+        // Cho trình duyệt nghỉ một chút giữa các batch để tránh lag
+        await new Promise(resolve => setTimeout(resolve, 50));
+    }
+    
+    // Merge tất cả batches lại
+    addLogEntry(`🔄 Đang merge ${mergedBatches.length} batches cuối cùng...`, 'info');
+    InRdxToeqTDyPgDGZb = new Blob(mergedBatches, {'type': 'audio/mpeg'});
+    addLogEntry(`✅ Đã merge xong file lớn (${(InRdxToeqTDyPgDGZb.size / 1024 / 1024).toFixed(2)}MB)`, 'success');
+} else {
+    // File nhỏ: merge bình thường
+    InRdxToeqTDyPgDGZb = new Blob(finalBlobs, {'type': 'audio/mpeg'});
+}
+
+const BBNDYjhHoGkj_qbbbJu=URL[VCAHyXsrERcpXVhFPxmgdBjjh(0x1f0)](InRdxToeqTDyPgDGZb);PEYtOIOW[VCAHyXsrERcpXVhFPxmgdBjjh(0x25c)]=BBNDYjhHoGkj_qbbbJu,PEYtOIOW[VCAHyXsrERcpXVhFPxmgdBjjh(0x1c8)]=i_B_kZYD(),zQizakWdLEdLjtenmCbNC[VCAHyXsrERcpXVhFPxmgdBjjh(0x1fb)][VCAHyXsrERcpXVhFPxmgdBjjh(0x1e1)]=VCAHyXsrERcpXVhFPxmgdBjjh(0x258),document[VCAHyXsrERcpXVhFPxmgdBjjh(0x1de)](VCAHyXsrERcpXVhFPxmgdBjjh(0x225))[VCAHyXsrERcpXVhFPxmgdBjjh(0x1fb)][VCAHyXsrERcpXVhFPxmgdBjjh(0x1e1)]=VCAHyXsrERcpXVhFPxmgdBjjh(0x258);
 // LƯU FILE ĐÃ GHÉP VÀO LỊCH SỬ
 try {
     const fileName = i_B_kZYD();
@@ -5424,12 +5587,16 @@ async function waitForVoiceModelReady() {
             // QUAN TRỌNG: CHỈ DÙNG INDEXEDDB, KHÔNG DÙNG RAM
             // QUAN TRỌNG: ĐỢI (await) cho IndexedDB xóa session cũ HOÀN TOÀN trước khi tiếp tục
             // Đảm bảo không có race condition - session cũ phải được xóa 100% trước khi tạo session mới
+            // CẢI THIỆN: Xóa TẤT CẢ chunks cũ để tránh duplicate key error
             try {
                 // Lưu session ID cũ trước khi xóa (lấy trực tiếp, không dùng getCurrentSessionId vì nó có thể tạo session mới)
                 const oldSessionId = audioChunkDB.currentSessionId;
                 if (oldSessionId) {
+                    addLogEntry(`🧹 Đang xóa session cũ: ${oldSessionId}...`, 'info');
                     await audioChunkDB.clearSessionById(oldSessionId); // ĐỢI cho đến khi xóa xong
-                    addLogEntry('✅ Đã xóa session cũ trong IndexedDB', 'success');
+                    addLogEntry('✅ Đã xóa HOÀN TOÀN session cũ trong IndexedDB', 'success');
+                } else {
+                    addLogEntry('ℹ️ Không có session cũ để xóa', 'info');
                 }
             } catch (dbError) {
                 console.error('❌ Lỗi xóa session cũ trong IndexedDB:', dbError);
@@ -5442,8 +5609,8 @@ async function waitForVoiceModelReady() {
             
             // Tạo session mới (luôn tạo, kể cả khi xóa session cũ lỗi)
             // Session ID mới sẽ đảm bảo không lẫn với session cũ
-            audioChunkDB.createNewSession();
-            addLogEntry('🆕 Đã tạo session mới trong IndexedDB', 'info');
+            const newSessionId = audioChunkDB.createNewSession();
+            addLogEntry(`🆕 Đã tạo session mới trong IndexedDB: ${newSessionId}`, 'info');
 
             // QUAN TRỌNG: Sử dụng hàm smartSplitter MỚI để chia chunk
             SI$acY = smartSplitter(sanitizedText, 3000); // Mảng chứa text (legacy)
