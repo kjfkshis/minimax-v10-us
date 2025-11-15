@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (No API Required) - Modded
 // @namespace    mmx-secure
-// @version      29.0
+// @version      31.0
 // @description  Create cloned voice audio as you wish. Unlimited. Added features: Merge conversations, Batch text replacement & Punctuation settings (including line breaks).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Modified
 // @match        https://www.minimax.io/audio*
@@ -1113,7 +1113,7 @@ button:disabled {
         
         <div id="gemini-quota-display" style="color: #8be9fd; font-weight: bold; margin-left: 15px; margin-top: 10px; font-size: 14px;">Loading quota...</div>
         </div> 
-    <div class="column-content"> <div class="section" style="margin-bottom: 10px!important;"> <h4>1. Upload audio file (Max 1 file, 20-60 seconds duration)</h4> <input type="file" id="gemini-file-input" accept=".wav,.mp3,.mpeg,.mp4,.m4a,.avi,.mov,.wmv,.flv,.mkv,.webm"> </div> <div class="section"> <h4>2. Select language</h4> <select id="gemini-language-select"><option value="Vietnamese">Vietnamese</option><option value="English">English</option><option value="Arabic">Arabic</option><option value="Cantonese">Cantonese</option><option value="Chinese (Mandarin)">Chinese (Mandarin)</option><option value="Dutch">Dutch</option><option value="French">French</option><option value="German">German</option><option value="Indonesian">Indonesian</option><option value="Italian">Italian</option><option value="Japanese">Japanese</option><option value="Korean">Korean</option><option value="Portuguese">Portuguese</option><option value="Russian">Russian</option><option value="Spanish">Spanish</option><option value="Turkish">Turkish</option><option value="Ukrainian">Ukrainian</option><option value="Thai">Thai</option><option value="Polish">Polish</option><option value="Romanian">Romanian</option><option value="Greek">Greek</option><option value="Czech">Czech</option><option value="Finnish">Finnish</option><option value="Hindi">Hindi</option><option value="Bulgarian">Bulgarian</option><option value="Danish">Danish</option><option value="Hebrew">Hebrew</option><option value="Malay">Malay</option><option value="Persian">Persian</option><option value="Slovak">Slovak</option><option value="Swedish">Swedish</option><option value="Croatian">Croatian</option><option value="Filipino">Filipino</option><option value="Hungarian">Hungarian</option><option value="Norwegian">Norwegian</option><option value="Slovenian">Slovenian</option><option value="Catalan">Catalan</option><option value="Nynorsk">Nynorsk</option><option value="Tamil">Tamil</option><option value="Afrikaans">Afrikaans</option></select> </div> <div class="section"> <button id="gemini-upload-btn">Upload & Auto Configure</button> <div id="gemini-upload-status"></div> </div> <div class="log-section"> <h2>Activity Log</h2> <div id="log-container" class="log-container"> <div class="log-entry">Ready to track text chunks</div> </div> <button id="clear-log-btn" class="clear-log-btn">Clear log</button> </div> </div> </div> </div> <div id="gemini-col-2" class="gemini-column"> <div class="column-header box-info-version"><h3>Content Generator</h3><div>Version: 29.0 - Update: 27/01/2025 - Created by: <a href="https://fb.com/HuynhDucLoi/" target="_blank">Huỳnh Đức Lợi</a></div></div> <div class="column-content">     <div id="gemini-col-2-left">     <div class="section text-section"> <h4>Enter text to generate voice</h4>
+    <div class="column-content"> <div class="section" style="margin-bottom: 10px!important;"> <h4>1. Upload audio file (Max 1 file, 20-60 seconds duration)</h4> <input type="file" id="gemini-file-input" accept=".wav,.mp3,.mpeg,.mp4,.m4a,.avi,.mov,.wmv,.flv,.mkv,.webm"> </div> <div class="section"> <h4>2. Select language</h4> <select id="gemini-language-select"><option value="Vietnamese">Vietnamese</option><option value="English">English</option><option value="Arabic">Arabic</option><option value="Cantonese">Cantonese</option><option value="Chinese (Mandarin)">Chinese (Mandarin)</option><option value="Dutch">Dutch</option><option value="French">French</option><option value="German">German</option><option value="Indonesian">Indonesian</option><option value="Italian">Italian</option><option value="Japanese">Japanese</option><option value="Korean">Korean</option><option value="Portuguese">Portuguese</option><option value="Russian">Russian</option><option value="Spanish">Spanish</option><option value="Turkish">Turkish</option><option value="Ukrainian">Ukrainian</option><option value="Thai">Thai</option><option value="Polish">Polish</option><option value="Romanian">Romanian</option><option value="Greek">Greek</option><option value="Czech">Czech</option><option value="Finnish">Finnish</option><option value="Hindi">Hindi</option><option value="Bulgarian">Bulgarian</option><option value="Danish">Danish</option><option value="Hebrew">Hebrew</option><option value="Malay">Malay</option><option value="Persian">Persian</option><option value="Slovak">Slovak</option><option value="Swedish">Swedish</option><option value="Croatian">Croatian</option><option value="Filipino">Filipino</option><option value="Hungarian">Hungarian</option><option value="Norwegian">Norwegian</option><option value="Slovenian">Slovenian</option><option value="Catalan">Catalan</option><option value="Nynorsk">Nynorsk</option><option value="Tamil">Tamil</option><option value="Afrikaans">Afrikaans</option></select> </div> <div class="section"> <button id="gemini-upload-btn">Upload & Auto Configure</button> <div id="gemini-upload-status"></div> </div> <div class="log-section"> <h2>Activity Log</h2> <div id="log-container" class="log-container"> <div class="log-entry">Ready to track text chunks</div> </div> <button id="clear-log-btn" class="clear-log-btn">Clear log</button> </div> </div> </div> </div> <div id="gemini-col-2" class="gemini-column"> <div class="column-header box-info-version"><h3>Content Generator</h3><div>Version: 31.0 - Update: 27/01/2025 - Created by: <a href="https://fb.com/HuynhDucLoi/" target="_blank">Huỳnh Đức Lợi</a></div></div> <div class="column-content">     <div id="gemini-col-2-left">     <div class="section text-section"> <h4>Enter text to generate voice</h4>
     <div class="text-input-options">
         <div class="input-tabs">
             <button id="text-tab" class="tab-btn active">Direct input</button>
@@ -2885,8 +2885,16 @@ try {
             // Kiểm tra lại session ID để đảm bảo an toàn
             return chunk && chunk.blob;
         });
+        
+        // QUAN TRỌNG: Sắp xếp chunks theo index để đảm bảo thứ tự đúng
+        validChunks.sort((a, b) => a.index - b.index);
+        
+        // Log thứ tự chunks để xác nhận
+        const chunkIndices = validChunks.map(chunk => chunk.index + 1).join(', ');
+        addLogEntry(`📦 Retrieved ${validChunks.length} chunks from IndexedDB (session: ${currentSessionId})`, 'info');
+        addLogEntry(`✅ Chunk order: ${chunkIndices}`, 'info');
+        
         finalBlobs = validChunks.map(chunk => chunk.blob);
-        addLogEntry(`📦 Retrieved ${finalBlobs.length} chunks from IndexedDB (session: ${currentSessionId})`, 'info');
     } else {
         addLogEntry('❌ IndexedDB is empty - no chunks found to merge. Session may not be completed.', 'error');
     }
@@ -3167,6 +3175,50 @@ async function uSTZrHUt_IC() {
         const failedChunks = window.failedChunks || [];
 
         addLogEntry(`📊 Check: ${processedChunks}/${totalChunks} chunks have been processed`, 'info');
+
+        // KIỂM TRA CHUNKS THIẾU DỰA TRÊN INDEXEDDB - CHỈ RENDER LẠI CHUNKS THIẾU
+        try {
+            const chunksFromDB = await audioChunkDB.getAllChunks();
+            const existingChunkIndices = new Set(chunksFromDB.map(chunk => chunk.index));
+            const missingChunks = [];
+            
+            // Tìm các chunks thiếu (chưa có trong IndexedDB)
+            for (let i = 0; i < totalChunks; i++) {
+                if (!existingChunkIndices.has(i)) {
+                    missingChunks.push(i);
+                }
+            }
+            
+            if (missingChunks.length > 0) {
+                addLogEntry(`🔍 Found ${missingChunks.length} missing chunks in IndexedDB: ${missingChunks.map(i => i + 1).join(', ')}`, 'warning');
+                addLogEntry(`✅ Already rendered chunks: ${Array.from(existingChunkIndices).sort((a, b) => a - b).map(i => i + 1).join(', ')}`, 'info');
+                addLogEntry(`🔄 Only re-rendering missing chunks, skipping existing ones...`, 'info');
+                
+                // Cập nhật chunkStatus cho các chunks đã có
+                for (let i = 0; i < totalChunks; i++) {
+                    if (existingChunkIndices.has(i) && window.chunkStatus[i] !== 'success') {
+                        window.chunkStatus[i] = 'success';
+                        // Xóa khỏi failedChunks nếu có
+                        const failedIndex = window.failedChunks.indexOf(i);
+                        if (failedIndex > -1) {
+                            window.failedChunks.splice(failedIndex, 1);
+                        }
+                    }
+                }
+                
+                // Nhảy đến chunk thiếu đầu tiên
+                const firstMissingIndex = Math.min(...missingChunks);
+                ttuo$y_KhCV = firstMissingIndex;
+                addLogEntry(`🔄 Jumping to chunk ${firstMissingIndex + 1} (first missing chunk) to re-render...`, 'info');
+                setTimeout(uSTZrHUt_IC, 2000);
+                return;
+            } else {
+                addLogEntry(`✅ All ${totalChunks} chunks are present in IndexedDB!`, 'success');
+            }
+        } catch (dbCheckError) {
+            console.error('❌ Error checking IndexedDB:', dbCheckError);
+            addLogEntry(`⚠️ Error checking IndexedDB for missing chunks, continuing...`, 'warning');
+        }
 
         // Nếu chưa xử lý đủ chunk, tìm và xử lý chunk còn lại
         if (processedChunks < totalChunks) {
@@ -3545,6 +3597,13 @@ async function uSTZrHUt_IC() {
         // ANTI-DETECTION: Thêm delay ngẫu nhiên trước khi click
         await new Promise(resolve => setTimeout(resolve, Math.random() * 2000 + 1000));
         
+        // Clear timeout cũ nếu có để tránh nhiều timeout chạy đồng thời
+        if (Srnj$swt) {
+            clearTimeout(Srnj$swt);
+            Srnj$swt = null;
+        }
+        
+        addLogEntry(`⏱️ [Chunk ${ttuo$y_KhCV + 1}] Starting render - Timeout 60 seconds`, 'info');
         // Thực hiện click
         KxTOuAJu(targetButton);
         igyo$uwVChUzI();
@@ -3719,149 +3778,146 @@ async function uSTZrHUt_IC() {
     const Yy_yaGQ$LW = document[VFmk$UVEL(0x1cd)](VFmk$UVEL(0x256));
     if (!Yy_yaGQ$LW) return;
 
-    // Logic với cơ chế làm sạch web và retry khi timeout
+    // Logic với cơ chế timeout 60 giây - đánh dấu failed và kích hoạt retry
     Srnj$swt = setTimeout(async () => {
         const uINqLNrLfJbc = VFmk$UVEL;
         if (xlgJHLP$MATDT$kTXWV) xlgJHLP$MATDT$kTXWV[uINqLNrLfJbc(0x24e)](); // Dừng observer cũ
         
-        // Khởi tạo retry count cho timeout nếu chưa có
-        if (typeof window.timeoutRetryCount === 'undefined') window.timeoutRetryCount = {};
-        if (typeof window.timeoutRetryCount[ttuo$y_KhCV] === 'undefined') window.timeoutRetryCount[ttuo$y_KhCV] = 0;
+        addLogEntry(`⏱️ [Chunk ${ttuo$y_KhCV + 1}] Timeout after 60 seconds - no result!`, 'error');
+        addLogEntry(`🔄 Marking chunk ${ttuo$y_KhCV + 1} as failed and activating retry mechanism...`, 'warning');
         
-        const MAX_TIMEOUT_RETRIES = 5;
-        window.timeoutRetryCount[ttuo$y_KhCV]++;
+        // ACTIVATE WEB RESET MECHANISM ON TIMEOUT
+        addLogEntry(`🔄 Applying safe Reset mechanism: Restoring Interface...`, 'info');
+        addLogEntry(`🔄 Clicking "Regenerate" button to ensure clean web state...`, 'info');
         
-        if (window.timeoutRetryCount[ttuo$y_KhCV] <= MAX_TIMEOUT_RETRIES) {
-            addLogEntry(`🔄 [Chunk ${ttuo$y_KhCV + 1}] Timeout. Thử lại lần ${window.timeoutRetryCount[ttuo$y_KhCV]}/${MAX_TIMEOUT_RETRIES}...`, 'warning');
-            
-            // THÊM RESET WEB KHI TIMEOUT - Tương tự như logic trong uSTZrHUt_IC
-            addLogEntry(`🔄 Đang reset web về trạng thái ban đầu...`, 'info');
-            addLogEntry(`🔄 Đang khôi phục web về trạng thái như lúc gửi chunk thành công...`, 'info');
-            
-            try {
-                // Tìm và click nút "Regenerate" hoặc "Tạo lại" để reset web
-                const regenerateButtons = document.querySelectorAll('button, .ant-btn');
-                let foundRegenerate = false;
-                
-                for (const btn of regenerateButtons) {
-                    const btnText = (btn.textContent || '').toLowerCase().trim();
-                    if (btnText.includes('regenerate') || btnText.includes('tạo lại') ||
-                        btnText.includes('generate') || btnText.includes('tạo')) {
-                        if (btn.offsetParent !== null && !btn.disabled) {
-                            addLogEntry(`🔄 Tìm thấy nút "${btn.textContent}" - đang reset...`, 'info');
-                            btn.click();
-                            foundRegenerate = true;
-                            break;
-                        }
+        try {
+            // Tìm và click nút "Regenerate" hoặc "Tạo lại" để reset web
+            const regenerateButtons = document.querySelectorAll('button, .ant-btn');
+            let foundRegenerate = false;
+
+            for (const btn of regenerateButtons) {
+                const btnText = (btn.textContent || '').toLowerCase().trim();
+                if (btnText.includes('regenerate') || btnText.includes('tạo lại') ||
+                    btnText.includes('generate') || btnText.includes('tạo')) {
+                    if (btn.offsetParent !== null && !btn.disabled) {
+                        addLogEntry(`🔄 Found button "${btn.textContent}" - resetting...`, 'info');
+                        btn.click();
+                        foundRegenerate = true;
+                        break;
                     }
                 }
-                
-                if (foundRegenerate) {
-                    // Chờ web xử lý reset
-                    addLogEntry(`⏳ Chờ web xử lý reset...`, 'info');
+            }
+
+            if (foundRegenerate) {
+                // Chờ web xử lý reset
+                addLogEntry(`⏳ Waiting for web to process reset...`, 'info');
+                await new Promise(resolve => setTimeout(resolve, 3000));
+
+                // Clear textarea để đảm bảo trạng thái sạch
+                const textarea = document.getElementById('gemini-hidden-text-for-request');
+                if (textarea) {
+                    textarea.value = '';
+                    addLogEntry(`🧹 Cleared textarea`, 'info');
+                }
+
+                // Chờ thêm một chút để web ổn định
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                addLogEntry(`✅ Web has been reset successfully!`, 'success');
+            } else {
+                addLogEntry(`⚠️ Reset button not found, trying to find another button...`, 'warning');
+                // Tìm bất kỳ nút nào có thể reset
+                const anyButton = document.querySelector('.clone-voice-ux-v2 button, .clone-voice-ux-v2 .ant-btn');
+                if (anyButton && anyButton.offsetParent !== null && !anyButton.disabled) {
+                    addLogEntry(`🔄 Using button "${anyButton.textContent}" to reset...`, 'info');
+                    anyButton.click();
                     await new Promise(resolve => setTimeout(resolve, 3000));
                     
-                    // Clear textarea để đảm bảo trạng thái sạch
+                    // Clear textarea
                     const textarea = document.getElementById('gemini-hidden-text-for-request');
                     if (textarea) {
                         textarea.value = '';
-                        addLogEntry(`🧹 Đã clear textarea`, 'info');
+                        addLogEntry(`🧹 Cleared textarea`, 'info');
                     }
                     
-                    // Chờ thêm một chút để web ổn định
                     await new Promise(resolve => setTimeout(resolve, 2000));
-                    addLogEntry(`✅ Web đã được reset thành công!`, 'success');
+                    addLogEntry(`✅ Web has been reset using another button!`, 'success');
                 } else {
-                    addLogEntry(`⚠️ Không tìm thấy nút reset, thử tìm nút khác...`, 'warning');
-                    // Tìm bất kỳ nút nào có thể reset
-                    const anyButton = document.querySelector('.clone-voice-ux-v2 button, .clone-voice-ux-v2 .ant-btn');
-                    if (anyButton && anyButton.offsetParent !== null && !anyButton.disabled) {
-                        addLogEntry(`🔄 Sử dụng nút "${anyButton.textContent}" để reset...`, 'info');
-                        anyButton.click();
-                        await new Promise(resolve => setTimeout(resolve, 3000));
-                        addLogEntry(`✅ Web đã được reset bằng nút khác!`, 'success');
-                    } else {
-                        addLogEntry(`❌ Không tìm thấy nút nào để reset web`, 'error');
-                    }
+                    addLogEntry(`❌ No button found to reset web`, 'error');
                 }
-            } catch (resetError) {
-                addLogEntry(`❌ Lỗi khi reset web: ${resetError.message}`, 'error');
             }
-            
-            // Thử lại chunk này sau khi đã làm sạch web
-            setTimeout(uSTZrHUt_IC, 2000 * window.timeoutRetryCount[ttuo$y_KhCV]); // Chờ lâu hơn sau mỗi lần thử
-        } else {
-            addLogEntry(`🚫 [Chunk ${ttuo$y_KhCV + 1}] Timeout sau ${MAX_TIMEOUT_RETRIES} lần thử. Bỏ qua chunk này.`, 'error');
-            // Đánh dấu chunk này là thất bại
-            window.chunkStatus[ttuo$y_KhCV] = 'failed';
-            if (!window.failedChunks.includes(ttuo$y_KhCV)) {
-                window.failedChunks.push(ttuo$y_KhCV);
-            }
-            
-            // KIỂM TRA LỖI CẤU HÌNH: Nếu chunk 1 (index 0) timeout, đánh dấu
-            if (ttuo$y_KhCV === 0) {
-                window.chunk1Failed = true;
-                addLogEntry(`⚠️ [Chunk 1] Đã timeout. Sẽ kiểm tra chunk 2...`, 'warning');
-            }
-            
-            // KIỂM TRA LỖI CẤU HÌNH: Nếu chunk 1 đã lỗi và chunk 2 (index 1) cũng timeout
-            if (window.chunk1Failed && ttuo$y_KhCV === 1) {
-                addLogEntry(`🚨 [LỖI CẤU HÌNH] Chunk 1 đã lỗi và Chunk 2 cũng không render thành công!`, 'error');
-                addLogEntry(`💡 Tool yêu cầu: Vui lòng F5 (Refresh) trang và thao tác lại từ đầu!`, 'error');
-                
-                // Hiển thị thông báo lỗi cấu hình
-                if (typeof Swal !== 'undefined') {
-                    Swal.fire({
-                        title: '🚨 Lỗi Cấu Hình',
-                        html: `
-                            <div style="text-align: left;">
-                                <p><strong>Chunk 1 và Chunk 2 đều không render thành công!</strong></p>
-                                <hr>
-                                <p><strong>⚠️ Nguyên nhân có thể:</strong></p>
-                                <ul>
-                                    <li>Cấu hình web chưa đúng</li>
-                                    <li>File âm thanh chưa được tải lên đúng cách</li>
-                                    <li>Trạng thái web không ổn định</li>
-                                </ul>
-                                <hr>
-                                <p><strong>💡 Giải pháp:</strong></p>
-                                <ol>
-                                    <li>Nhấn <strong>F5</strong> để refresh trang</li>
-                                    <li>Tải lại file âm thanh</li>
-                                    <li>Thao tác lại từ đầu</li>
-                                </ol>
-                                <hr>
-                                <p style="color: #ff6b6b;"><strong>Note:</strong> This feature only applies to chunk 1. Other chunks are not affected.</p>
-                            </div>
-                        `,
-                        icon: 'error',
-                        width: '600px',
-                        confirmButtonText: 'Đã hiểu - Sẽ F5',
-                        confirmButtonColor: '#ff6b6b',
-                        allowOutsideClick: false,
-                        allowEscapeKey: false
-                    });
-                }
-                
-                // Reset flag sau khi hiển thị thông báo
-                window.chunk1Failed = false;
-                return; // Dừng xử lý
-            }
-            
-            // Reset retry count cho chunk này
-            window.timeoutRetryCount[ttuo$y_KhCV] = 0;
-            ttuo$y_KhCV++; // Chuyển sang chunk tiếp theo
-            
-            // KIỂM TRA LỖI CẤU HÌNH: Nếu chunk 1 đã lỗi và đang chuyển sang chunk 2
-            if (window.chunk1Failed && ttuo$y_KhCV === 1) {
-                addLogEntry(`⚠️ [Chunk 2] Đang kiểm tra cấu hình... Nếu chunk 2 cũng không render thành công, tool sẽ yêu cầu F5.`, 'warning');
-            }
-            
-            addLogEntry(`➡️ Chuyển sang chunk ${ttuo$y_KhCV + 1}...`, 'info');
-            addLogEntry(`📊 Trạng thái: ${window.chunkStatus.filter(s => s === 'success' || s === 'failed').length}/${SI$acY.length} chunks đã xử lý`, 'info');
-            setTimeout(uSTZrHUt_IC, 2000); // Tiếp tục với chunk tiếp theo
+        } catch (resetError) {
+            addLogEntry(`❌ Error when resetting web: ${resetError.message}, continuing...`, 'error');
         }
-    }, parseFloat(0x11a62) + -0x13f58 + 0x19b * parseInt(0xf2));
+        
+        // Đánh dấu chunk này là thất bại
+        window.chunkStatus[ttuo$y_KhCV] = 'failed';
+        if (!window.failedChunks.includes(ttuo$y_KhCV)) {
+            window.failedChunks.push(ttuo$y_KhCV);
+        }
+        
+        // KIỂM TRA LỖI CẤU HÌNH: Nếu chunk 1 (index 0) timeout, đánh dấu
+        if (ttuo$y_KhCV === 0) {
+            window.chunk1Failed = true;
+            addLogEntry(`⚠️ [Chunk 1] Timeout after 60 seconds. Will check chunk 2...`, 'warning');
+        }
+        
+        // KIỂM TRA LỖI CẤU HÌNH: Nếu chunk 1 đã lỗi và chunk 2 (index 1) cũng timeout
+        if (window.chunk1Failed && ttuo$y_KhCV === 1) {
+            addLogEntry(`🚨 [CONFIGURATION ERROR] Chunk 1 failed and Chunk 2 also failed to render!`, 'error');
+            addLogEntry(`💡 Tool requires: Please F5 (Refresh) the page and start over!`, 'error');
+            
+            // Hiển thị thông báo lỗi cấu hình
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    title: '🚨 Configuration Error',
+                    html: `
+                        <div style="text-align: left;">
+                            <p><strong>Chunk 1 and Chunk 2 both failed to render!</strong></p>
+                            <hr>
+                            <p><strong>⚠️ Possible causes:</strong></p>
+                            <ul>
+                                <li>Web configuration is incorrect</li>
+                                <li>Audio file was not uploaded correctly</li>
+                                <li>Web state is unstable</li>
+                            </ul>
+                            <hr>
+                            <p><strong>💡 Solution:</strong></p>
+                            <ol>
+                                <li>Press <strong>F5</strong> to refresh the page</li>
+                                <li>Re-upload the audio file</li>
+                                <li>Start over from the beginning</li>
+                            </ol>
+                            <hr>
+                            <p style="color: #ff6b6b;"><strong>Note:</strong> This feature only applies to chunk 1. Other chunks are not affected.</p>
+                        </div>
+                    `,
+                    icon: 'error',
+                    width: '600px',
+                    confirmButtonText: 'Understood - Will F5',
+                    confirmButtonColor: '#ff6b6b',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                });
+            }
+            
+            // Reset flag sau khi hiển thị thông báo
+            window.chunk1Failed = false;
+            return; // Dừng xử lý
+        }
+        
+        // Chuyển sang chunk tiếp theo - chunk này sẽ được retry vô hạn ở cuối
+        ttuo$y_KhCV++; // Chuyển sang chunk tiếp theo
+        
+        // KIỂM TRA LỖI CẤU HÌNH: Nếu chunk 1 đã lỗi và đang chuyển sang chunk 2
+        if (window.chunk1Failed && ttuo$y_KhCV === 1) {
+            addLogEntry(`⚠️ [Chunk 2] Checking configuration... If chunk 2 also fails to render, tool will require F5.`, 'warning');
+        }
+        
+        addLogEntry(`➡️ Moving to chunk ${ttuo$y_KhCV + 1}...`, 'info');
+        addLogEntry(`📊 Status: ${window.chunkStatus.filter(s => s === 'success' || s === 'failed').length}/${SI$acY.length} chunks processed`, 'info');
+        addLogEntry(`💡 Chunks that timeout will be retried infinitely after all chunks are done`, 'info');
+        setTimeout(uSTZrHUt_IC, 2000); // Tiếp tục với chunk tiếp theo
+    }, 60000); // Timeout 60 giây cho mỗi chunk
 
     xlgJHLP$MATDT$kTXWV = new MutationObserver(async (w$KFkMtMom_agF, GrmINfCyEsyqJbigpyT) => {
         const ndkpgKnjg = VFmk$UVEL;
