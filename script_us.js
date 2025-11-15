@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      24.0
+// @version      21.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -1246,35 +1246,6 @@ button:disabled {
             </div>
         </div>
     </div>
- </div> </div> <div id="gemini-col-2-right">     <!-- Ô nhập tên file tùy chỉnh -->
-            <div class="custom-filename-section" style="margin-top: 15px;">
-                <label for="custom-filename-input" style="display: block; margin-bottom: 8px; color: #bd93f9; font-weight: 600; font-size: 14px;">
-                    🏷️ Tên file âm thanh (tùy chọn)
-                </label>
-                <input type="text" id="custom-filename-input" placeholder="Nhập tên file âm thanh (không cần đuôi .mp3)"
-                       style="width: 100%; padding: 12px; background: #282a36; color: #f8f8f2; border: 2px solid #6272a4; border-radius: 8px; font-size: 14px; transition: all 0.3s ease;">
-                <small style="color: #94a3b8; font-size: 12px; margin-top: 5px; display: block;">
-                    💡 Để trống sẽ tự động lấy tên từ dòng đầu tiên của văn bản
-                </small>
-            </div>
-    <div id="gemini-text-stats"><span>Ký tự: 0</span><span>Từ: 0</span><span>Câu: 0</span><span>Đoạn: 0</span></div>
-     <!-- Công tắc tách theo dòng trống -->
-    <div class="chunk-settings-section" style="margin-top: 15px; background: #44475a; border: 1px solid #27304a; border-radius: 8px; padding: 15px;">
-        <h4 style="margin: 0 0 10px; color: #bd93f9; font-size: 14px; border-bottom: 1px solid #6272a4; padding-bottom: 5px;">⚙️ Cài đặt chia chunk</h4>
-        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-            <label class="switch">
-                <input type="checkbox" id="enable-blank-line-chunking">
-                <span class="slider round"></span>
-            </label>
-            <label for="enable-blank-line-chunking" style="color: #f8f8f2; font-size: 14px; cursor: pointer;">
-                Không bật cái này
-            </label>
-        </div>
-        <small style="color: #94a3b8; font-size: 12px; margin-top: 5px; display: block;">
-            💡 Khi bật: Ưu tiên tách tại dòng trống. Khi tắt: Bỏ qua dòng trống, tách theo dấu câu.<br>
-            🔧 Chunk mặc định: 900 ký tự
-        </small>
-    </div>
 
     <div class="sales-announcement">
         <h3>🎉 CHƯƠNG TRÌNH SALE – HOA HỒNG VĨNH VIỄN 💰</h3>
@@ -1305,6 +1276,35 @@ button:disabled {
                 </div>
             </div>
         </div>
+    </div>
+ </div> </div> <div id="gemini-col-2-right">     <!-- Ô nhập tên file tùy chỉnh -->
+            <div class="custom-filename-section" style="margin-top: 15px;">
+                <label for="custom-filename-input" style="display: block; margin-bottom: 8px; color: #bd93f9; font-weight: 600; font-size: 14px;">
+                    🏷️ Tên file âm thanh (tùy chọn)
+                </label>
+                <input type="text" id="custom-filename-input" placeholder="Nhập tên file âm thanh (không cần đuôi .mp3)"
+                       style="width: 100%; padding: 12px; background: #282a36; color: #f8f8f2; border: 2px solid #6272a4; border-radius: 8px; font-size: 14px; transition: all 0.3s ease;">
+                <small style="color: #94a3b8; font-size: 12px; margin-top: 5px; display: block;">
+                    💡 Để trống sẽ tự động lấy tên từ dòng đầu tiên của văn bản
+                </small>
+            </div>
+    <div id="gemini-text-stats"><span>Ký tự: 0</span><span>Từ: 0</span><span>Câu: 0</span><span>Đoạn: 0</span></div>
+     <!-- Công tắc tách theo dòng trống -->
+    <div class="chunk-settings-section" style="margin-top: 15px; background: #44475a; border: 1px solid #27304a; border-radius: 8px; padding: 15px;">
+        <h4 style="margin: 0 0 10px; color: #bd93f9; font-size: 14px; border-bottom: 1px solid #6272a4; padding-bottom: 5px;">⚙️ Cài đặt chia chunk</h4>
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+            <label class="switch">
+                <input type="checkbox" id="enable-blank-line-chunking">
+                <span class="slider round"></span>
+            </label>
+            <label for="enable-blank-line-chunking" style="color: #f8f8f2; font-size: 14px; cursor: pointer;">
+                Không bật cái này
+            </label>
+        </div>
+        <small style="color: #94a3b8; font-size: 12px; margin-top: 5px; display: block;">
+            💡 Khi bật: Ưu tiên tách tại dòng trống. Khi tắt: Bỏ qua dòng trống, tách theo dấu câu.<br>
+            🔧 Chunk mặc định: 900 ký tự
+        </small>
     </div>
 
 <button id="gemini-merge-btn">Ghép đoạn hội thoại</button> <button id="gemini-start-queue-btn" disabled>Bắt đầu tạo âm thanh</button> <button id="apply-punctuation-btn" style="display:none; background-color: #ffb86c; color: #282a36; margin-top: 10px;">Áp dụng thiết lập dấu câu</button> <button id="gemini-pause-btn" style="display:none;">Tạm dừng</button> <button id="gemini-stop-btn" style="display:none;">Dừng hẳn</button> <div id="gemini-progress-container" style="display:none;"><div id="gemini-progress-bar"></div><span id="gemini-progress-label">0%</span></div> <div id="gemini-final-result" style="display:none;"> <h4>Kết quả cuối cùng</h4> <div id="gemini-time-taken"></div> <div id="gemini-waveform"></div> <div id="waveform-controls" style="display:none;"><button id="waveform-play-pause">▶️</button><a id="gemini-download-merged-btn" href="#" download="merged_output.mp3">Tải xuống âm thanh</a><button id="gemini-download-chunks-btn" style="display: none; background-color: #ffb86c; color: #282a36;">Tải các chunk (ZIP)</button></div> </div> </div> </div> </div> <div id="gemini-col-3" class="gemini-column"> <div class="column-header"><h3></h3></div> <div class="column-content banner-column"> <div class="section"> <button id="open-audio-manager-btn" style="background-color: #8be9fd; color: #282a36; width: 100%; padding: 14px 20px; border: none; border-radius: 8px; font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.3s ease; margin-bottom: 15px;">📂 Mở Kho Âm Thanh (Online)</button> <button id="open-history-btn" style="background-color: #bd93f9; color: #282a36; width: 100%; padding: 14px 20px; border: none; border-radius: 8px; font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.3s ease; margin-bottom: 15px;">📚 Lịch sử</button> </div><div id="batch-replace-section"><h4>Đổi văn bản hàng loạt</h4><div id="batch-replace-pairs"></div><div id="batch-replace-actions"><button id="add-replace-pair-btn" title="Thêm cặp từ">+</button><button id="execute-replace-btn">Thực hiện đổi</button></div></div> <button id="open-punctuation-settings-btn">Thiết lập dấu câu</button> </div> </div>     <textarea id="gemini-hidden-text-for-request" style="display:none;"></textarea>
@@ -5865,12 +5865,20 @@ async function waitForVoiceModelReady() {
     // =================================================================
     // == LỊCH SỬ - XỬ LÝ MODAL VÀ EVENT LISTENERS ==
     // =================================================================
-    (function() {
+    function initHistoryModal() {
         const openHistoryBtn = document.getElementById('open-history-btn');
         const closeHistoryBtn = document.getElementById('close-history-btn');
         const historyModal = document.getElementById('history-modal');
         const historyListContainer = document.getElementById('history-list-container');
         const clearAllHistoryBtn = document.getElementById('clear-all-history-btn');
+        
+        // Kiểm tra nếu các element chưa tồn tại
+        if (!openHistoryBtn || !historyModal || !historyListContainer) {
+            console.warn('History modal elements not found, retrying...');
+            setTimeout(initHistoryModal, 500);
+            return;
+        }
+        
         let currentPlayingAudio = null;
 
         // Hàm format thời gian
@@ -6044,7 +6052,15 @@ async function waitForVoiceModelReady() {
                 }
             });
         }
-    })();
+    }
+    
+    // Khởi tạo history modal sau khi DOM sẵn sàng
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initHistoryModal);
+    } else {
+        // DOM đã sẵn sàng, nhưng có thể HTML chưa được inject
+        setTimeout(initHistoryModal, 100);
+    }
 
     // Lắng nghe sự kiện beforeunload để dọn dẹp
     window.addEventListener('beforeunload', () => {
