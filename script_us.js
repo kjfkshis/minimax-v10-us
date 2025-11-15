@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      24.0
+// @version      21.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -1114,29 +1114,30 @@ button:disabled {
 
 /* Sales Announcement Styles */
 .sales-announcement {
-    margin-top: 20px;
+    margin-top: 15px;
     background: linear-gradient(135deg, #44475a 0%, #3b3d4a 100%);
     border: 2px solid #bd93f9;
-    border-radius: 12px;
-    padding: 20px;
+    border-radius: 10px;
+    padding: 12px;
     box-shadow: 0 4px 15px rgba(189, 147, 249, 0.3);
+    max-width: 100%;
 }
 
 .sales-announcement h3 {
     color: #ff79c6;
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 700;
-    margin: 0 0 15px 0;
+    margin: 0 0 10px 0;
     text-align: center;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .sales-announcement .sales-content {
     color: #f8f8f2;
-    font-size: 14px;
-    line-height: 1.8;
+    font-size: 12px;
+    line-height: 1.5;
     display: flex;
-    gap: 20px;
+    gap: 12px;
 }
 
 .sales-announcement .sales-content .sales-left,
@@ -1145,7 +1146,7 @@ button:disabled {
 }
 
 .sales-announcement .sales-content p {
-    margin: 10px 0;
+    margin: 6px 0;
 }
 
 .sales-announcement .sales-content strong {
@@ -1159,35 +1160,35 @@ button:disabled {
 }
 
 .sales-announcement .sales-content ul {
-    margin: 10px 0;
-    padding-left: 25px;
+    margin: 6px 0;
+    padding-left: 20px;
 }
 
 .sales-announcement .sales-content li {
-    margin: 8px 0;
+    margin: 4px 0;
 }
 
 .sales-announcement .sales-content .commission-box {
     background: rgba(80, 250, 123, 0.1);
     border-left: 4px solid #50fa7b;
-    padding: 12px;
-    margin: 15px 0;
+    padding: 8px;
+    margin: 8px 0;
     border-radius: 6px;
 }
 
 .sales-announcement .sales-content .team-offer {
     background: rgba(255, 184, 108, 0.1);
     border-left: 4px solid #ffb86c;
-    padding: 12px;
-    margin: 15px 0;
+    padding: 8px;
+    margin: 8px 0;
     border-radius: 6px;
 }
 
 .sales-announcement .sales-content .steps-list {
     background: rgba(139, 233, 253, 0.1);
     border-left: 4px solid #8be9fd;
-    padding: 12px;
-    margin: 15px 0;
+    padding: 8px;
+    margin: 8px 0;
     border-radius: 6px;
 }
 
@@ -2016,11 +2017,12 @@ button:disabled {
         }
     }
 
-    // Khởi tạo global instance
-    const historyDB = new HistoryDB();
+    // Khởi tạo global instance - đặt vào window để có thể truy cập từ mọi nơi
+    window.historyDB = new HistoryDB();
+    const historyDB = window.historyDB; // Alias để tương thích với code cũ
     
     // Khởi tạo HistoryDB với xử lý lỗi
-    historyDB.init().catch(err => {
+    window.historyDB.init().catch(err => {
         console.error('❌ Không thể khởi tạo HistoryDB:', err);
         if (typeof addLogEntry === 'function') {
             addLogEntry('❌ Lỗi: Không thể khởi tạo HistoryDB. Tính năng lịch sử có thể không hoạt động.', 'error');
@@ -2470,16 +2472,21 @@ const BBNDYjhHoGkj_qbbbJu=URL[VCAHyXsrERcpXVhFPxmgdBjjh(0x1f0)](InRdxToeqTDyPgDG
 // =======================================================
 // == LƯU FILE VÀO LỊCH SỬ ==
 // =======================================================
-try {
-    const fileName = i_B_kZYD() || 'merged_output.mp3';
-    await historyDB.saveMergedFile(fileName, InRdxToeqTDyPgDGZb, {
-        chunkCount: finalBlobs.length
-    });
-    addLogEntry(`📚 Đã lưu file "${fileName}" vào lịch sử`, 'success');
-} catch (historyError) {
-    console.error('❌ Lỗi lưu vào lịch sử:', historyError);
-    // Không block quá trình nếu lưu lịch sử lỗi
-}
+            try {
+                const fileName = i_B_kZYD() || 'merged_output.mp3';
+                const db = window.historyDB || historyDB;
+                if (db && typeof db.saveMergedFile === 'function') {
+                    await db.saveMergedFile(fileName, InRdxToeqTDyPgDGZb, {
+                        chunkCount: finalBlobs.length
+                    });
+                    addLogEntry(`📚 Đã lưu file "${fileName}" vào lịch sử`, 'success');
+                } else {
+                    console.warn('⚠️ HistoryDB chưa sẵn sàng, bỏ qua lưu lịch sử');
+                }
+            } catch (historyError) {
+                console.error('❌ Lỗi lưu vào lịch sử:', historyError);
+                // Không block quá trình nếu lưu lịch sử lỗi
+            }
 
 if(n_WwsStaC$jzsWjOIjRqedTG)n_WwsStaC$jzsWjOIjRqedTG[VCAHyXsrERcpXVhFPxmgdBjjh(0x26c)]();typeof WaveSurfer===VCAHyXsrERcpXVhFPxmgdBjjh(0x24d)&&await new Promise(dyvridmApUsyBfpYIHkxv=>setTimeout(dyvridmApUsyBfpYIHkxv,parseInt(0xf61)+Math.ceil(-parseInt(0x1e0))+-parseInt(0xb8d))),n_WwsStaC$jzsWjOIjRqedTG=WaveSurfer[VCAHyXsrERcpXVhFPxmgdBjjh(0x240)]({'container':VCAHyXsrERcpXVhFPxmgdBjjh(0x274),'waveColor':VCAHyXsrERcpXVhFPxmgdBjjh(0x26a),'progressColor':VCAHyXsrERcpXVhFPxmgdBjjh(0x228),'cursorColor':VCAHyXsrERcpXVhFPxmgdBjjh(0x20c),'barWidth':0x3,'barRadius':0x3,'cursorWidth':0x1,'height':0x64,'barGap':0x3}),n_WwsStaC$jzsWjOIjRqedTG[VCAHyXsrERcpXVhFPxmgdBjjh(0x1d5)](BBNDYjhHoGkj_qbbbJu),n_WwsStaC$jzsWjOIjRqedTG['on'](VCAHyXsrERcpXVhFPxmgdBjjh(0x1d6),()=>{const Ipo_CDaCvNEfh=VCAHyXsrERcpXVhFPxmgdBjjh;XvyPnqSRdJtYjSxingI[Ipo_CDaCvNEfh(0x1c7)]='⏸️';}),n_WwsStaC$jzsWjOIjRqedTG['on'](VCAHyXsrERcpXVhFPxmgdBjjh(0x22d),()=>{const NdVplyNSVhdzFR=VCAHyXsrERcpXVhFPxmgdBjjh;XvyPnqSRdJtYjSxingI[NdVplyNSVhdzFR(0x1c7)]='▶️';});
 
@@ -2901,6 +2908,8 @@ async function uSTZrHUt_IC() {
     if (typeof window.totalRetryAttempts === 'undefined') window.totalRetryAttempts = 0;
     // Theo dõi lỗi chunk 1 để kiểm tra cấu hình
     if (typeof window.chunk1Failed === 'undefined') window.chunk1Failed = false;
+    // Reset processingChunks để tránh xử lý trùng lặp
+    window.processingChunks = new Set();
 
     // Đảm bảo mảng chunkStatus có đủ phần tử
     while (window.chunkStatus.length < SI$acY.length) {
@@ -3126,6 +3135,24 @@ async function uSTZrHUt_IC() {
                 window.failedChunks.push(ttuo$y_KhCV);
             }
             
+            // QUAN TRỌNG: Đảm bảo vị trí này để trống (null) để sau này retry có thể lưu vào
+            if (typeof window.chunkBlobs === 'undefined') {
+                window.chunkBlobs = new Array(SI$acY.length).fill(null);
+            }
+            // Đảm bảo window.chunkBlobs có đủ độ dài
+            while (window.chunkBlobs.length <= ttuo$y_KhCV) {
+                window.chunkBlobs.push(null);
+            }
+            window.chunkBlobs[ttuo$y_KhCV] = null; // Đảm bảo vị trí này để trống
+            
+            // ĐỒNG BỘ HÓA ZTQj$LF$o: Đảm bảo ZTQj$LF$o cũng để trống
+            while (ZTQj$LF$o.length <= ttuo$y_KhCV) {
+                ZTQj$LF$o.push(null);
+            }
+            ZTQj$LF$o[ttuo$y_KhCV] = null; // Đảm bảo vị trí này để trống
+            
+            addLogEntry(`🔄 [Chunk ${ttuo$y_KhCV + 1}] Đã đánh dấu thất bại và để trống vị trí ${ttuo$y_KhCV} để retry sau`, 'info');
+            
             // Reset web interface
             await resetWebInterface();
             
@@ -3289,6 +3316,24 @@ async function uSTZrHUt_IC() {
                 window.failedChunks.push(ttuo$y_KhCV);
             }
             
+            // QUAN TRỌNG: Đảm bảo vị trí này để trống (null) để sau này retry có thể lưu vào
+            if (typeof window.chunkBlobs === 'undefined') {
+                window.chunkBlobs = new Array(SI$acY.length).fill(null);
+            }
+            // Đảm bảo window.chunkBlobs có đủ độ dài
+            while (window.chunkBlobs.length <= ttuo$y_KhCV) {
+                window.chunkBlobs.push(null);
+            }
+            window.chunkBlobs[ttuo$y_KhCV] = null; // Đảm bảo vị trí này để trống
+            
+            // ĐỒNG BỘ HÓA ZTQj$LF$o: Đảm bảo ZTQj$LF$o cũng để trống
+            while (ZTQj$LF$o.length <= ttuo$y_KhCV) {
+                ZTQj$LF$o.push(null);
+            }
+            ZTQj$LF$o[ttuo$y_KhCV] = null; // Đảm bảo vị trí này để trống
+            
+            addLogEntry(`🔄 [Chunk ${ttuo$y_KhCV + 1}] Đã đánh dấu thất bại và để trống vị trí ${ttuo$y_KhCV} để retry sau`, 'info');
+            
             // KIỂM TRA LỖI CẤU HÌNH: Nếu chunk 1 (index 0) lỗi, đánh dấu
             if (ttuo$y_KhCV === 0) {
                 window.chunk1Failed = true;
@@ -3360,6 +3405,13 @@ async function uSTZrHUt_IC() {
     // Logic với cơ chế làm sạch web và retry khi timeout
     Srnj$swt = setTimeout(async () => {
         const uINqLNrLfJbc = VFmk$UVEL;
+        
+        // QUAN TRỌNG: Kiểm tra xem chunk đã thành công chưa trước khi trigger retry
+        if (window.chunkStatus && window.chunkStatus[ttuo$y_KhCV] === 'success') {
+            // Chunk đã thành công, không cần retry
+            return;
+        }
+        
         if (xlgJHLP$MATDT$kTXWV) xlgJHLP$MATDT$kTXWV[uINqLNrLfJbc(0x24e)](); // Dừng observer cũ
         
         // Khởi tạo retry count cho timeout nếu chưa có
@@ -3436,6 +3488,24 @@ async function uSTZrHUt_IC() {
                 window.failedChunks.push(ttuo$y_KhCV);
             }
             
+            // QUAN TRỌNG: Đảm bảo vị trí này để trống (null) để sau này retry có thể lưu vào
+            if (typeof window.chunkBlobs === 'undefined') {
+                window.chunkBlobs = new Array(SI$acY.length).fill(null);
+            }
+            // Đảm bảo window.chunkBlobs có đủ độ dài
+            while (window.chunkBlobs.length <= ttuo$y_KhCV) {
+                window.chunkBlobs.push(null);
+            }
+            window.chunkBlobs[ttuo$y_KhCV] = null; // Đảm bảo vị trí này để trống
+            
+            // ĐỒNG BỘ HÓA ZTQj$LF$o: Đảm bảo ZTQj$LF$o cũng để trống
+            while (ZTQj$LF$o.length <= ttuo$y_KhCV) {
+                ZTQj$LF$o.push(null);
+            }
+            ZTQj$LF$o[ttuo$y_KhCV] = null; // Đảm bảo vị trí này để trống
+            
+            addLogEntry(`🔄 [Chunk ${ttuo$y_KhCV + 1}] Đã đánh dấu thất bại và để trống vị trí ${ttuo$y_KhCV} để retry sau`, 'info');
+            
             // KIỂM TRA LỖI CẤU HÌNH: Nếu chunk 1 (index 0) timeout, đánh dấu
             if (ttuo$y_KhCV === 0) {
                 window.chunk1Failed = true;
@@ -3506,34 +3576,61 @@ async function uSTZrHUt_IC() {
         for (const qcgcrPbku_NfOSGWmbTlMZNUOu of w$KFkMtMom_agF) {
             for (const TYRNWSSd$QOYZe of qcgcrPbku_NfOSGWmbTlMZNUOu[ndkpgKnjg(0x1db)]) {
                 if (TYRNWSSd$QOYZe[ndkpgKnjg(0x217)] === 0x7fd * parseInt(-0x3) + 0xa02 + 0xdf6 && TYRNWSSd$QOYZe[ndkpgKnjg(0x1cd)](ndkpgKnjg(0x1f2))) {
+                    // QUAN TRỌNG: Lưu currentChunkIndex ngay đầu để tránh race condition
+                    const currentChunkIndex = ttuo$y_KhCV;
+                    
+                    // QUAN TRỌNG: Ngăn chặn xử lý trùng lặp cho cùng một chunk
+                    if (typeof window.processingChunks === 'undefined') {
+                        window.processingChunks = new Set();
+                    }
+                    // Kiểm tra xem chunk này đã được xử lý chưa
+                    if (window.processingChunks.has(currentChunkIndex)) {
+                        addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Đang được xử lý, bỏ qua audio element trùng lặp này`, 'warning');
+                        return;
+                    }
+                    // Kiểm tra xem chunk này đã thành công chưa
+                    if (window.chunkStatus && window.chunkStatus[currentChunkIndex] === 'success') {
+                        addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Đã được xử lý thành công trước đó, bỏ qua`, 'warning');
+                        return;
+                    }
+                    // QUAN TRỌNG: Kiểm tra xem chunk này có đang được xử lý không (pending)
+                    // Nếu chunk này không phải 'pending', có nghĩa là nó đã được xử lý hoặc không phải chunk hiện tại
+                    if (window.chunkStatus && window.chunkStatus[currentChunkIndex] && window.chunkStatus[currentChunkIndex] !== 'pending') {
+                        addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Không phải trạng thái 'pending' (${window.chunkStatus[currentChunkIndex]}), bỏ qua`, 'warning');
+                        return;
+                    }
+                    
+                    // Đánh dấu chunk này đang được xử lý
+                    window.processingChunks.add(currentChunkIndex);
+                    
                     clearTimeout(Srnj$swt);
                     GrmINfCyEsyqJbigpyT[ndkpgKnjg(0x24e)]();
 
                     // Log khi thành công
-                    addLogEntry(`✅ [Chunk ${ttuo$y_KhCV + 1}/${SI$acY.length}] Xử lý thành công!`, 'success');
+                    addLogEntry(`✅ [Chunk ${currentChunkIndex + 1}/${SI$acY.length}] Xử lý thành công!`, 'success');
                     window.retryCount = 0; // Reset bộ đếm retry khi thành công
                     // Reset timeout retry count cho chunk này khi thành công
-                    if (typeof window.timeoutRetryCount !== 'undefined' && window.timeoutRetryCount[ttuo$y_KhCV] !== undefined) {
-                        window.timeoutRetryCount[ttuo$y_KhCV] = 0;
+                    if (typeof window.timeoutRetryCount !== 'undefined' && window.timeoutRetryCount[currentChunkIndex] !== undefined) {
+                        window.timeoutRetryCount[currentChunkIndex] = 0;
                     }
                     // Clear timeout 60 giây cho chunk này khi thành công
-                    if (typeof window.chunkTimeoutIds !== 'undefined' && window.chunkTimeoutIds[ttuo$y_KhCV]) {
-                        clearTimeout(window.chunkTimeoutIds[ttuo$y_KhCV]);
-                        delete window.chunkTimeoutIds[ttuo$y_KhCV];
-                        addLogEntry(`⏱️ [Chunk ${ttuo$y_KhCV + 1}] Đã clear timeout 60 giây`, 'info');
+                    if (typeof window.chunkTimeoutIds !== 'undefined' && window.chunkTimeoutIds[currentChunkIndex]) {
+                        clearTimeout(window.chunkTimeoutIds[currentChunkIndex]);
+                        delete window.chunkTimeoutIds[currentChunkIndex];
+                        addLogEntry(`⏱️ [Chunk ${currentChunkIndex + 1}] Đã clear timeout 60 giây`, 'info');
                     }
-                    window.chunkStatus[ttuo$y_KhCV] = 'success'; // Đánh dấu chunk này đã thành công
+                    window.chunkStatus[currentChunkIndex] = 'success'; // Đánh dấu chunk này đã thành công
                     
                     // Reset flag chunk1Failed nếu chunk 1 thành công
-                    if (ttuo$y_KhCV === 0) {
+                    if (currentChunkIndex === 0) {
                         window.chunk1Failed = false;
                         addLogEntry(`✅ [Chunk 1] Đã thành công - Reset flag kiểm tra cấu hình`, 'success');
                     }
 
                     // Nếu đang trong giai đoạn kiểm tra cuối, loại bỏ chunk này khỏi danh sách thất bại
-                    if (window.isFinalCheck && window.failedChunks.includes(ttuo$y_KhCV)) {
-                        window.failedChunks = window.failedChunks.filter(index => index !== ttuo$y_KhCV);
-                        addLogEntry(`🎉 [Chunk ${ttuo$y_KhCV + 1}] Đã khôi phục thành công từ trạng thái thất bại!`, 'success');
+                    if (window.isFinalCheck && window.failedChunks.includes(currentChunkIndex)) {
+                        window.failedChunks = window.failedChunks.filter(index => index !== currentChunkIndex);
+                        addLogEntry(`🎉 [Chunk ${currentChunkIndex + 1}] Đã khôi phục thành công từ trạng thái thất bại!`, 'success');
                     }
 
                     // ĐỒNG BỘ HÓA KHI RETRY: Đảm bảo window.chunkBlobs được cập nhật khi retry thành công
@@ -3566,25 +3663,42 @@ async function uSTZrHUt_IC() {
                         
                         if (!FGrxK_RK['ok']) {
                             if (FGrxK_RK.status === 403) {
-                                addLogEntry(`❌ [Chunk ${ttuo$y_KhCV + 1}] Lỗi 403: Website đã phát hiện automation. Thử lại sau 5 giây...`, 'error');
+                                addLogEntry(`❌ [Chunk ${currentChunkIndex + 1}] Lỗi 403: Website đã phát hiện automation. Thử lại sau 5 giây...`, 'error');
                                 await new Promise(resolve => setTimeout(resolve, 5000));
                                 throw new Error('403 Forbidden - Website detected automation');
                             }
                             throw new Error(ndkpgKnjg(0x241) + FGrxK_RK[ndkpgKnjg(0x237)]);
                         }
                         const qILAV = await FGrxK_RK[ndkpgKnjg(0x26f)]();
-                        // Lưu chunk vào đúng vị trí dựa trên ttuo$y_KhCV (chunk index hiện tại)
+                        // Lưu chunk vào đúng vị trí dựa trên currentChunkIndex (đã lưu ở đầu callback)
                         if (typeof window.chunkBlobs === 'undefined') {
                             window.chunkBlobs = new Array(SI$acY.length).fill(null);
                         }
-
-                        // QUAN TRỌNG: Đảm bảo lưu đúng vị trí chunk, không phụ thuộc vào ttuo$y_KhCV
-                        const currentChunkIndex = ttuo$y_KhCV;
 
                         // Đảm bảo window.chunkBlobs có đủ độ dài
                         while (window.chunkBlobs.length <= currentChunkIndex) {
                             window.chunkBlobs.push(null);
                         }
+                        
+                        // QUAN TRỌNG: Kiểm tra xem vị trí này đã có chunk chưa
+                        // Nếu đã có chunk và chunk đó đã thành công, không ghi đè (có thể là chunk khác)
+                        if (window.chunkBlobs[currentChunkIndex] !== null) {
+                            // Kiểm tra xem chunk ở vị trí này có phải là chunk hiện tại không
+                            if (window.chunkStatus && window.chunkStatus[currentChunkIndex] === 'success') {
+                                addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Vị trí ${currentChunkIndex} đã có chunk thành công, không ghi đè`, 'warning');
+                                // Xóa khỏi processingChunks và return
+                                if (typeof window.processingChunks !== 'undefined') {
+                                    window.processingChunks.delete(currentChunkIndex);
+                                }
+                                return;
+                            }
+                            // Nếu vị trí này có chunk nhưng chunk đó failed, có thể ghi đè (retry)
+                            if (window.chunkStatus && window.chunkStatus[currentChunkIndex] === 'failed') {
+                                addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Vị trí ${currentChunkIndex} có chunk failed, ghi đè (retry)`, 'info');
+                            }
+                        }
+                        
+                        // Lưu chunk vào đúng vị trí
                         window.chunkBlobs[currentChunkIndex] = qILAV;
 
                         // ĐỒNG BỘ HÓA ZTQj$LF$o: Đảm bảo ZTQj$LF$o cũng có chunk ở đúng vị trí
@@ -3600,7 +3714,17 @@ async function uSTZrHUt_IC() {
                         // DEBUG: Kiểm tra trạng thái mảng sau khi lưu
                         const chunkStatus = window.chunkBlobs.map((blob, idx) => blob ? 'có' : 'null').join(', ');
                         addLogEntry(`🔍 Trạng thái window.chunkBlobs: [${chunkStatus}]`, 'info');
-                    } catch (FBleqcOZcLNC$NKSlfC) {}
+                        
+                        // Xóa khỏi processingChunks sau khi lưu thành công
+                        if (typeof window.processingChunks !== 'undefined') {
+                            window.processingChunks.delete(currentChunkIndex);
+                        }
+                    } catch (FBleqcOZcLNC$NKSlfC) {
+                        // Xóa khỏi processingChunks khi có lỗi
+                        if (typeof window.processingChunks !== 'undefined' && typeof currentChunkIndex !== 'undefined') {
+                            window.processingChunks.delete(currentChunkIndex);
+                        }
+                    }
                     ttuo$y_KhCV++;
                     setTimeout(uSTZrHUt_IC, -parseInt(0x1) * -parseInt(0x25de) + Math.max(-0x19, -parseInt(0x19)) * -0x18a + Math.trunc(-0x467c));
                     return;
@@ -5946,12 +6070,13 @@ async function waitForVoiceModelReady() {
         // Hàm render lịch sử
         async function renderHistory() {
             try {
-                // Kiểm tra historyDB đã được khởi tạo chưa
-                if (!historyDB || typeof historyDB.getAllHistory !== 'function') {
+                // Kiểm tra historyDB đã được khởi tạo chưa (ưu tiên window.historyDB)
+                const db = window.historyDB || historyDB;
+                if (!db || typeof db.getAllHistory !== 'function') {
                     throw new Error('HistoryDB chưa được khởi tạo. Vui lòng tải lại trang.');
                 }
                 
-                const history = await historyDB.getAllHistory();
+                const history = await db.getAllHistory();
                 
                 if (history.length === 0) {
                     historyListContainer.innerHTML = `
@@ -6027,7 +6152,11 @@ async function waitForVoiceModelReady() {
                     btn.addEventListener('click', async (e) => {
                         const itemId = parseInt(e.target.dataset.id);
                         try {
-                            await historyDB.deleteHistoryItem(itemId);
+                            const db = window.historyDB || historyDB;
+                            if (!db || typeof db.deleteHistoryItem !== 'function') {
+                                throw new Error('HistoryDB chưa được khởi tạo. Vui lòng tải lại trang.');
+                            }
+                            await db.deleteHistoryItem(itemId);
                             renderHistory(); // Render lại danh sách
                             if (typeof addLogEntry === 'function') {
                                 addLogEntry('🗑️ Đã xóa file khỏi lịch sử', 'success');
@@ -6090,12 +6219,13 @@ async function waitForVoiceModelReady() {
         if (clearAllHistoryBtn) {
             clearAllHistoryBtn.addEventListener('click', async () => {
                 try {
-                    // Kiểm tra historyDB đã được khởi tạo chưa
-                    if (!historyDB || typeof historyDB.clearAllHistory !== 'function') {
+                    // Kiểm tra historyDB đã được khởi tạo chưa (ưu tiên window.historyDB)
+                    const db = window.historyDB || historyDB;
+                    if (!db || typeof db.clearAllHistory !== 'function') {
                         throw new Error('HistoryDB chưa được khởi tạo. Vui lòng tải lại trang.');
                     }
                     
-                    await historyDB.clearAllHistory();
+                    await db.clearAllHistory();
                     await renderHistory();
                     if (typeof addLogEntry === 'function') {
                         addLogEntry('🗑️ Đã xóa tất cả lịch sử', 'success');
