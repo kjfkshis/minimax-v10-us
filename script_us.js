@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      21.0
+// @version      24.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -1209,6 +1209,37 @@ button:disabled {
 .sales-image-container img:hover {
     transform: scale(1.02);
     box-shadow: 0 6px 20px rgba(189, 147, 249, 0.5);
+}
+
+/* Responsive cho Sales Announcement */
+@media (max-width: 992px) {
+    .sales-announcement .sales-content {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+@media (max-width: 600px) {
+    .sales-announcement {
+        padding: 15px;
+        margin-top: 15px;
+    }
+    
+    .sales-announcement h3 {
+        font-size: 16px;
+    }
+    
+    .sales-announcement .sales-content {
+        font-size: 13px;
+        gap: 12px;
+    }
+    
+    .sales-announcement .sales-content .commission-box,
+    .sales-announcement .sales-content .team-offer,
+    .sales-announcement .sales-content .steps-list {
+        padding: 10px;
+        margin: 10px 0;
+    }
 }`;
     const APP_HTML = `<div id="gemini-col-1" class="gemini-column"> <div class="column-header"><div class="logo-user"><a href="" tager="_blank"><div class="logo"><img src="https://minimax.buhaseo.com/wp-content/uploads/2025/08/logo-minimax.png"></div></a><div id="gemini-user-info"></div></div>
         
@@ -1987,6 +2018,14 @@ button:disabled {
 
     // Khởi tạo global instance
     const historyDB = new HistoryDB();
+    
+    // Khởi tạo HistoryDB với xử lý lỗi
+    historyDB.init().catch(err => {
+        console.error('❌ Không thể khởi tạo HistoryDB:', err);
+        if (typeof addLogEntry === 'function') {
+            addLogEntry('❌ Lỗi: Không thể khởi tạo HistoryDB. Tính năng lịch sử có thể không hoạt động.', 'error');
+        }
+    });
 
     document.addEventListener('DOMContentLoaded', function() {
         const clearLogBtn = document.getElementById('clear-log-btn');
@@ -5907,6 +5946,11 @@ async function waitForVoiceModelReady() {
         // Hàm render lịch sử
         async function renderHistory() {
             try {
+                // Kiểm tra historyDB đã được khởi tạo chưa
+                if (!historyDB || typeof historyDB.getAllHistory !== 'function') {
+                    throw new Error('HistoryDB chưa được khởi tạo. Vui lòng tải lại trang.');
+                }
+                
                 const history = await historyDB.getAllHistory();
                 
                 if (history.length === 0) {
@@ -5990,7 +6034,12 @@ async function waitForVoiceModelReady() {
                             }
                         } catch (error) {
                             console.error('Lỗi xóa file:', error);
-                            alert('Lỗi khi xóa file!');
+                            const errorMsg = error.message || 'Lỗi khi xóa file!';
+                            if (typeof addLogEntry === 'function') {
+                                addLogEntry(`❌ ${errorMsg}`, 'error');
+                            } else {
+                                alert(errorMsg);
+                            }
                         }
                     });
                 });
@@ -6041,6 +6090,11 @@ async function waitForVoiceModelReady() {
         if (clearAllHistoryBtn) {
             clearAllHistoryBtn.addEventListener('click', async () => {
                 try {
+                    // Kiểm tra historyDB đã được khởi tạo chưa
+                    if (!historyDB || typeof historyDB.clearAllHistory !== 'function') {
+                        throw new Error('HistoryDB chưa được khởi tạo. Vui lòng tải lại trang.');
+                    }
+                    
                     await historyDB.clearAllHistory();
                     await renderHistory();
                     if (typeof addLogEntry === 'function') {
@@ -6048,7 +6102,12 @@ async function waitForVoiceModelReady() {
                     }
                 } catch (error) {
                     console.error('Lỗi xóa lịch sử:', error);
-                    alert('Lỗi khi xóa lịch sử!');
+                    const errorMsg = error.message || 'Lỗi khi xóa lịch sử!';
+                    if (typeof addLogEntry === 'function') {
+                        addLogEntry(`❌ ${errorMsg}`, 'error');
+                    } else {
+                        alert(errorMsg);
+                    }
                 }
             });
         }
