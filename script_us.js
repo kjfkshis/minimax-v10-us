@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      22.0
+// @version      23.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -1013,7 +1013,7 @@ button:disabled {
         
         <div id="gemini-quota-display" style="color: #8be9fd; font-weight: bold; margin-left: 15px; margin-top: 10px; font-size: 14px;">Đang tải quota...</div>
         </div> 
-    <div class="column-content"> <div class="section" style="margin-bottom: 10px!important;"> <h4>1. Tải lên tệp âm thanh (Tối đa 1 file, độ dài 20-60 giây)</h4> <input type="file" id="gemini-file-input" accept=".wav,.mp3,.mpeg,.mp4,.m4a,.avi,.mov,.wmv,.flv,.mkv,.webm"> </div> <div class="section"> <h4>2. Chọn ngôn ngữ</h4> <select id="gemini-language-select"><option value="Vietnamese">Vietnamese</option><option value="English">English</option><option value="Arabic">Arabic</option><option value="Cantonese">Cantonese</option><option value="Chinese (Mandarin)">Chinese (Mandarin)</option><option value="Dutch">Dutch</option><option value="French">French</option><option value="German">German</option><option value="Indonesian">Indonesian</option><option value="Italian">Italian</option><option value="Japanese">Japanese</option><option value="Korean">Korean</option><option value="Portuguese">Portuguese</option><option value="Russian">Russian</option><option value="Spanish">Spanish</option><option value="Turkish">Turkish</option><option value="Ukrainian">Ukrainian</option><option value="Thai">Thai</option><option value="Polish">Polish</option><option value="Romanian">Romanian</option><option value="Greek">Greek</option><option value="Czech">Czech</option><option value="Finnish">Finnish</option><option value="Hindi">Hindi</option><option value="Bulgarian">Bulgarian</option><option value="Danish">Danish</option><option value="Hebrew">Hebrew</option><option value="Malay">Malay</option><option value="Persian">Persian</option><option value="Slovak">Slovak</option><option value="Swedish">Swedish</option><option value="Croatian">Croatian</option><option value="Filipino">Filipino</option><option value="Hungarian">Hungarian</option><option value="Norwegian">Norwegian</option><option value="Slovenian">Slovenian</option><option value="Catalan">Catalan</option><option value="Nynorsk">Nynorsk</option><option value="Tamil">Tamil</option><option value="Afrikaans">Afrikaans</option></select> </div> <div class="section"> <button id="gemini-upload-btn">Tải lên & Cấu hình tự động</button> <div id="gemini-upload-status"></div> </div> <div class="log-section"> <h2>Log hoạt động</h2> <div id="log-container" class="log-container"> <div class="log-entry">Sẵn sàng theo dõi văn bản chunk</div> </div> <button id="clear-log-btn" class="clear-log-btn">Xóa log</button> </div> </div> </div> </div> <div id="gemini-col-2" class="gemini-column"> <div class="column-header box-info-version"><h3>Trình tạo nội dung</h3><div>Version: 22.0 - Update: 27/01/2025 - Tạo bởi: <a href="https://fb.com/HuynhDucLoi/" target="_blank">Huỳnh Đức Lợi</a></div></div> <div class="column-content">     <div id="gemini-col-2-left">     <div class="section text-section"> <h4>Nhập văn bản cần tạo giọng nói</h4>
+    <div class="column-content"> <div class="section" style="margin-bottom: 10px!important;"> <h4>1. Tải lên tệp âm thanh (Tối đa 1 file, độ dài 20-60 giây)</h4> <input type="file" id="gemini-file-input" accept=".wav,.mp3,.mpeg,.mp4,.m4a,.avi,.mov,.wmv,.flv,.mkv,.webm"> </div> <div class="section"> <h4>2. Chọn ngôn ngữ</h4> <select id="gemini-language-select"><option value="Vietnamese">Vietnamese</option><option value="English">English</option><option value="Arabic">Arabic</option><option value="Cantonese">Cantonese</option><option value="Chinese (Mandarin)">Chinese (Mandarin)</option><option value="Dutch">Dutch</option><option value="French">French</option><option value="German">German</option><option value="Indonesian">Indonesian</option><option value="Italian">Italian</option><option value="Japanese">Japanese</option><option value="Korean">Korean</option><option value="Portuguese">Portuguese</option><option value="Russian">Russian</option><option value="Spanish">Spanish</option><option value="Turkish">Turkish</option><option value="Ukrainian">Ukrainian</option><option value="Thai">Thai</option><option value="Polish">Polish</option><option value="Romanian">Romanian</option><option value="Greek">Greek</option><option value="Czech">Czech</option><option value="Finnish">Finnish</option><option value="Hindi">Hindi</option><option value="Bulgarian">Bulgarian</option><option value="Danish">Danish</option><option value="Hebrew">Hebrew</option><option value="Malay">Malay</option><option value="Persian">Persian</option><option value="Slovak">Slovak</option><option value="Swedish">Swedish</option><option value="Croatian">Croatian</option><option value="Filipino">Filipino</option><option value="Hungarian">Hungarian</option><option value="Norwegian">Norwegian</option><option value="Slovenian">Slovenian</option><option value="Catalan">Catalan</option><option value="Nynorsk">Nynorsk</option><option value="Tamil">Tamil</option><option value="Afrikaans">Afrikaans</option></select> </div> <div class="section"> <button id="gemini-upload-btn">Tải lên & Cấu hình tự động</button> <div id="gemini-upload-status"></div> </div> <div class="log-section"> <h2>Log hoạt động</h2> <div id="log-container" class="log-container"> <div class="log-entry">Sẵn sàng theo dõi văn bản chunk</div> </div> <button id="clear-log-btn" class="clear-log-btn">Xóa log</button> </div> </div> </div> </div> <div id="gemini-col-2" class="gemini-column"> <div class="column-header box-info-version"><h3>Trình tạo nội dung</h3><div>Version: 23.0 - Update: 27/01/2025 - Tạo bởi: <a href="https://fb.com/HuynhDucLoi/" target="_blank">Huỳnh Đức Lợi</a></div></div> <div class="column-content">     <div id="gemini-col-2-left">     <div class="section text-section"> <h4>Nhập văn bản cần tạo giọng nói</h4>
     <div class="text-input-options">
         <div class="input-tabs">
             <button id="text-tab" class="tab-btn active">Nhập trực tiếp</button>
@@ -1680,7 +1680,110 @@ if (window.chunkBlobs && window.chunkBlobs.length > 0) {
         finalBlobs = validBlobs; // Chỉ dùng window.chunkBlobs nếu có dữ liệu
     }
 }
-const InRdxToeqTDyPgDGZb=new Blob(finalBlobs,{'type':VCAHyXsrERcpXVhFPxmgdBjjh(0x1f5)}),BBNDYjhHoGkj_qbbbJu=URL[VCAHyXsrERcpXVhFPxmgdBjjh(0x1f0)](InRdxToeqTDyPgDGZb);PEYtOIOW[VCAHyXsrERcpXVhFPxmgdBjjh(0x25c)]=BBNDYjhHoGkj_qbbbJu,PEYtOIOW[VCAHyXsrERcpXVhFPxmgdBjjh(0x1c8)]=i_B_kZYD(),zQizakWdLEdLjtenmCbNC[VCAHyXsrERcpXVhFPxmgdBjjh(0x1fb)][VCAHyXsrERcpXVhFPxmgdBjjh(0x1e1)]=VCAHyXsrERcpXVhFPxmgdBjjh(0x258),document[VCAHyXsrERcpXVhFPxmgdBjjh(0x1de)](VCAHyXsrERcpXVhFPxmgdBjjh(0x225))[VCAHyXsrERcpXVhFPxmgdBjjh(0x1fb)][VCAHyXsrERcpXVhFPxmgdBjjh(0x1e1)]=VCAHyXsrERcpXVhFPxmgdBjjh(0x258);if(n_WwsStaC$jzsWjOIjRqedTG)n_WwsStaC$jzsWjOIjRqedTG[VCAHyXsrERcpXVhFPxmgdBjjh(0x26c)]();typeof WaveSurfer===VCAHyXsrERcpXVhFPxmgdBjjh(0x24d)&&await new Promise(dyvridmApUsyBfpYIHkxv=>setTimeout(dyvridmApUsyBfpYIHkxv,parseInt(0xf61)+Math.ceil(-parseInt(0x1e0))+-parseInt(0xb8d))),n_WwsStaC$jzsWjOIjRqedTG=WaveSurfer[VCAHyXsrERcpXVhFPxmgdBjjh(0x240)]({'container':VCAHyXsrERcpXVhFPxmgdBjjh(0x274),'waveColor':VCAHyXsrERcpXVhFPxmgdBjjh(0x26a),'progressColor':VCAHyXsrERcpXVhFPxmgdBjjh(0x228),'cursorColor':VCAHyXsrERcpXVhFPxmgdBjjh(0x20c),'barWidth':0x3,'barRadius':0x3,'cursorWidth':0x1,'height':0x64,'barGap':0x3}),n_WwsStaC$jzsWjOIjRqedTG[VCAHyXsrERcpXVhFPxmgdBjjh(0x1d5)](BBNDYjhHoGkj_qbbbJu),n_WwsStaC$jzsWjOIjRqedTG['on'](VCAHyXsrERcpXVhFPxmgdBjjh(0x1d6),()=>{const Ipo_CDaCvNEfh=VCAHyXsrERcpXVhFPxmgdBjjh;XvyPnqSRdJtYjSxingI[Ipo_CDaCvNEfh(0x1c7)]='⏸️';}),n_WwsStaC$jzsWjOIjRqedTG['on'](VCAHyXsrERcpXVhFPxmgdBjjh(0x22d),()=>{const NdVplyNSVhdzFR=VCAHyXsrERcpXVhFPxmgdBjjh;XvyPnqSRdJtYjSxingI[NdVplyNSVhdzFR(0x1c7)]='▶️';});
+
+// =======================================================
+// VALIDATION: Kiểm tra chunks trước khi merge
+// =======================================================
+// Kiểm tra số lượng chunks
+if (finalBlobs.length === 0) {
+    addLogEntry('❌ Không có chunks để gộp file', 'error');
+    return;
+}
+
+// Kiểm tra chunks null/undefined
+const validFinalBlobs = finalBlobs.filter(blob => blob !== null && blob !== undefined);
+if (validFinalBlobs.length !== finalBlobs.length) {
+    const removedCount = finalBlobs.length - validFinalBlobs.length;
+    addLogEntry(`⚠️ Phát hiện ${removedCount} chunk null/undefined, đã loại bỏ`, 'warning');
+    finalBlobs = validFinalBlobs;
+}
+
+addLogEntry(`✅ Validation hoàn tất: ${finalBlobs.length} chunks hợp lệ`, 'success');
+
+// =======================================================
+// BATCH MERGE: Merge từng batch để tránh hết RAM
+// =======================================================
+let InRdxToeqTDyPgDGZb;
+try {
+    if (finalBlobs.length > 100) {
+        addLogEntry(`🔄 File lớn (${finalBlobs.length} chunks) - Đang merge từng batch để tránh hết RAM...`, 'info');
+        const BATCH_SIZE = 50; // Merge 50 chunks mỗi batch
+        const mergedBatches = [];
+        
+        // Bước 1: Chia thành batches và merge từng batch
+        for (let i = 0; i < finalBlobs.length; i += BATCH_SIZE) {
+            const batch = finalBlobs.slice(i, i + BATCH_SIZE);
+            const batchBlob = new Blob(batch, {'type': VCAHyXsrERcpXVhFPxmgdBjjh(0x1f5)});
+            mergedBatches.push(batchBlob);
+            const progress = Math.min(100, Math.round(((i + batch.length) / finalBlobs.length) * 100));
+            addLogEntry(`📊 Đang merge batch ${Math.floor(i / BATCH_SIZE) + 1}/${Math.ceil(finalBlobs.length / BATCH_SIZE)} (${progress}%)...`, 'info');
+            // Cho trình duyệt nghỉ một chút giữa các batch để tránh lag
+            await new Promise(resolve => setTimeout(resolve, 50));
+        }
+        
+        // Bước 2: Merge đệ quy các batches nếu quá nhiều
+        // Nếu có > 10 batches, merge từng nhóm 10 batches để tránh hết RAM
+        if (mergedBatches.length > 10) {
+            addLogEntry(`🔄 Có ${mergedBatches.length} batches - Đang merge đệ quy từng nhóm...`, 'info');
+            let currentBatches = mergedBatches;
+            let level = 1;
+            
+            while (currentBatches.length > 1) {
+                const nextLevelBatches = [];
+                const MERGE_GROUP_SIZE = 10; // Merge 10 batches mỗi nhóm
+                
+                for (let i = 0; i < currentBatches.length; i += MERGE_GROUP_SIZE) {
+                    const group = currentBatches.slice(i, i + MERGE_GROUP_SIZE);
+                    const groupBlob = new Blob(group, {'type': VCAHyXsrERcpXVhFPxmgdBjjh(0x1f5)});
+                    nextLevelBatches.push(groupBlob);
+                    
+                    const groupNum = Math.floor(i / MERGE_GROUP_SIZE) + 1;
+                    const totalGroups = Math.ceil(currentBatches.length / MERGE_GROUP_SIZE);
+                    addLogEntry(`📊 Level ${level}: Đang merge nhóm ${groupNum}/${totalGroups}...`, 'info');
+                    
+                    // Nghỉ một chút giữa các nhóm
+                    await new Promise(resolve => setTimeout(resolve, 50));
+                }
+                
+                currentBatches = nextLevelBatches;
+                level++;
+                
+                // Nếu chỉ còn 1 batch, dừng lại
+                if (currentBatches.length === 1) {
+                    InRdxToeqTDyPgDGZb = currentBatches[0];
+                    break;
+                }
+            }
+            
+            addLogEntry(`✅ Đã merge xong file lớn (${(InRdxToeqTDyPgDGZb.size / 1024 / 1024).toFixed(2)}MB) sau ${level} level(s)`, 'success');
+        } else {
+            // Nếu ≤ 10 batches, merge trực tiếp
+            addLogEntry(`🔄 Đang merge ${mergedBatches.length} batches cuối cùng...`, 'info');
+            InRdxToeqTDyPgDGZb = new Blob(mergedBatches, {'type': VCAHyXsrERcpXVhFPxmgdBjjh(0x1f5)});
+            addLogEntry(`✅ Đã merge xong file lớn (${(InRdxToeqTDyPgDGZb.size / 1024 / 1024).toFixed(2)}MB)`, 'success');
+        }
+    } else {
+        // File nhỏ: merge bình thường
+        addLogEntry(`🔄 File nhỏ (${finalBlobs.length} chunks) - Merge trực tiếp...`, 'info');
+        InRdxToeqTDyPgDGZb = new Blob(finalBlobs, {'type': VCAHyXsrERcpXVhFPxmgdBjjh(0x1f5)});
+        addLogEntry(`✅ Đã merge xong (${(InRdxToeqTDyPgDGZb.size / 1024 / 1024).toFixed(2)}MB)`, 'success');
+    }
+} catch (mergeError) {
+    console.error('❌ Lỗi merge:', mergeError);
+    addLogEntry(`❌ Lỗi merge: ${mergeError.message}`, 'error');
+    addLogEntry(`🔄 Thử merge trực tiếp (fallback)...`, 'warning');
+    
+    // Fallback: merge trực tiếp
+    try {
+        InRdxToeqTDyPgDGZb = new Blob(finalBlobs, {'type': VCAHyXsrERcpXVhFPxmgdBjjh(0x1f5)});
+        addLogEntry(`✅ Đã merge bằng phương pháp fallback`, 'success');
+    } catch (fallbackError) {
+        addLogEntry(`❌ Lỗi merge fallback: ${fallbackError.message}`, 'error');
+        return;
+    }
+}
+
+const BBNDYjhHoGkj_qbbbJu=URL[VCAHyXsrERcpXVhFPxmgdBjjh(0x1f0)](InRdxToeqTDyPgDGZb);PEYtOIOW[VCAHyXsrERcpXVhFPxmgdBjjh(0x25c)]=BBNDYjhHoGkj_qbbbJu,PEYtOIOW[VCAHyXsrERcpXVhFPxmgdBjjh(0x1c8)]=i_B_kZYD(),zQizakWdLEdLjtenmCbNC[VCAHyXsrERcpXVhFPxmgdBjjh(0x1fb)][VCAHyXsrERcpXVhFPxmgdBjjh(0x1e1)]=VCAHyXsrERcpXVhFPxmgdBjjh(0x258),document[VCAHyXsrERcpXVhFPxmgdBjjh(0x1de)](VCAHyXsrERcpXVhFPxmgdBjjh(0x225))[VCAHyXsrERcpXVhFPxmgdBjjh(0x1fb)][VCAHyXsrERcpXVhFPxmgdBjjh(0x1e1)]=VCAHyXsrERcpXVhFPxmgdBjjh(0x258);if(n_WwsStaC$jzsWjOIjRqedTG)n_WwsStaC$jzsWjOIjRqedTG[VCAHyXsrERcpXVhFPxmgdBjjh(0x26c)]();typeof WaveSurfer===VCAHyXsrERcpXVhFPxmgdBjjh(0x24d)&&await new Promise(dyvridmApUsyBfpYIHkxv=>setTimeout(dyvridmApUsyBfpYIHkxv,parseInt(0xf61)+Math.ceil(-parseInt(0x1e0))+-parseInt(0xb8d))),n_WwsStaC$jzsWjOIjRqedTG=WaveSurfer[VCAHyXsrERcpXVhFPxmgdBjjh(0x240)]({'container':VCAHyXsrERcpXVhFPxmgdBjjh(0x274),'waveColor':VCAHyXsrERcpXVhFPxmgdBjjh(0x26a),'progressColor':VCAHyXsrERcpXVhFPxmgdBjjh(0x228),'cursorColor':VCAHyXsrERcpXVhFPxmgdBjjh(0x20c),'barWidth':0x3,'barRadius':0x3,'cursorWidth':0x1,'height':0x64,'barGap':0x3}),n_WwsStaC$jzsWjOIjRqedTG[VCAHyXsrERcpXVhFPxmgdBjjh(0x1d5)](BBNDYjhHoGkj_qbbbJu),n_WwsStaC$jzsWjOIjRqedTG['on'](VCAHyXsrERcpXVhFPxmgdBjjh(0x1d6),()=>{const Ipo_CDaCvNEfh=VCAHyXsrERcpXVhFPxmgdBjjh;XvyPnqSRdJtYjSxingI[Ipo_CDaCvNEfh(0x1c7)]='⏸️';}),n_WwsStaC$jzsWjOIjRqedTG['on'](VCAHyXsrERcpXVhFPxmgdBjjh(0x22d),()=>{const NdVplyNSVhdzFR=VCAHyXsrERcpXVhFPxmgdBjjh;XvyPnqSRdJtYjSxingI[NdVplyNSVhdzFR(0x1c7)]='▶️';});
 
         // --- BẮT ĐẦU NÂNG CẤP: THÊM NÚT TẢI CHUNKS (ZIP) ---
         try {
@@ -4687,24 +4790,47 @@ async function waitForVoiceModelReady() {
             // Hủy WaveSurfer cũ (nếu có)
             if (n_WwsStaC$jzsWjOIjRqedTG) n_WwsStaC$jzsWjOIjRqedTG.destroy();
 
-            // Reset các biến hệ thống legacy
+            // =======================================================
+            // == XÓA SẠCH MỌI DỮ LIỆU CŨ ĐỂ TRÁNH DÍNH ÂM THANH CŨ ==
+            // =======================================================
+            addLogEntry('🧹 Đang xóa sạch dữ liệu cũ...', 'info');
+            
+            // 1. Xóa tất cả timeout đang chạy (tránh xử lý chunk cũ)
+            if (typeof window.chunkTimeoutIds !== 'undefined' && window.chunkTimeoutIds) {
+                Object.values(window.chunkTimeoutIds).forEach(timeoutId => {
+                    if (timeoutId) clearTimeout(timeoutId);
+                });
+                window.chunkTimeoutIds = {};
+            }
+            
+            // 2. Reset các mảng blob (âm thanh cũ)
             ZTQj$LF$o = []; // Mảng chứa blob (legacy)
             window.chunkBlobs = []; // Đảm bảo mảng blob MỚI cũng được reset
-
-            // QUAN TRỌNG: Sử dụng hàm smartSplitter MỚI để chia chunk
-            SI$acY = smartSplitter(sanitizedText, 3000); // Mảng chứa text (legacy)
-
-            ttuo$y_KhCV = 0; // Index chunk hiện tại (legacy)
-            EfNjYNYj_O_CGB = true; // Cờ đang chạy (legacy)
-            MEpJezGZUsmpZdAgFRBRZW = false; // Cờ tạm dừng (legacy)
-
-            // Reset hệ thống theo dõi chunk của cơ chế legacy
-            window.chunkStatus = new Array(SI$acY.length).fill('pending');
-            window.chunk1Failed = false; // Reset flag kiểm tra lỗi cấu hình chunk 1
+            
+            // 3. Reset các biến trạng thái chunk
+            window.chunkStatus = [];
             window.failedChunks = [];
+            window.chunk1Failed = false;
             window.isFinalCheck = false;
             window.retryCount = 0;
             window.totalRetryAttempts = 0;
+            window.missingChunkRetryCount = 0;
+            window.timeoutRetryCount = {};
+            window.CURRENT_JOB_CHARS = 0;
+            
+            // 4. Reset các biến hệ thống legacy
+            ttuo$y_KhCV = 0; // Index chunk hiện tại (legacy)
+            EfNjYNYj_O_CGB = true; // Cờ đang chạy (legacy)
+            MEpJezGZUsmpZdAgFRBRZW = false; // Cờ tạm dừng (legacy)
+            
+            // 5. QUAN TRỌNG: Sử dụng hàm smartSplitter MỚI để chia chunk
+            SI$acY = smartSplitter(sanitizedText, 3000); // Mảng chứa text (legacy)
+            
+            // 6. Khởi tạo lại hệ thống theo dõi chunk với số lượng chunk mới
+            window.chunkStatus = new Array(SI$acY.length).fill('pending');
+            
+            addLogEntry(`✅ Đã xóa sạch dữ liệu cũ. Bắt đầu với ${SI$acY.length} chunk mới.`, 'success');
+            // =======================================================
 
             // Cập nhật UI (Từ code legacy)
             LrkOcBYz_$AGjPqXLWnyiATpCI.style.display = 'none';
