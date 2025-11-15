@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      21.0
+// @version      24.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -2713,6 +2713,30 @@ async function waitForButton(buttonTexts, timeout = 15000) {
 }
 
 // =======================================================
+// HÀM HELPER: Kiểm tra web có đang sẵn sàng không
+// =======================================================
+function checkWebReady() {
+    try {
+        const buttonTexts = ['generate', 'tạo', 'regenerate', 'tạo lại'];
+        const stableButtonSelector = '.clone-voice-ux-v2 button.ant-btn, button[class*="ant-btn"], .ant-btn, button';
+        const buttons = document.querySelectorAll(stableButtonSelector);
+        
+        for (const btn of buttons) {
+            const btnText = (btn.textContent || btn.innerText || '').toLowerCase().trim();
+            if (btnText && buttonTexts.some(text => btnText.includes(text))) {
+                // Kiểm tra nút có visible và không disabled
+                if (btn.offsetParent !== null && !btn.disabled) {
+                    return true; // Web sẵn sàng
+                }
+            }
+        }
+        return false; // Web chưa sẵn sàng
+    } catch (error) {
+        return false; // Nếu có lỗi, coi như chưa sẵn sàng
+    }
+}
+
+// =======================================================
 // HÀM HELPER: Reset giao diện và clear textarea
 // =======================================================
 async function resetWebInterface() {
@@ -2837,15 +2861,30 @@ async function uSTZrHUt_IC() {
             window.isFinalCheck = true;
             window.retryCount = 0; // Reset bộ đếm retry
             
-            // Sử dụng hàm helper để reset
+            // KIỂM TRA: Web có đang sẵn sàng không?
             (async () => {
-                await resetWebInterface();
+                const webReady = checkWebReady();
                 
-                // Nhảy thẳng đến chunk lỗi đầu tiên, không đếm lại từ đầu
-                const firstFailedIndex = Math.min(...failedChunks);
-                ttuo$y_KhCV = firstFailedIndex;
-                addLogEntry(`🔄 RETRY MODE: Nhảy thẳng đến chunk ${firstFailedIndex + 1} (chunk lỗi đầu tiên), chỉ xử lý chunks lỗi`, 'info');
-                setTimeout(uSTZrHUt_IC, 2000); // Chờ 2 giây rồi bắt đầu xử lý
+                if (webReady) {
+                    // Web đang hoạt động tốt, bỏ qua reset
+                    addLogEntry(`✅ Web đang hoạt động tốt, bỏ qua reset`, 'info');
+                    
+                    // Nhảy thẳng đến chunk lỗi đầu tiên, không đếm lại từ đầu
+                    const firstFailedIndex = Math.min(...failedChunks);
+                    ttuo$y_KhCV = firstFailedIndex;
+                    addLogEntry(`🔄 RETRY MODE: Nhảy thẳng đến chunk ${firstFailedIndex + 1} (chunk lỗi đầu tiên), chỉ xử lý chunks lỗi`, 'info');
+                    setTimeout(uSTZrHUt_IC, 500); // Chờ ngắn rồi bắt đầu xử lý ngay
+                } else {
+                    // Web chưa sẵn sàng, cần reset
+                    addLogEntry(`⚠️ Web chưa sẵn sàng, cần reset...`, 'info');
+                    await resetWebInterface();
+                    
+                    // Nhảy thẳng đến chunk lỗi đầu tiên, không đếm lại từ đầu
+                    const firstFailedIndex = Math.min(...failedChunks);
+                    ttuo$y_KhCV = firstFailedIndex;
+                    addLogEntry(`🔄 RETRY MODE: Nhảy thẳng đến chunk ${firstFailedIndex + 1} (chunk lỗi đầu tiên), chỉ xử lý chunks lỗi`, 'info');
+                    setTimeout(uSTZrHUt_IC, 2000); // Chờ 2 giây rồi bắt đầu xử lý
+                }
             })();
             return;
         }
@@ -2869,18 +2908,36 @@ async function uSTZrHUt_IC() {
                 addLogEntry(`⏳ Tool sẽ retry VÔ HẠN cho đến khi TẤT CẢ chunk thành công!`, 'info');
                 addLogEntry(`📊 Thống kê: ${window.totalRetryAttempts} lần retry đã thực hiện`, 'info');
                 
-                // Sử dụng hàm helper để reset
+                // KIỂM TRA: Web có đang sẵn sàng không?
                 (async () => {
-                    await resetWebInterface();
+                    const webReady = checkWebReady();
                     
-                    // KHÔNG ghép file khi còn chunk thất bại - tiếp tục retry VÔ HẠN
-                    window.retryCount = 0; // Reset bộ đếm retry
-                    window.totalRetryAttempts++; // Tăng bộ đếm retry tổng thể
-                    // Nhảy thẳng đến chunk lỗi đầu tiên, không đếm lại từ đầu
-                    const firstFailedIndex = Math.min(...window.failedChunks);
-                    ttuo$y_KhCV = firstFailedIndex;
-                    addLogEntry(`🔄 RETRY MODE: Nhảy thẳng đến chunk ${firstFailedIndex + 1} (chunk lỗi đầu tiên), chỉ xử lý chunks lỗi`, 'info');
-                    setTimeout(uSTZrHUt_IC, 2000); // Chờ 2 giây rồi bắt đầu lại
+                    if (webReady) {
+                        // Web đang hoạt động tốt, bỏ qua reset
+                        addLogEntry(`✅ Web đang hoạt động tốt, bỏ qua reset`, 'info');
+                        
+                        // KHÔNG ghép file khi còn chunk thất bại - tiếp tục retry VÔ HẠN
+                        window.retryCount = 0; // Reset bộ đếm retry
+                        window.totalRetryAttempts++; // Tăng bộ đếm retry tổng thể
+                        // Nhảy thẳng đến chunk lỗi đầu tiên, không đếm lại từ đầu
+                        const firstFailedIndex = Math.min(...window.failedChunks);
+                        ttuo$y_KhCV = firstFailedIndex;
+                        addLogEntry(`🔄 RETRY MODE: Nhảy thẳng đến chunk ${firstFailedIndex + 1} (chunk lỗi đầu tiên), chỉ xử lý chunks lỗi`, 'info');
+                        setTimeout(uSTZrHUt_IC, 500); // Chờ ngắn rồi bắt đầu lại ngay
+                    } else {
+                        // Web chưa sẵn sàng, cần reset
+                        addLogEntry(`⚠️ Web chưa sẵn sàng, cần reset...`, 'info');
+                        await resetWebInterface();
+                        
+                        // KHÔNG ghép file khi còn chunk thất bại - tiếp tục retry VÔ HẠN
+                        window.retryCount = 0; // Reset bộ đếm retry
+                        window.totalRetryAttempts++; // Tăng bộ đếm retry tổng thể
+                        // Nhảy thẳng đến chunk lỗi đầu tiên, không đếm lại từ đầu
+                        const firstFailedIndex = Math.min(...window.failedChunks);
+                        ttuo$y_KhCV = firstFailedIndex;
+                        addLogEntry(`🔄 RETRY MODE: Nhảy thẳng đến chunk ${firstFailedIndex + 1} (chunk lỗi đầu tiên), chỉ xử lý chunks lỗi`, 'info');
+                        setTimeout(uSTZrHUt_IC, 2000); // Chờ 2 giây rồi bắt đầu lại
+                    }
                 })();
                 return;
             } else {
@@ -3593,11 +3650,22 @@ async function uSTZrHUt_IC() {
                         addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Đã được xử lý thành công trước đó, bỏ qua`, 'warning');
                         return;
                     }
-                    // QUAN TRỌNG: Kiểm tra xem chunk này có đang được xử lý không (pending)
-                    // Nếu chunk này không phải 'pending', có nghĩa là nó đã được xử lý hoặc không phải chunk hiện tại
-                    if (window.chunkStatus && window.chunkStatus[currentChunkIndex] && window.chunkStatus[currentChunkIndex] !== 'pending') {
-                        addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Không phải trạng thái 'pending' (${window.chunkStatus[currentChunkIndex]}), bỏ qua`, 'warning');
-                        return;
+                    // QUAN TRỌNG: Kiểm tra xem chunk này có đang được xử lý không (pending hoặc failed khi retry)
+                    // Nếu đang trong chế độ retry (isFinalCheck), cho phép xử lý chunk failed
+                    // Nếu không phải retry mode, chỉ xử lý chunk pending
+                    if (window.chunkStatus && window.chunkStatus[currentChunkIndex]) {
+                        const status = window.chunkStatus[currentChunkIndex];
+                        // Cho phép xử lý nếu: pending (bình thường) hoặc failed (khi retry)
+                        if (status === 'pending') {
+                            // OK, chunk đang pending
+                        } else if (status === 'failed' && window.isFinalCheck) {
+                            // OK, chunk failed và đang trong chế độ retry
+                            addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Đang retry chunk failed...`, 'info');
+                        } else {
+                            // Không phải pending và không phải failed trong retry mode
+                            addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Không phải trạng thái 'pending' hoặc 'failed' trong retry mode (${status}), bỏ qua`, 'warning');
+                            return;
+                        }
                     }
                     
                     // Đánh dấu chunk này đang được xử lý
