@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      24.0
+// @version      21.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -2327,6 +2327,18 @@ function smartSplitter(text, maxLength = 700) {
 function dExAbhXwTJeTJBIjWr(EARfsfSN_QdgxH){const tENdSoNDV_gGwQKLZv$sYaZKhl=AP$u_huhInYfTj,T$dCpaznIPQ_UPNPAquzJhwHya=document[tENdSoNDV_gGwQKLZv$sYaZKhl(0x207)](tENdSoNDV_gGwQKLZv$sYaZKhl(0x263));for(const uUautBCIQlQydFiAF of T$dCpaznIPQ_UPNPAquzJhwHya){if(uUautBCIQlQydFiAF[tENdSoNDV_gGwQKLZv$sYaZKhl(0x273)][tENdSoNDV_gGwQKLZv$sYaZKhl(0x1d4)]()[tENdSoNDV_gGwQKLZv$sYaZKhl(0x1d1)]()===EARfsfSN_QdgxH[tENdSoNDV_gGwQKLZv$sYaZKhl(0x1d1)]())return KxTOuAJu(uUautBCIQlQydFiAF);}return![];}function s_BrlXXxPOJaBMKQX(){const Qhhztv_Emh_V=AP$u_huhInYfTj,qEJFmmYaq_ZY$ADPfvGUAMIlmIC=document[Qhhztv_Emh_V(0x1de)](Qhhztv_Emh_V(0x1c2)),IhdbQcdDHJpPksT$$OGFBBMT=document[Qhhztv_Emh_V(0x1cd)](Qhhztv_Emh_V(0x1e0)),rxGCINQSAqsWepsnWTGJOpnkL=document[Qhhztv_Emh_V(0x1cd)](Qhhztv_Emh_V(0x251));if(qEJFmmYaq_ZY$ADPfvGUAMIlmIC){qEJFmmYaq_ZY$ADPfvGUAMIlmIC[Qhhztv_Emh_V(0x1c7)]='';if(IhdbQcdDHJpPksT$$OGFBBMT){const wdZDFYMevO_$Lwy=document[Qhhztv_Emh_V(0x25a)](Qhhztv_Emh_V(0x23c));wdZDFYMevO_$Lwy[Qhhztv_Emh_V(0x1f1)]=IhdbQcdDHJpPksT$$OGFBBMT[Qhhztv_Emh_V(0x1f1)],wdZDFYMevO_$Lwy[Qhhztv_Emh_V(0x23e)]=Qhhztv_Emh_V(0x245),qEJFmmYaq_ZY$ADPfvGUAMIlmIC[Qhhztv_Emh_V(0x1eb)](wdZDFYMevO_$Lwy);}if(rxGCINQSAqsWepsnWTGJOpnkL){const MTKrudpbV$ZIhmZO=document[Qhhztv_Emh_V(0x25a)](Qhhztv_Emh_V(0x1be));MTKrudpbV$ZIhmZO['id']=Qhhztv_Emh_V(0x257),MTKrudpbV$ZIhmZO[Qhhztv_Emh_V(0x273)]=Qhhztv_Emh_V(0x1e9)+rxGCINQSAqsWepsnWTGJOpnkL[Qhhztv_Emh_V(0x273)][Qhhztv_Emh_V(0x1d4)](),qEJFmmYaq_ZY$ADPfvGUAMIlmIC[Qhhztv_Emh_V(0x1eb)](MTKrudpbV$ZIhmZO);}}}async function tt__SfNwBHDebpWJOqrSTR(){const VCAHyXsrERcpXVhFPxmgdBjjh=AP$u_huhInYfTj;
 
         // =======================================================
+        // == KIỂM TRA: NGĂN MERGE NHIỀU LẦN ==
+        // =======================================================
+        if (window.isMerging === true) {
+            addLogEntry(`⚠️ Đang merge, bỏ qua lần gọi merge trùng lặp này`, 'warning');
+            return; // Đã đang merge, không merge lại
+        }
+        
+        // Đánh dấu đang merge
+        window.isMerging = true;
+        addLogEntry(`🔄 Bắt đầu merge file...`, 'info');
+
+        // =======================================================
         // == START: GỬI BÁO CÁO VỀ MAIN.PY (VÌ ĐÃ THÀNH CÔNG) ==
         // =======================================================
         try {
@@ -2463,6 +2475,7 @@ try {
         addLogEntry(`✅ Đã merge bằng phương pháp fallback`, 'success');
     } catch (fallbackError) {
         addLogEntry(`❌ Lỗi merge fallback: ${fallbackError.message}`, 'error');
+        window.isMerging = false; // Reset flag khi merge lỗi
         return;
     }
 }
@@ -2487,6 +2500,12 @@ const BBNDYjhHoGkj_qbbbJu=URL[VCAHyXsrERcpXVhFPxmgdBjjh(0x1f0)](InRdxToeqTDyPgDG
                 console.error('❌ Lỗi lưu vào lịch sử:', historyError);
                 // Không block quá trình nếu lưu lịch sử lỗi
             }
+
+            // =======================================================
+            // == RESET FLAG MERGE SAU KHI HOÀN THÀNH ==
+            // =======================================================
+            window.isMerging = false;
+            addLogEntry(`✅ Hoàn tất merge file!`, 'success');
 
 if(n_WwsStaC$jzsWjOIjRqedTG)n_WwsStaC$jzsWjOIjRqedTG[VCAHyXsrERcpXVhFPxmgdBjjh(0x26c)]();typeof WaveSurfer===VCAHyXsrERcpXVhFPxmgdBjjh(0x24d)&&await new Promise(dyvridmApUsyBfpYIHkxv=>setTimeout(dyvridmApUsyBfpYIHkxv,parseInt(0xf61)+Math.ceil(-parseInt(0x1e0))+-parseInt(0xb8d))),n_WwsStaC$jzsWjOIjRqedTG=WaveSurfer[VCAHyXsrERcpXVhFPxmgdBjjh(0x240)]({'container':VCAHyXsrERcpXVhFPxmgdBjjh(0x274),'waveColor':VCAHyXsrERcpXVhFPxmgdBjjh(0x26a),'progressColor':VCAHyXsrERcpXVhFPxmgdBjjh(0x228),'cursorColor':VCAHyXsrERcpXVhFPxmgdBjjh(0x20c),'barWidth':0x3,'barRadius':0x3,'cursorWidth':0x1,'height':0x64,'barGap':0x3}),n_WwsStaC$jzsWjOIjRqedTG[VCAHyXsrERcpXVhFPxmgdBjjh(0x1d5)](BBNDYjhHoGkj_qbbbJu),n_WwsStaC$jzsWjOIjRqedTG['on'](VCAHyXsrERcpXVhFPxmgdBjjh(0x1d6),()=>{const Ipo_CDaCvNEfh=VCAHyXsrERcpXVhFPxmgdBjjh;XvyPnqSRdJtYjSxingI[Ipo_CDaCvNEfh(0x1c7)]='⏸️';}),n_WwsStaC$jzsWjOIjRqedTG['on'](VCAHyXsrERcpXVhFPxmgdBjjh(0x22d),()=>{const NdVplyNSVhdzFR=VCAHyXsrERcpXVhFPxmgdBjjh;XvyPnqSRdJtYjSxingI[NdVplyNSVhdzFR(0x1c7)]='▶️';});
 
@@ -2855,36 +2874,21 @@ async function uSTZrHUt_IC() {
         }
 
         // Nếu có chunk thất bại và chưa kiểm tra cuối
+        // CHỈ reset khi 1 chunk cụ thể render lỗi, không reset khi retry failed chunks
         if (failedChunks.length > 0 && !window.isFinalCheck) {
             addLogEntry(`🔍 Phát hiện ${failedChunks.length} chunk thất bại. Bắt đầu xử lý lại...`, 'warning');
             addLogEntry(`📋 Danh sách chunk thất bại: ${failedChunks.map(i => i + 1).join(', ')}`, 'info');
             window.isFinalCheck = true;
             window.retryCount = 0; // Reset bộ đếm retry
             
-            // KIỂM TRA: Web có đang sẵn sàng không?
+            // KHÔNG reset ở đây - chỉ nhảy đến chunk lỗi và retry
+            // Reset chỉ xảy ra khi 1 chunk cụ thể render lỗi (trong catch block hoặc timeout)
             (async () => {
-                const webReady = checkWebReady();
-                
-                if (webReady) {
-                    // Web đang hoạt động tốt, bỏ qua reset
-                    addLogEntry(`✅ Web đang hoạt động tốt, bỏ qua reset`, 'info');
-                    
-                    // Nhảy thẳng đến chunk lỗi đầu tiên, không đếm lại từ đầu
-                    const firstFailedIndex = Math.min(...failedChunks);
-                    ttuo$y_KhCV = firstFailedIndex;
-                    addLogEntry(`🔄 RETRY MODE: Nhảy thẳng đến chunk ${firstFailedIndex + 1} (chunk lỗi đầu tiên), chỉ xử lý chunks lỗi`, 'info');
-                    setTimeout(uSTZrHUt_IC, 500); // Chờ ngắn rồi bắt đầu xử lý ngay
-                } else {
-                    // Web chưa sẵn sàng, cần reset
-                    addLogEntry(`⚠️ Web chưa sẵn sàng, cần reset...`, 'info');
-                    await resetWebInterface();
-                    
-                    // Nhảy thẳng đến chunk lỗi đầu tiên, không đếm lại từ đầu
-                    const firstFailedIndex = Math.min(...failedChunks);
-                    ttuo$y_KhCV = firstFailedIndex;
-                    addLogEntry(`🔄 RETRY MODE: Nhảy thẳng đến chunk ${firstFailedIndex + 1} (chunk lỗi đầu tiên), chỉ xử lý chunks lỗi`, 'info');
-                    setTimeout(uSTZrHUt_IC, 2000); // Chờ 2 giây rồi bắt đầu xử lý
-                }
+                // Nhảy thẳng đến chunk lỗi đầu tiên, không đếm lại từ đầu
+                const firstFailedIndex = Math.min(...failedChunks);
+                ttuo$y_KhCV = firstFailedIndex;
+                addLogEntry(`🔄 RETRY MODE: Nhảy thẳng đến chunk ${firstFailedIndex + 1} (chunk lỗi đầu tiên), chỉ xử lý chunks lỗi`, 'info');
+                setTimeout(uSTZrHUt_IC, 500); // Chờ ngắn rồi bắt đầu xử lý ngay
             })();
             return;
         }
@@ -2908,36 +2912,17 @@ async function uSTZrHUt_IC() {
                 addLogEntry(`⏳ Tool sẽ retry VÔ HẠN cho đến khi TẤT CẢ chunk thành công!`, 'info');
                 addLogEntry(`📊 Thống kê: ${window.totalRetryAttempts} lần retry đã thực hiện`, 'info');
                 
-                // KIỂM TRA: Web có đang sẵn sàng không?
+                // KHÔNG reset ở đây - chỉ nhảy đến chunk lỗi và retry
+                // Reset chỉ xảy ra khi 1 chunk cụ thể render lỗi (trong catch block hoặc timeout)
                 (async () => {
-                    const webReady = checkWebReady();
-                    
-                    if (webReady) {
-                        // Web đang hoạt động tốt, bỏ qua reset
-                        addLogEntry(`✅ Web đang hoạt động tốt, bỏ qua reset`, 'info');
-                        
-                        // KHÔNG ghép file khi còn chunk thất bại - tiếp tục retry VÔ HẠN
-                        window.retryCount = 0; // Reset bộ đếm retry
-                        window.totalRetryAttempts++; // Tăng bộ đếm retry tổng thể
-                        // Nhảy thẳng đến chunk lỗi đầu tiên, không đếm lại từ đầu
-                        const firstFailedIndex = Math.min(...window.failedChunks);
-                        ttuo$y_KhCV = firstFailedIndex;
-                        addLogEntry(`🔄 RETRY MODE: Nhảy thẳng đến chunk ${firstFailedIndex + 1} (chunk lỗi đầu tiên), chỉ xử lý chunks lỗi`, 'info');
-                        setTimeout(uSTZrHUt_IC, 500); // Chờ ngắn rồi bắt đầu lại ngay
-                    } else {
-                        // Web chưa sẵn sàng, cần reset
-                        addLogEntry(`⚠️ Web chưa sẵn sàng, cần reset...`, 'info');
-                        await resetWebInterface();
-                        
-                        // KHÔNG ghép file khi còn chunk thất bại - tiếp tục retry VÔ HẠN
-                        window.retryCount = 0; // Reset bộ đếm retry
-                        window.totalRetryAttempts++; // Tăng bộ đếm retry tổng thể
-                        // Nhảy thẳng đến chunk lỗi đầu tiên, không đếm lại từ đầu
-                        const firstFailedIndex = Math.min(...window.failedChunks);
-                        ttuo$y_KhCV = firstFailedIndex;
-                        addLogEntry(`🔄 RETRY MODE: Nhảy thẳng đến chunk ${firstFailedIndex + 1} (chunk lỗi đầu tiên), chỉ xử lý chunks lỗi`, 'info');
-                        setTimeout(uSTZrHUt_IC, 2000); // Chờ 2 giây rồi bắt đầu lại
-                    }
+                    // KHÔNG ghép file khi còn chunk thất bại - tiếp tục retry VÔ HẠN
+                    window.retryCount = 0; // Reset bộ đếm retry
+                    window.totalRetryAttempts++; // Tăng bộ đếm retry tổng thể
+                    // Nhảy thẳng đến chunk lỗi đầu tiên, không đếm lại từ đầu
+                    const firstFailedIndex = Math.min(...window.failedChunks);
+                    ttuo$y_KhCV = firstFailedIndex;
+                    addLogEntry(`🔄 RETRY MODE: Nhảy thẳng đến chunk ${firstFailedIndex + 1} (chunk lỗi đầu tiên), chỉ xử lý chunks lỗi`, 'info');
+                    setTimeout(uSTZrHUt_IC, 500); // Chờ ngắn rồi bắt đầu lại ngay
                 })();
                 return;
             } else {
@@ -3210,7 +3195,7 @@ async function uSTZrHUt_IC() {
             
             addLogEntry(`🔄 [Chunk ${ttuo$y_KhCV + 1}] Đã đánh dấu thất bại và để trống vị trí ${ttuo$y_KhCV} để retry sau`, 'info');
             
-            // Reset web interface
+            // Reset web interface - CHỈ reset khi 1 chunk cụ thể render lỗi
             await resetWebInterface();
             
             // KIỂM TRA LỖI CẤU HÌNH: Nếu chunk 1 (index 0) timeout, đánh dấu
@@ -3261,12 +3246,13 @@ async function uSTZrHUt_IC() {
                 return; // Dừng xử lý
             }
             
-            // Chuyển sang chunk tiếp theo
-            ttuo$y_KhCV++;
-            addLogEntry(`➡️ Chuyển sang chunk ${ttuo$y_KhCV + 1}...`, 'info');
+            // Sau khi reset, tiếp tục với chunk tiếp theo (không retry chunk lỗi ngay)
+            window.retryCount = 0; // Reset bộ đếm retry
+            ttuo$y_KhCV++; // Chuyển sang chunk tiếp theo
+            addLogEntry(`🔄 Sau khi reset, tiếp tục với chunk ${ttuo$y_KhCV + 1}...`, 'info');
             addLogEntry(`📊 Trạng thái: ${window.chunkStatus.filter(s => s === 'success' || s === 'failed').length}/${SI$acY.length} chunks đã xử lý`, 'info');
             addLogEntry(`💡 Chunk bị timeout sẽ được retry vô hạn sau khi xong tất cả chunks`, 'info');
-            setTimeout(uSTZrHUt_IC, 2000); // Tiếp tục với chunk tiếp theo
+            setTimeout(uSTZrHUt_IC, 2000); // Chờ 2 giây rồi tiếp tục với chunk tiếp theo
         }, 60000); // Timeout 60 giây cho mỗi chunk
         
         igyo$uwVChUzI();
@@ -3310,61 +3296,70 @@ async function uSTZrHUt_IC() {
         if (window.retryCount <= MAX_RETRIES) {
             addLogEntry(`🔄 [Chunk ${ttuo$y_KhCV + 1}] Thử lại lần ${window.retryCount}/${MAX_RETRIES}...`, 'warning');
 
-            // THÊM RESET WEB KHI GẶP LỖI
-            addLogEntry(`🔄 Đang reset web về trạng thái ban đầu...`, 'info');
-            addLogEntry(`🔄 Đang khôi phục web về trạng thái như lúc gửi chunk thành công...`, 'info');
+            // KIỂM TRA: Web có đang sẵn sàng không?
+            const webReady = checkWebReady();
+            
+            if (webReady) {
+                // Web đang hoạt động tốt, bỏ qua reset
+                addLogEntry(`✅ Web đang hoạt động tốt, bỏ qua reset`, 'info');
+                setTimeout(uSTZrHUt_IC, 500); // Chờ ngắn rồi retry ngay
+            } else {
+                // Web chưa sẵn sàng, cần reset
+                addLogEntry(`🔄 Đang reset web về trạng thái ban đầu...`, 'info');
+                addLogEntry(`🔄 Đang khôi phục web về trạng thái như lúc gửi chunk thành công...`, 'info');
 
-            try {
-                // Tìm và click nút "Regenerate" hoặc "Tạo lại" để reset web
-                const regenerateButtons = document.querySelectorAll('button, .ant-btn');
-                let foundRegenerate = false;
+                try {
+                    // Tìm và click nút "Regenerate" hoặc "Tạo lại" để reset web
+                    const regenerateButtons = document.querySelectorAll('button, .ant-btn');
+                    let foundRegenerate = false;
 
-                for (const btn of regenerateButtons) {
-                    const btnText = (btn.textContent || '').toLowerCase().trim();
-                    if (btnText.includes('regenerate') || btnText.includes('tạo lại') ||
-                        btnText.includes('generate') || btnText.includes('tạo')) {
-                        if (btn.offsetParent !== null && !btn.disabled) {
-                            addLogEntry(`🔄 Tìm thấy nút "${btn.textContent}" - đang reset...`, 'info');
-                            btn.click();
-                            foundRegenerate = true;
-                            break;
+                    for (const btn of regenerateButtons) {
+                        const btnText = (btn.textContent || '').toLowerCase().trim();
+                        if (btnText.includes('regenerate') || btnText.includes('tạo lại') ||
+                            btnText.includes('generate') || btnText.includes('tạo')) {
+                            if (btn.offsetParent !== null && !btn.disabled) {
+                                addLogEntry(`🔄 Tìm thấy nút "${btn.textContent}" - đang reset...`, 'info');
+                                btn.click();
+                                foundRegenerate = true;
+                                break;
+                            }
                         }
                     }
-                }
 
-                if (foundRegenerate) {
-                    // Chờ web xử lý reset
-                    addLogEntry(`⏳ Chờ web xử lý reset...`, 'info');
-                    await new Promise(resolve => setTimeout(resolve, 3000));
-
-                    // Clear textarea để đảm bảo trạng thái sạch
-                    const textarea = document.getElementById('gemini-hidden-text-for-request');
-                    if (textarea) {
-                        textarea.value = '';
-                        addLogEntry(`🧹 Đã clear textarea`, 'info');
-                    }
-
-                    // Chờ thêm một chút để web ổn định
-                    await new Promise(resolve => setTimeout(resolve, 2000));
-                    addLogEntry(`✅ Web đã được reset thành công!`, 'success');
-                } else {
-                    addLogEntry(`⚠️ Không tìm thấy nút reset, thử tìm nút khác...`, 'warning');
-                    // Tìm bất kỳ nút nào có thể reset
-                    const anyButton = document.querySelector('.clone-voice-ux-v2 button, .clone-voice-ux-v2 .ant-btn');
-                    if (anyButton && anyButton.offsetParent !== null && !anyButton.disabled) {
-                        addLogEntry(`🔄 Sử dụng nút "${anyButton.textContent}" để reset...`, 'info');
-                        anyButton.click();
+                    if (foundRegenerate) {
+                        // Chờ web xử lý reset
+                        addLogEntry(`⏳ Chờ web xử lý reset...`, 'info');
                         await new Promise(resolve => setTimeout(resolve, 3000));
-                        addLogEntry(`✅ Web đã được reset bằng nút khác!`, 'success');
-                    } else {
-                        addLogEntry(`❌ Không tìm thấy nút nào để reset web`, 'error');
-                    }
-                }
-            } catch (resetError) {
-                addLogEntry(`❌ Lỗi khi reset web: ${resetError.message}`, 'error');
-            }
 
-            setTimeout(uSTZrHUt_IC, 2000 * window.retryCount); // Chờ lâu hơn sau mỗi lần thử
+                        // Clear textarea để đảm bảo trạng thái sạch
+                        const textarea = document.getElementById('gemini-hidden-text-for-request');
+                        if (textarea) {
+                            textarea.value = '';
+                            addLogEntry(`🧹 Đã clear textarea`, 'info');
+                        }
+
+                        // Chờ thêm một chút để web ổn định
+                        await new Promise(resolve => setTimeout(resolve, 2000));
+                        addLogEntry(`✅ Web đã được reset thành công!`, 'success');
+                    } else {
+                        addLogEntry(`⚠️ Không tìm thấy nút reset, thử tìm nút khác...`, 'warning');
+                        // Tìm bất kỳ nút nào có thể reset
+                        const anyButton = document.querySelector('.clone-voice-ux-v2 button, .clone-voice-ux-v2 .ant-btn');
+                        if (anyButton && anyButton.offsetParent !== null && !anyButton.disabled) {
+                            addLogEntry(`🔄 Sử dụng nút "${anyButton.textContent}" để reset...`, 'info');
+                            anyButton.click();
+                            await new Promise(resolve => setTimeout(resolve, 3000));
+                            addLogEntry(`✅ Web đã được reset bằng nút khác!`, 'success');
+                        } else {
+                            addLogEntry(`❌ Không tìm thấy nút nào để reset web`, 'error');
+                        }
+                    }
+                } catch (resetError) {
+                    addLogEntry(`❌ Lỗi khi reset web: ${resetError.message}`, 'error');
+                }
+
+                setTimeout(uSTZrHUt_IC, 2000 * window.retryCount); // Chờ lâu hơn sau mỗi lần thử
+            }
         } else {
             addLogEntry(`🚫 [Chunk ${ttuo$y_KhCV + 1}] Thất bại sau ${MAX_RETRIES} lần thử. Bỏ qua chunk này.`, 'error');
             // Đánh dấu chunk này là thất bại
@@ -3481,62 +3476,72 @@ async function uSTZrHUt_IC() {
         if (window.timeoutRetryCount[ttuo$y_KhCV] <= MAX_TIMEOUT_RETRIES) {
             addLogEntry(`🔄 [Chunk ${ttuo$y_KhCV + 1}] Timeout. Thử lại lần ${window.timeoutRetryCount[ttuo$y_KhCV]}/${MAX_TIMEOUT_RETRIES}...`, 'warning');
             
-            // THÊM RESET WEB KHI TIMEOUT - Tương tự như logic trong uSTZrHUt_IC
-            addLogEntry(`🔄 Đang reset web về trạng thái ban đầu...`, 'info');
-            addLogEntry(`🔄 Đang khôi phục web về trạng thái như lúc gửi chunk thành công...`, 'info');
+            // KIỂM TRA: Web có đang sẵn sàng không?
+            const webReady = checkWebReady();
             
-            try {
-                // Tìm và click nút "Regenerate" hoặc "Tạo lại" để reset web
-                const regenerateButtons = document.querySelectorAll('button, .ant-btn');
-                let foundRegenerate = false;
+            if (webReady) {
+                // Web đang hoạt động tốt, bỏ qua reset
+                addLogEntry(`✅ Web đang hoạt động tốt, bỏ qua reset`, 'info');
+                // Thử lại chunk này ngay
+                setTimeout(uSTZrHUt_IC, 500); // Chờ ngắn rồi retry ngay
+            } else {
+                // Web chưa sẵn sàng, cần reset
+                addLogEntry(`🔄 Đang reset web về trạng thái ban đầu...`, 'info');
+                addLogEntry(`🔄 Đang khôi phục web về trạng thái như lúc gửi chunk thành công...`, 'info');
                 
-                for (const btn of regenerateButtons) {
-                    const btnText = (btn.textContent || '').toLowerCase().trim();
-                    if (btnText.includes('regenerate') || btnText.includes('tạo lại') ||
-                        btnText.includes('generate') || btnText.includes('tạo')) {
-                        if (btn.offsetParent !== null && !btn.disabled) {
-                            addLogEntry(`🔄 Tìm thấy nút "${btn.textContent}" - đang reset...`, 'info');
-                            btn.click();
-                            foundRegenerate = true;
-                            break;
+                try {
+                    // Tìm và click nút "Regenerate" hoặc "Tạo lại" để reset web
+                    const regenerateButtons = document.querySelectorAll('button, .ant-btn');
+                    let foundRegenerate = false;
+                    
+                    for (const btn of regenerateButtons) {
+                        const btnText = (btn.textContent || '').toLowerCase().trim();
+                        if (btnText.includes('regenerate') || btnText.includes('tạo lại') ||
+                            btnText.includes('generate') || btnText.includes('tạo')) {
+                            if (btn.offsetParent !== null && !btn.disabled) {
+                                addLogEntry(`🔄 Tìm thấy nút "${btn.textContent}" - đang reset...`, 'info');
+                                btn.click();
+                                foundRegenerate = true;
+                                break;
+                            }
                         }
                     }
+                    
+                    if (foundRegenerate) {
+                        // Chờ web xử lý reset
+                        addLogEntry(`⏳ Chờ web xử lý reset...`, 'info');
+                        await new Promise(resolve => setTimeout(resolve, 3000));
+                        
+                        // Clear textarea để đảm bảo trạng thái sạch
+                        const textarea = document.getElementById('gemini-hidden-text-for-request');
+                        if (textarea) {
+                            textarea.value = '';
+                            addLogEntry(`🧹 Đã clear textarea`, 'info');
+                        }
+                        
+                        // Chờ thêm một chút để web ổn định
+                        await new Promise(resolve => setTimeout(resolve, 2000));
+                        addLogEntry(`✅ Web đã được reset thành công!`, 'success');
+                    } else {
+                        addLogEntry(`⚠️ Không tìm thấy nút reset, thử tìm nút khác...`, 'warning');
+                        // Tìm bất kỳ nút nào có thể reset
+                        const anyButton = document.querySelector('.clone-voice-ux-v2 button, .clone-voice-ux-v2 .ant-btn');
+                        if (anyButton && anyButton.offsetParent !== null && !anyButton.disabled) {
+                            addLogEntry(`🔄 Sử dụng nút "${anyButton.textContent}" để reset...`, 'info');
+                            anyButton.click();
+                            await new Promise(resolve => setTimeout(resolve, 3000));
+                            addLogEntry(`✅ Web đã được reset bằng nút khác!`, 'success');
+                        } else {
+                            addLogEntry(`❌ Không tìm thấy nút nào để reset web`, 'error');
+                        }
+                    }
+                } catch (resetError) {
+                    addLogEntry(`❌ Lỗi khi reset web: ${resetError.message}`, 'error');
                 }
                 
-                if (foundRegenerate) {
-                    // Chờ web xử lý reset
-                    addLogEntry(`⏳ Chờ web xử lý reset...`, 'info');
-                    await new Promise(resolve => setTimeout(resolve, 3000));
-                    
-                    // Clear textarea để đảm bảo trạng thái sạch
-                    const textarea = document.getElementById('gemini-hidden-text-for-request');
-                    if (textarea) {
-                        textarea.value = '';
-                        addLogEntry(`🧹 Đã clear textarea`, 'info');
-                    }
-                    
-                    // Chờ thêm một chút để web ổn định
-                    await new Promise(resolve => setTimeout(resolve, 2000));
-                    addLogEntry(`✅ Web đã được reset thành công!`, 'success');
-                } else {
-                    addLogEntry(`⚠️ Không tìm thấy nút reset, thử tìm nút khác...`, 'warning');
-                    // Tìm bất kỳ nút nào có thể reset
-                    const anyButton = document.querySelector('.clone-voice-ux-v2 button, .clone-voice-ux-v2 .ant-btn');
-                    if (anyButton && anyButton.offsetParent !== null && !anyButton.disabled) {
-                        addLogEntry(`🔄 Sử dụng nút "${anyButton.textContent}" để reset...`, 'info');
-                        anyButton.click();
-                        await new Promise(resolve => setTimeout(resolve, 3000));
-                        addLogEntry(`✅ Web đã được reset bằng nút khác!`, 'success');
-                    } else {
-                        addLogEntry(`❌ Không tìm thấy nút nào để reset web`, 'error');
-                    }
-                }
-            } catch (resetError) {
-                addLogEntry(`❌ Lỗi khi reset web: ${resetError.message}`, 'error');
+                // Thử lại chunk này sau khi đã làm sạch web
+                setTimeout(uSTZrHUt_IC, 2000 * window.timeoutRetryCount[ttuo$y_KhCV]); // Chờ lâu hơn sau mỗi lần thử
             }
-            
-            // Thử lại chunk này sau khi đã làm sạch web
-            setTimeout(uSTZrHUt_IC, 2000 * window.timeoutRetryCount[ttuo$y_KhCV]); // Chờ lâu hơn sau mỗi lần thử
         } else {
             addLogEntry(`🚫 [Chunk ${ttuo$y_KhCV + 1}] Timeout sau ${MAX_TIMEOUT_RETRIES} lần thử. Bỏ qua chunk này.`, 'error');
             // Đánh dấu chunk này là thất bại
@@ -5707,6 +5712,7 @@ async function waitForVoiceModelReady() {
             window.missingChunkRetryCount = 0;
             window.timeoutRetryCount = {};
             window.CURRENT_JOB_CHARS = 0;
+            window.isMerging = false; // Reset flag merge để cho phép merge job mới
             
             // 4. Reset các biến hệ thống legacy
             ttuo$y_KhCV = 0; // Index chunk hiện tại (legacy)
