@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      24.0
+// @version      21.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -1261,15 +1261,13 @@ button:disabled {
         </div>
         <div id="file-input-area" class="input-area">
             <div class="file-upload-section">
-                <input type="file" id="text-file-input" accept=".txt,.doc,.docx,.rtf,.odt,.pdf,.md,.html,.htm,.xml,.csv,.json" multiple style="display: none;">
+                <input type="file" id="text-file-input" accept=".txt,.doc,.docx,.rtf,.odt,.pdf,.md,.html,.htm,.xml,.csv,.json" style="display: none;">
                 <div class="file-upload-area" id="file-upload-area">
                     <div class="upload-icon">📄</div>
                     <div class="upload-text">
                         <strong>Kéo thả file vào đây hoặc click để chọn</strong>
                         <br>
                         <small>Hỗ trợ: TXT, DOC, DOCX, RTF, ODT, PDF, MD, HTML, XML, CSV, JSON</small>
-                        <br>
-                        <small style="color: #8be9fd; font-weight: bold;">💡 Có thể chọn nhiều file để xử lý tự động!</small>
                     </div>
                 </div>
                 <div id="file-info" class="file-info" style="display: none;">
@@ -2509,48 +2507,7 @@ const BBNDYjhHoGkj_qbbbJu=URL[VCAHyXsrERcpXVhFPxmgdBjjh(0x1f0)](InRdxToeqTDyPgDG
             // == RESET FLAG MERGE SAU KHI HOÀN THÀNH ==
             // =======================================================
             window.isMerging = false;
-            
-            // Lấy thời gian hiện tại để format log
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
-            addLogEntry(`[${timeStr}] ✅ Hoàn tất merge file!`, 'success');
-            
-            // =======================================================
-            // == TIẾP TỤC BATCH PROCESSING NẾU ĐANG XỬ LÝ NHIỀU FILE ==
-            // =======================================================
-            if (window.isProcessingBatch && window.batchFileQueue && window.batchFileQueue.length > 0) {
-                // Tăng index và tiếp tục file tiếp theo
-                window.currentBatchFileIndex++;
-                
-                // Chờ một chút để đảm bảo merge hoàn tất hoàn toàn
-                setTimeout(() => {
-                    // Xóa nội dung textarea để chuẩn bị cho file tiếp theo
-                    const textarea = document.getElementById('gemini-main-textarea');
-                    if (textarea) {
-                        textarea.value = '';
-                        textarea.dispatchEvent(new Event('input'));
-                    }
-                    
-                    // Tiếp tục xử lý file tiếp theo
-                    if (window.currentBatchFileIndex < window.batchFileQueue.length) {
-                        // Gọi hàm processNextBatchFile từ global scope
-                        if (window.processNextBatchFile && typeof window.processNextBatchFile === 'function') {
-                            window.processNextBatchFile();
-                        } else {
-                            // Fallback: trigger event để file upload handler xử lý
-                            const event = new CustomEvent('continueBatchProcessing');
-                            window.dispatchEvent(event);
-                        }
-                    } else {
-                        // Hoàn tất batch
-                        const totalFiles = window.batchFileQueue.length;
-                        window.isProcessingBatch = false;
-                        addLogEntry(`🎉 Đã hoàn tất xử lý tất cả ${totalFiles} file kịch bản!`, 'success');
-                        window.batchFileQueue = [];
-                        window.currentBatchFileIndex = 0;
-                    }
-                }, 2000); // Chờ 2 giây để đảm bảo merge hoàn tất
-            }
+            addLogEntry(`✅ Hoàn tất merge file!`, 'success');
 
 if(n_WwsStaC$jzsWjOIjRqedTG)n_WwsStaC$jzsWjOIjRqedTG[VCAHyXsrERcpXVhFPxmgdBjjh(0x26c)]();typeof WaveSurfer===VCAHyXsrERcpXVhFPxmgdBjjh(0x24d)&&await new Promise(dyvridmApUsyBfpYIHkxv=>setTimeout(dyvridmApUsyBfpYIHkxv,parseInt(0xf61)+Math.ceil(-parseInt(0x1e0))+-parseInt(0xb8d))),n_WwsStaC$jzsWjOIjRqedTG=WaveSurfer[VCAHyXsrERcpXVhFPxmgdBjjh(0x240)]({'container':VCAHyXsrERcpXVhFPxmgdBjjh(0x274),'waveColor':VCAHyXsrERcpXVhFPxmgdBjjh(0x26a),'progressColor':VCAHyXsrERcpXVhFPxmgdBjjh(0x228),'cursorColor':VCAHyXsrERcpXVhFPxmgdBjjh(0x20c),'barWidth':0x3,'barRadius':0x3,'cursorWidth':0x1,'height':0x64,'barGap':0x3}),n_WwsStaC$jzsWjOIjRqedTG[VCAHyXsrERcpXVhFPxmgdBjjh(0x1d5)](BBNDYjhHoGkj_qbbbJu),n_WwsStaC$jzsWjOIjRqedTG['on'](VCAHyXsrERcpXVhFPxmgdBjjh(0x1d6),()=>{const Ipo_CDaCvNEfh=VCAHyXsrERcpXVhFPxmgdBjjh;XvyPnqSRdJtYjSxingI[Ipo_CDaCvNEfh(0x1c7)]='⏸️';}),n_WwsStaC$jzsWjOIjRqedTG['on'](VCAHyXsrERcpXVhFPxmgdBjjh(0x22d),()=>{const NdVplyNSVhdzFR=VCAHyXsrERcpXVhFPxmgdBjjh;XvyPnqSRdJtYjSxingI[NdVplyNSVhdzFR(0x1c7)]='▶️';});
 
@@ -5500,17 +5457,11 @@ async function waitForVoiceModelReady() {
                     textFileInput.click();
                 });
 
-                // File input change - Hỗ trợ nhiều file
+                // File input change
                 textFileInput.addEventListener('change', function(e) {
-                    const files = Array.from(e.target.files);
-                    if (files.length > 0) {
-                        if (files.length === 1) {
-                            // Nếu chỉ có 1 file, xử lý như cũ
-                            handleFileUpload(files[0]);
-                        } else {
-                            // Nếu có nhiều file, bắt đầu batch processing
-                            startBatchProcessing(files);
-                        }
+                    const file = e.target.files[0];
+                    if (file) {
+                        handleFileUpload(file);
                     }
                 });
 
@@ -5529,13 +5480,9 @@ async function waitForVoiceModelReady() {
                     e.preventDefault();
                     fileUploadArea.classList.remove('dragover');
 
-                    const files = Array.from(e.dataTransfer.files);
+                    const files = e.dataTransfer.files;
                     if (files.length > 0) {
-                        if (files.length === 1) {
-                            handleFileUpload(files[0]);
-                        } else {
-                            startBatchProcessing(files);
-                        }
+                        handleFileUpload(files[0]);
                     }
                 });
             }
@@ -5681,174 +5628,6 @@ async function waitForVoiceModelReady() {
 
                 if (fileExtension === 'pdf') {
                     // For PDF files, we can only read as text (limited functionality)
-                    reader.readAsText(file);
-                } else {
-                    reader.readAsText(file, 'UTF-8');
-                }
-            }
-
-            // =======================================================
-            // == HỆ THỐNG BATCH PROCESSING CHO NHIỀU FILE KỊCH BẢN ==
-            // =======================================================
-            
-            // Biến global để lưu queue các file cần xử lý
-            if (typeof window.batchFileQueue === 'undefined') {
-                window.batchFileQueue = [];
-                window.currentBatchFileIndex = 0;
-                window.isProcessingBatch = false;
-            }
-
-            /**
-             * Bắt đầu xử lý batch với nhiều file
-             */
-            function startBatchProcessing(files) {
-                // Lọc các file hợp lệ
-                const supportedTypes = ['txt', 'doc', 'docx', 'rtf', 'odt', 'pdf', 'md', 'html', 'htm', 'xml', 'csv', 'json'];
-                const validFiles = files.filter(file => {
-                    const ext = file.name.split('.').pop().toLowerCase();
-                    return supportedTypes.includes(ext);
-                });
-
-                if (validFiles.length === 0) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Không có file hợp lệ',
-                        text: 'Vui lòng chọn các file có định dạng được hỗ trợ.',
-                        confirmButtonText: 'OK'
-                    });
-                    return;
-                }
-
-                // Lưu queue và reset index
-                window.batchFileQueue = validFiles;
-                window.currentBatchFileIndex = 0;
-                window.isProcessingBatch = true;
-
-                // Hiển thị thông báo
-                addLogEntry(`📚 Đã chọn ${validFiles.length} file kịch bản. Bắt đầu xử lý batch...`, 'info');
-                
-                // Hiển thị danh sách file
-                const fileList = validFiles.map((f, idx) => `${idx + 1}. ${f.name}`).join('\n');
-                addLogEntry(`📋 Danh sách file:\n${fileList}`, 'info');
-
-                // Bắt đầu xử lý file đầu tiên
-                processNextBatchFile();
-            }
-
-            /**
-             * Xử lý file tiếp theo trong queue
-             */
-            async function processNextBatchFile() {
-                if (!window.isProcessingBatch || window.currentBatchFileIndex >= window.batchFileQueue.length) {
-                    // Hoàn tất batch
-                    const totalFiles = window.batchFileQueue.length;
-                    window.isProcessingBatch = false;
-                    window.batchFileQueue = [];
-                    window.currentBatchFileIndex = 0;
-                    addLogEntry(`✅ Đã hoàn tất xử lý tất cả ${totalFiles} file kịch bản!`, 'success');
-                    return;
-                }
-
-                const currentFile = window.batchFileQueue[window.currentBatchFileIndex];
-                const currentIndex = window.currentBatchFileIndex + 1;
-                const totalFiles = window.batchFileQueue.length;
-
-                addLogEntry(`📄 [${currentIndex}/${totalFiles}] Đang xử lý file: ${currentFile.name}...`, 'info');
-
-                // Đọc nội dung file
-                readFileContentForBatch(currentFile, () => {
-                    // Sau khi đọc xong, tự động click nút tạo âm thanh
-                    setTimeout(() => {
-                        const startBtn = document.getElementById('gemini-start-queue-btn');
-                        if (startBtn && !startBtn.disabled) {
-                            addLogEntry(`🎬 Tự động bắt đầu tạo âm thanh cho file: ${currentFile.name}`, 'info');
-                            startBtn.click();
-                        } else {
-                            addLogEntry(`⚠️ Nút tạo âm thanh chưa sẵn sàng, đợi thêm...`, 'warning');
-                            // Retry sau 1 giây
-                            setTimeout(() => {
-                                const retryBtn = document.getElementById('gemini-start-queue-btn');
-                                if (retryBtn && !retryBtn.disabled) {
-                                    retryBtn.click();
-                                }
-                            }, 1000);
-                        }
-                    }, 500);
-                });
-            }
-
-            // Expose hàm ra global scope để có thể gọi từ nơi khác
-            window.processNextBatchFile = processNextBatchFile;
-
-            // Thêm event listener để xử lý continue batch processing
-            window.addEventListener('continueBatchProcessing', function() {
-                if (window.processNextBatchFile && typeof window.processNextBatchFile === 'function') {
-                    window.processNextBatchFile();
-                }
-            });
-
-            /**
-             * Đọc nội dung file cho batch processing
-             */
-            function readFileContentForBatch(file, callback) {
-                const reader = new FileReader();
-
-                reader.onload = function(e) {
-                    let content = e.target.result;
-                    const fileExtension = file.name.split('.').pop().toLowerCase();
-
-                    // Xử lý nội dung tương tự readFileContent
-                    switch (fileExtension) {
-                        case 'json':
-                            try {
-                                const jsonData = JSON.parse(content);
-                                content = JSON.stringify(jsonData, null, 2);
-                            } catch (error) {
-                                console.error('Error parsing JSON:', error);
-                                addLogEntry(`❌ Lỗi đọc file JSON: ${file.name}`, 'error');
-                                // Tiếp tục với file tiếp theo
-                                window.currentBatchFileIndex++;
-                                processNextBatchFile();
-                                return;
-                            }
-                            break;
-                        case 'csv':
-                            content = content.replace(/,/g, ', ');
-                            break;
-                        case 'html':
-                        case 'htm':
-                        case 'xml':
-                            const tempDiv = document.createElement('div');
-                            tempDiv.innerHTML = content;
-                            content = tempDiv.textContent || tempDiv.innerText || '';
-                            break;
-                        default:
-                            break;
-                    }
-
-                    // Xóa nội dung cũ và đưa nội dung mới vào textarea
-                    if (textarea) {
-                        textarea.value = content;
-                        textarea.dispatchEvent(new Event('input'));
-
-                        // Switch to text tab
-                        if (textTab && textInputArea) {
-                            textTab.click();
-                        }
-                    }
-
-                    if (callback) callback();
-                };
-
-                reader.onerror = function() {
-                    addLogEntry(`❌ Lỗi đọc file: ${file.name}`, 'error');
-                    // Tiếp tục với file tiếp theo
-                    window.currentBatchFileIndex++;
-                    processNextBatchFile();
-                };
-
-                // Read file
-                if (fileExtension === 'pdf') {
                     reader.readAsText(file);
                 } else {
                     reader.readAsText(file, 'UTF-8');
