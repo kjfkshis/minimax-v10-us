@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      26.0
+// @version      25.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -4000,39 +4000,174 @@ async function selectModelOnMinimax(modelName) {
     const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
     
     try {
-        addLogEntry(`🔍 Đang tìm model "${modelName}" trên trang Minimax...`, 'info');
+        addLogEntry(`🔍 Đang tìm và mở phần chọn model trên trang Minimax...`, 'info');
         
-        // Tìm tất cả các phần tử có chứa tên model
-        // Có thể là trong các card, button, hoặc div chứa text model
-        const possibleSelectors = [
-            `[data-model="${modelName}"]`,
-            `button:contains("${modelName}")`,
-            `div:contains("${modelName}")`,
-            `*[class*="model"]:contains("${modelName}")`
+        // =======================================================
+        // BƯỚC 1: TÌM VÀ MỞ PHẦN CHỌN MODEL (CÓ THỂ BỊ ẨN)
+        // =======================================================
+        let modelSelectorOpened = false;
+        let attempts = 0;
+        const maxAttempts = 30;
+        
+        // Các selector có thể để mở phần chọn model
+        const possibleOpenSelectors = [
+            // Tìm dropdown/select cho model
+            'select[class*="model"]',
+            'select[id*="model"]',
+            'select[name*="model"]',
+            // Tìm button/dropdown trigger
+            'button[class*="model"]',
+            'button[id*="model"]',
+            '[role="combobox"][class*="model"]',
+            '[role="button"][class*="model"]',
+            // Tìm tab hoặc switch để chuyển sang phần có model
+            'button:contains("speech")',
+            'button:contains("Speech")',
+            'div[class*="tab"]:contains("speech")',
+            'div[class*="tab"]:contains("Speech")',
+            // Tìm các element có text "model" hoặc "speech"
+            '*[class*="speech"]',
+            '*[id*="speech"]'
         ];
         
-        let modelElement = null;
-        let attempts = 0;
-        const maxAttempts = 20;
-        
-        // Tìm model element với retry
-        while (!modelElement && attempts < maxAttempts) {
-            // Tìm bằng cách duyệt tất cả các element có text chứa model name
+        // Tìm và mở phần chọn model
+        while (!modelSelectorOpened && attempts < maxAttempts) {
+            // Tìm tất cả các element có thể mở phần chọn model
             const allElements = document.querySelectorAll('*');
+            
             for (const element of allElements) {
-                const text = element.textContent || element.innerText || '';
-                // Tìm element có text chứa model name (không phân biệt hoa thường)
-                if (text.toLowerCase().includes(modelName.toLowerCase())) {
-                    // Kiểm tra xem có phải là element có thể click được không
-                    const clickable = element.closest('button, [role="button"], .ant-card, [class*="card"], [class*="item"]');
-                    if (clickable) {
-                        modelElement = clickable;
+                const text = (element.textContent || element.innerText || '').toLowerCase();
+                const className = (element.className || '').toLowerCase();
+                const id = (element.id || '').toLowerCase();
+                const tagName = element.tagName.toLowerCase();
+                
+                // Kiểm tra xem có phải là phần chọn model không
+                const isModelSelector = 
+                    (text.includes('model') || text.includes('speech')) &&
+                    (tagName === 'select' || tagName === 'button' || 
+                     className.includes('select') || className.includes('dropdown') ||
+                     className.includes('combobox') || element.getAttribute('role') === 'combobox');
+                
+                // Kiểm tra xem có phải là tab/switch để chuyển sang phần model
+                const isModelTab = 
+                    (text.includes('speech') || text.includes('model')) &&
+                    (tagName === 'button' || tagName === 'div' || tagName === 'span') &&
+                    (className.includes('tab') || className.includes('switch') || 
+                     element.getAttribute('role') === 'tab');
+                
+                if (isModelSelector || isModelTab) {
+                    // Kiểm tra xem element có bị ẩn không
+                    const style = window.getComputedStyle(element);
+                    const isHidden = style.display === 'none' || style.visibility === 'hidden' || 
+                                    style.opacity === '0' || element.offsetParent === null;
+                    
+                    // Nếu là select và không bị ẩn, đã tìm thấy
+                    if (tagName === 'select' && !isHidden) {
+                        addLogEntry(`✅ Đã tìm thấy phần chọn model (select dropdown)`, 'info');
+                        modelSelectorOpened = true;
                         break;
                     }
-                    // Nếu không tìm thấy clickable parent, thử click trực tiếp
-                    if (element.tagName === 'BUTTON' || element.onclick || element.getAttribute('role') === 'button') {
-                        modelElement = element;
+                    
+                    // Nếu là button/tab, thử click để mở
+                    if ((tagName === 'button' || isModelTab) && !isHidden) {
+                        addLogEntry(`🔘 Đang click vào element để mở phần chọn model...`, 'info');
+                        element.click();
+                        await delay(500);
+                        modelSelectorOpened = true;
                         break;
+                    }
+                }
+            }
+            
+            // Tìm trong các container ẩn (có thể model selector nằm trong DOM nhưng bị ẩn)
+            if (!modelSelectorOpened) {
+                // Tìm tất cả select elements (kể cả bị ẩn)
+                const allSelects = document.querySelectorAll('select');
+                for (const select of allSelects) {
+                    const options = Array.from(select.options || []);
+                    // Kiểm tra xem có option nào chứa model name không
+                    const hasModelOption = options.some(opt => 
+                        (opt.text || opt.value || '').toLowerCase().includes(modelName.toLowerCase())
+                    );
+                    
+                    if (hasModelOption) {
+                        addLogEntry(`✅ Đã tìm thấy phần chọn model (trong select ẩn), đang hiển thị...`, 'info');
+                        // Hiển thị select nếu bị ẩn
+                        const style = window.getComputedStyle(select);
+                        if (style.display === 'none') {
+                            select.style.display = 'block';
+                        }
+                        // Trigger click vào select để mở dropdown
+                        select.focus();
+                        select.click();
+                        await delay(300);
+                        modelSelectorOpened = true;
+                        break;
+                    }
+                }
+            }
+            
+            if (!modelSelectorOpened) {
+                attempts++;
+                await delay(200);
+            }
+        }
+        
+        if (!modelSelectorOpened) {
+            addLogEntry(`⚠️ Không tìm thấy phần chọn model. Có thể đang ở tab khác hoặc cần mở thủ công.`, 'warning');
+        }
+        
+        // =======================================================
+        // BƯỚC 2: TÌM VÀ CHỌN MODEL CỤ THỂ
+        // =======================================================
+        addLogEntry(`🔍 Đang tìm model "${modelName}" để chọn...`, 'info');
+        
+        let modelElement = null;
+        attempts = 0;
+        const maxModelAttempts = 30;
+        
+        // Tìm model element với retry
+        while (!modelElement && attempts < maxModelAttempts) {
+            // Tìm trong tất cả select elements
+            const allSelects = document.querySelectorAll('select');
+            for (const select of allSelects) {
+                const options = Array.from(select.options || []);
+                for (const option of options) {
+                    const optionText = (option.text || option.value || '').toLowerCase();
+                    const optionValue = (option.value || '').toLowerCase();
+                    const modelNameLower = modelName.toLowerCase();
+                    
+                    // Kiểm tra xem option có chứa model name không
+                    if (optionText.includes(modelNameLower) || optionValue.includes(modelNameLower)) {
+                        addLogEntry(`✅ Đã tìm thấy model "${modelName}" trong select dropdown`, 'info');
+                        // Chọn option này
+                        select.value = option.value;
+                        select.dispatchEvent(new Event('change', { bubbles: true }));
+                        await delay(300);
+                        modelElement = select;
+                        break;
+                    }
+                }
+                if (modelElement) break;
+            }
+            
+            // Nếu không tìm thấy trong select, tìm trong các element khác (card, button)
+            if (!modelElement) {
+                const allElements = document.querySelectorAll('*');
+                for (const element of allElements) {
+                    const text = (element.textContent || element.innerText || '').toLowerCase();
+                    if (text.includes(modelName.toLowerCase()) && text.length < 200) { // Giới hạn độ dài để tránh match sai
+                        // Kiểm tra xem có phải là element có thể click được không
+                        const clickable = element.closest('button, [role="button"], .ant-card, [class*="card"], [class*="item"], [class*="option"]');
+                        if (clickable) {
+                            modelElement = clickable;
+                            break;
+                        }
+                        // Nếu không tìm thấy clickable parent, thử click trực tiếp
+                        if (element.tagName === 'BUTTON' || element.onclick || element.getAttribute('role') === 'button') {
+                            modelElement = element;
+                            break;
+                        }
                     }
                 }
             }
@@ -4048,6 +4183,13 @@ async function selectModelOnMinimax(modelName) {
             return false;
         }
         
+        // Nếu modelElement là select, đã chọn rồi
+        if (modelElement.tagName === 'SELECT') {
+            addLogEntry(`✅ Đã chọn model: ${modelName} (qua select dropdown)`, 'success');
+            return true;
+        }
+        
+        // Nếu là element khác, click vào nó
         addLogEntry(`✅ Đã tìm thấy model "${modelName}", đang click...`, 'info');
         
         // Scroll đến element nếu cần
