@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      34.0
+// @version      35.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -1246,7 +1246,7 @@ button:disabled {
         
         <div id="gemini-quota-display" style="color: #8be9fd; font-weight: bold; margin-left: 15px; margin-top: 10px; font-size: 14px;">Đang tải quota...</div>
         </div> 
-    <div class="column-content"> <div class="section" style="margin-bottom: 10px!important;"> <h4>1. Tải lên tệp âm thanh (Tối đa 1 file, độ dài 20-60 giây)</h4> <input type="file" id="gemini-file-input" accept=".wav,.mp3,.mpeg,.mp4,.m4a,.avi,.mov,.wmv,.flv,.mkv,.webm"> </div> <div class="section"> <h4>2. Chọn ngôn ngữ</h4> <select id="gemini-language-select"><option value="Vietnamese">Vietnamese</option><option value="English">English</option><option value="Arabic">Arabic</option><option value="Cantonese">Cantonese</option><option value="Chinese (Mandarin)">Chinese (Mandarin)</option><option value="Dutch">Dutch</option><option value="French">French</option><option value="German">German</option><option value="Indonesian">Indonesian</option><option value="Italian">Italian</option><option value="Japanese">Japanese</option><option value="Korean">Korean</option><option value="Portuguese">Portuguese</option><option value="Russian">Russian</option><option value="Spanish">Spanish</option><option value="Turkish">Turkish</option><option value="Ukrainian">Ukrainian</option><option value="Thai">Thai</option><option value="Polish">Polish</option><option value="Romanian">Romanian</option><option value="Greek">Greek</option><option value="Czech">Czech</option><option value="Finnish">Finnish</option><option value="Hindi">Hindi</option><option value="Bulgarian">Bulgarian</option><option value="Danish">Danish</option><option value="Hebrew">Hebrew</option><option value="Malay">Malay</option><option value="Persian">Persian</option><option value="Slovak">Slovak</option><option value="Swedish">Swedish</option><option value="Croatian">Croatian</option><option value="Filipino">Filipino</option><option value="Hungarian">Hungarian</option><option value="Norwegian">Norwegian</option><option value="Slovenian">Slovenian</option><option value="Catalan">Catalan</option><option value="Nynorsk">Nynorsk</option><option value="Tamil">Tamil</option><option value="Afrikaans">Afrikaans</option></select> </div> <div class="section"> <button id="gemini-upload-btn">Tải lên & Cấu hình tự động</button> <div id="gemini-upload-status"></div> </div> <div class="log-section"> <h2>Log hoạt động</h2> <div id="log-container" class="log-container"> <div class="log-entry">Sẵn sàng theo dõi văn bản chunk</div> </div> <button id="clear-log-btn" class="clear-log-btn">Xóa log</button> </div> </div> </div> </div> <div id="gemini-col-2" class="gemini-column"> <div class="column-header box-info-version"><h3>Trình tạo nội dung</h3><div>Version: 34.0 - Update: 27/01/2025 - Tạo bởi: <a href="https://fb.com/HuynhDucLoi/" target="_blank">Huỳnh Đức Lợi</a></div></div> <div class="column-content">     <div id="gemini-col-2-left">     <div class="section text-section"> <h4>Nhập văn bản cần tạo giọng nói</h4>
+    <div class="column-content"> <div class="section" style="margin-bottom: 10px!important;"> <h4>1. Tải lên tệp âm thanh (Tối đa 1 file, độ dài 20-60 giây)</h4> <input type="file" id="gemini-file-input" accept=".wav,.mp3,.mpeg,.mp4,.m4a,.avi,.mov,.wmv,.flv,.mkv,.webm"> </div> <div class="section"> <h4>2. Chọn ngôn ngữ</h4> <select id="gemini-language-select"><option value="Vietnamese">Vietnamese</option><option value="English">English</option><option value="Arabic">Arabic</option><option value="Cantonese">Cantonese</option><option value="Chinese (Mandarin)">Chinese (Mandarin)</option><option value="Dutch">Dutch</option><option value="French">French</option><option value="German">German</option><option value="Indonesian">Indonesian</option><option value="Italian">Italian</option><option value="Japanese">Japanese</option><option value="Korean">Korean</option><option value="Portuguese">Portuguese</option><option value="Russian">Russian</option><option value="Spanish">Spanish</option><option value="Turkish">Turkish</option><option value="Ukrainian">Ukrainian</option><option value="Thai">Thai</option><option value="Polish">Polish</option><option value="Romanian">Romanian</option><option value="Greek">Greek</option><option value="Czech">Czech</option><option value="Finnish">Finnish</option><option value="Hindi">Hindi</option><option value="Bulgarian">Bulgarian</option><option value="Danish">Danish</option><option value="Hebrew">Hebrew</option><option value="Malay">Malay</option><option value="Persian">Persian</option><option value="Slovak">Slovak</option><option value="Swedish">Swedish</option><option value="Croatian">Croatian</option><option value="Filipino">Filipino</option><option value="Hungarian">Hungarian</option><option value="Norwegian">Norwegian</option><option value="Slovenian">Slovenian</option><option value="Catalan">Catalan</option><option value="Nynorsk">Nynorsk</option><option value="Tamil">Tamil</option><option value="Afrikaans">Afrikaans</option></select> </div> <div class="section"> <button id="gemini-upload-btn">Tải lên & Cấu hình tự động</button> <div id="gemini-upload-status"></div> </div> <div class="log-section"> <h2>Log hoạt động</h2> <div id="log-container" class="log-container"> <div class="log-entry">Sẵn sàng theo dõi văn bản chunk</div> </div> <button id="clear-log-btn" class="clear-log-btn">Xóa log</button> </div> </div> </div> </div> <div id="gemini-col-2" class="gemini-column"> <div class="column-header box-info-version"><h3>Trình tạo nội dung</h3><div>Version: 35.0 - Update: 27/01/2025 - Tạo bởi: <a href="https://fb.com/HuynhDucLoi/" target="_blank">Huỳnh Đức Lợi</a></div></div> <div class="column-content">     <div id="gemini-col-2-left">     <div class="section text-section"> <h4>Nhập văn bản cần tạo giọng nói</h4>
     <div class="text-input-options">
         <div class="input-tabs">
             <button id="text-tab" class="tab-btn active">Nhập trực tiếp</button>
@@ -3144,10 +3144,16 @@ async function uSTZrHUt_IC() {
         // CẢI THIỆN: Nếu chưa xử lý đủ chunk, tìm và xử lý chunk còn thiếu
         if (processedChunks < totalChunks) {
             // Tìm các chunk chưa được xử lý (pending hoặc undefined)
+            // QUAN TRỌNG: Loại bỏ các chunk đang được xử lý để tránh lặp vô hạn
             const remainingChunks = [];
+            const processingChunksSet = window.processingChunks || new Set();
             for (let i = 0; i < totalChunks; i++) {
                 const status = window.chunkStatus && window.chunkStatus[i];
-                if (!status || status === 'pending') {
+                // Chỉ thêm chunk vào danh sách nếu:
+                // 1. Chunk chưa có status (undefined) HOẶC status là 'pending'
+                // 2. VÀ chunk không đang được xử lý (không có trong processingChunks)
+                // 3. VÀ chunk không phải là chunk hiện tại đang được xử lý (ttuo$y_KhCV)
+                if ((!status || status === 'pending') && !processingChunksSet.has(i) && i !== ttuo$y_KhCV) {
                     remainingChunks.push(i);
                 }
             }
@@ -3174,12 +3180,22 @@ async function uSTZrHUt_IC() {
                         // 2. Tìm chunk chưa xử lý đầu tiên
                         const nextUnprocessedIndex = Math.min(...remainingChunks);
                         
-                        // 3. Nhảy thẳng đến chunk chưa xử lý đầu tiên
+                        // 3. QUAN TRỌNG: Đánh dấu chunk này là "pending" và thêm vào processingChunks để tránh lặp vô hạn
+                        if (!window.chunkStatus) window.chunkStatus = [];
+                        window.chunkStatus[nextUnprocessedIndex] = 'pending';
+                        
+                        // Thêm vào processingChunks để đánh dấu đang xử lý
+                        if (typeof window.processingChunks === 'undefined') {
+                            window.processingChunks = new Set();
+                        }
+                        window.processingChunks.add(nextUnprocessedIndex);
+                        
+                        // 4. Nhảy thẳng đến chunk chưa xử lý đầu tiên
                         ttuo$y_KhCV = nextUnprocessedIndex;
                         addLogEntry(`🔄 MISSING CHUNK MODE: Nhảy thẳng đến chunk ${nextUnprocessedIndex + 1} (chunk chưa xử lý đầu tiên)`, 'info');
                         addLogEntry(`📋 Sẽ xử lý các chunk còn thiếu: ${remainingChunks.map(i => i + 1).join(', ')}`, 'info');
                         
-                        // 4. Chờ 2 giây rồi bắt đầu xử lý
+                        // 5. Chờ 2 giây rồi bắt đầu xử lý
                         setTimeout(uSTZrHUt_IC, 2000);
                     } catch (error) {
                         addLogEntry(`❌ Lỗi khi xử lý chunk thiếu: ${error.message}`, 'error');
@@ -3818,6 +3834,11 @@ async function uSTZrHUt_IC() {
                 return; // Dừng xử lý
             }
             
+            // Xóa khỏi processingChunks
+            if (typeof window.processingChunks !== 'undefined') {
+                window.processingChunks.delete(ttuo$y_KhCV);
+            }
+            
             // Sau khi reset, tiếp tục với chunk tiếp theo (không retry chunk lỗi ngay)
             window.retryCount = 0; // Reset bộ đếm retry
             ttuo$y_KhCV++; // Chuyển sang chunk tiếp theo
@@ -4250,36 +4271,16 @@ async function uSTZrHUt_IC() {
                                                 window.sendingChunk = null;
                                             }
                                             
-                                            // QUAN TRỌNG: Kích hoạt retry ngay sau khi đánh dấu failed
-                                            addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Đang reset web interface và kích hoạt retry...`, 'info');
+                                            // Reset web interface - giống như timeout
+                                            await resetWebInterface();
                                             
-                                            // Reset web interface và kích hoạt retry
-                                            (async () => {
-                                                try {
-                                                    await resetWebInterface();
-                                                    addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Đã reset web interface`, 'info');
-                                                    
-                                                    // Kích hoạt retry bằng cách set isFinalCheck và gọi lại uSTZrHUt_IC
-                                                    window.isFinalCheck = true;
-                                                    
-                                                    // Chờ một chút rồi kích hoạt retry
-                                                    setTimeout(() => {
-                                                        addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Kích hoạt retry ngay...`, 'info');
-                                                        ttuo$y_KhCV = currentChunkIndex;
-                                                        setTimeout(uSTZrHUt_IC, 1000);
-                                                    }, 2000);
-                                                } catch (resetError) {
-                                                    addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Lỗi khi reset web interface: ${resetError.message}`, 'warning');
-                                                    
-                                                    // Vẫn kích hoạt retry dù có lỗi reset
-                                                    window.isFinalCheck = true;
-                                                    setTimeout(() => {
-                                                        addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Kích hoạt retry (dù có lỗi reset)...`, 'info');
-                                                        ttuo$y_KhCV = currentChunkIndex;
-                                                        setTimeout(uSTZrHUt_IC, 1000);
-                                                    }, 2000);
-                                                }
-                                            })();
+                                            // Sau khi reset, tiếp tục với chunk tiếp theo (không retry chunk lỗi ngay)
+                                            window.retryCount = 0; // Reset bộ đếm retry
+                                            ttuo$y_KhCV = currentChunkIndex + 1; // Chuyển sang chunk tiếp theo
+                                            addLogEntry(`🔄 Sau khi reset, tiếp tục với chunk ${ttuo$y_KhCV + 1}...`, 'info');
+                                            addLogEntry(`📊 Trạng thái: ${window.chunkStatus.filter(s => s === 'success' || s === 'failed').length}/${SI$acY.length} chunks đã xử lý`, 'info');
+                                            addLogEntry(`💡 Chunk bị lỗi sẽ được retry vô hạn sau khi xong tất cả chunks`, 'info');
+                                            setTimeout(uSTZrHUt_IC, 2000); // Chờ 2 giây rồi tiếp tục với chunk tiếp theo
                                             
                                             return; // DỪNG, không tiếp tục xử lý chunk này
                                         }
@@ -4309,36 +4310,16 @@ async function uSTZrHUt_IC() {
                                                 window.sendingChunk = null;
                                             }
                                             
-                                            // QUAN TRỌNG: Kích hoạt retry ngay sau khi đánh dấu failed
-                                            addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Đang reset web interface và kích hoạt retry...`, 'info');
+                                            // Reset web interface - giống như timeout
+                                            await resetWebInterface();
                                             
-                                            // Reset web interface và kích hoạt retry
-                                            (async () => {
-                                                try {
-                                                    await resetWebInterface();
-                                                    addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Đã reset web interface`, 'info');
-                                                    
-                                                    // Kích hoạt retry bằng cách set isFinalCheck và gọi lại uSTZrHUt_IC
-                                                    window.isFinalCheck = true;
-                                                    
-                                                    // Chờ một chút rồi kích hoạt retry
-                                                    setTimeout(() => {
-                                                        addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Kích hoạt retry ngay...`, 'info');
-                                                        ttuo$y_KhCV = currentChunkIndex;
-                                                        setTimeout(uSTZrHUt_IC, 1000);
-                                                    }, 2000);
-                                                } catch (resetError) {
-                                                    addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Lỗi khi reset web interface: ${resetError.message}`, 'warning');
-                                                    
-                                                    // Vẫn kích hoạt retry dù có lỗi reset
-                                                    window.isFinalCheck = true;
-                                                    setTimeout(() => {
-                                                        addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Kích hoạt retry (dù có lỗi reset)...`, 'info');
-                                                        ttuo$y_KhCV = currentChunkIndex;
-                                                        setTimeout(uSTZrHUt_IC, 1000);
-                                                    }, 2000);
-                                                }
-                                            })();
+                                            // Sau khi reset, tiếp tục với chunk tiếp theo (không retry chunk lỗi ngay)
+                                            window.retryCount = 0; // Reset bộ đếm retry
+                                            ttuo$y_KhCV = currentChunkIndex + 1; // Chuyển sang chunk tiếp theo
+                                            addLogEntry(`🔄 Sau khi reset, tiếp tục với chunk ${ttuo$y_KhCV + 1}...`, 'info');
+                                            addLogEntry(`📊 Trạng thái: ${window.chunkStatus.filter(s => s === 'success' || s === 'failed').length}/${SI$acY.length} chunks đã xử lý`, 'info');
+                                            addLogEntry(`💡 Chunk bị lỗi sẽ được retry vô hạn sau khi xong tất cả chunks`, 'info');
+                                            setTimeout(uSTZrHUt_IC, 2000); // Chờ 2 giây rồi tiếp tục với chunk tiếp theo
                                             
                                             return; // DỪNG, không tiếp tục xử lý chunk này
                                         }
@@ -4367,36 +4348,16 @@ async function uSTZrHUt_IC() {
                                                 window.sendingChunk = null;
                                             }
                                             
-                                            // QUAN TRỌNG: Kích hoạt retry ngay sau khi đánh dấu failed
-                                            addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Đang reset web interface và kích hoạt retry...`, 'info');
+                                            // Reset web interface - giống như timeout
+                                            await resetWebInterface();
                                             
-                                            // Reset web interface và kích hoạt retry
-                                            (async () => {
-                                                try {
-                                                    await resetWebInterface();
-                                                    addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Đã reset web interface`, 'info');
-                                                    
-                                                    // Kích hoạt retry bằng cách set isFinalCheck và gọi lại uSTZrHUt_IC
-                                                    window.isFinalCheck = true;
-                                                    
-                                                    // Chờ một chút rồi kích hoạt retry
-                                                    setTimeout(() => {
-                                                        addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Kích hoạt retry ngay...`, 'info');
-                                                        ttuo$y_KhCV = currentChunkIndex;
-                                                        setTimeout(uSTZrHUt_IC, 1000);
-                                                    }, 2000);
-                                                } catch (resetError) {
-                                                    addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Lỗi khi reset web interface: ${resetError.message}`, 'warning');
-                                                    
-                                                    // Vẫn kích hoạt retry dù có lỗi reset
-                                                    window.isFinalCheck = true;
-                                                    setTimeout(() => {
-                                                        addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Kích hoạt retry (dù có lỗi reset)...`, 'info');
-                                                        ttuo$y_KhCV = currentChunkIndex;
-                                                        setTimeout(uSTZrHUt_IC, 1000);
-                                                    }, 2000);
-                                                }
-                                            })();
+                                            // Sau khi reset, tiếp tục với chunk tiếp theo (không retry chunk lỗi ngay)
+                                            window.retryCount = 0; // Reset bộ đếm retry
+                                            ttuo$y_KhCV = currentChunkIndex + 1; // Chuyển sang chunk tiếp theo
+                                            addLogEntry(`🔄 Sau khi reset, tiếp tục với chunk ${ttuo$y_KhCV + 1}...`, 'info');
+                                            addLogEntry(`📊 Trạng thái: ${window.chunkStatus.filter(s => s === 'success' || s === 'failed').length}/${SI$acY.length} chunks đã xử lý`, 'info');
+                                            addLogEntry(`💡 Chunk bị lỗi sẽ được retry vô hạn sau khi xong tất cả chunks`, 'info');
+                                            setTimeout(uSTZrHUt_IC, 2000); // Chờ 2 giây rồi tiếp tục với chunk tiếp theo
                                             
                                             return; // DỪNG, không tiếp tục xử lý chunk này
                                         }
@@ -4549,36 +4510,16 @@ async function uSTZrHUt_IC() {
                                                     window.processingChunks.delete(currentChunkIndex);
                                                 }
                                                 
-                                                // QUAN TRỌNG: Kích hoạt retry ngay sau khi đánh dấu failed
-                                                addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Đang reset web interface và kích hoạt retry...`, 'info');
+                                                // Reset web interface - giống như timeout
+                                                await resetWebInterface();
                                                 
-                                                // Reset web interface và kích hoạt retry
-                                                (async () => {
-                                                    try {
-                                                        await resetWebInterface();
-                                                        addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Đã reset web interface`, 'info');
-                                                        
-                                                        // Kích hoạt retry bằng cách set isFinalCheck và gọi lại uSTZrHUt_IC
-                                                        window.isFinalCheck = true;
-                                                        
-                                                        // Chờ một chút rồi kích hoạt retry
-                                                        setTimeout(() => {
-                                                            addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Kích hoạt retry ngay...`, 'info');
-                                                            ttuo$y_KhCV = currentChunkIndex;
-                                                            setTimeout(uSTZrHUt_IC, 1000);
-                                                        }, 2000);
-                                                    } catch (resetError) {
-                                                        addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Lỗi khi reset web interface: ${resetError.message}`, 'warning');
-                                                        
-                                                        // Vẫn kích hoạt retry dù có lỗi reset
-                                                        window.isFinalCheck = true;
-                                                        setTimeout(() => {
-                                                            addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Kích hoạt retry (dù có lỗi reset)...`, 'info');
-                                                            ttuo$y_KhCV = currentChunkIndex;
-                                                            setTimeout(uSTZrHUt_IC, 1000);
-                                                        }, 2000);
-                                                    }
-                                                })();
+                                                // Sau khi reset, tiếp tục với chunk tiếp theo (không retry chunk lỗi ngay)
+                                                window.retryCount = 0; // Reset bộ đếm retry
+                                                ttuo$y_KhCV = currentChunkIndex + 1; // Chuyển sang chunk tiếp theo
+                                                addLogEntry(`🔄 Sau khi reset, tiếp tục với chunk ${ttuo$y_KhCV + 1}...`, 'info');
+                                                addLogEntry(`📊 Trạng thái: ${window.chunkStatus.filter(s => s === 'success' || s === 'failed').length}/${SI$acY.length} chunks đã xử lý`, 'info');
+                                                addLogEntry(`💡 Chunk bị lỗi sẽ được retry vô hạn sau khi xong tất cả chunks`, 'info');
+                                                setTimeout(uSTZrHUt_IC, 2000); // Chờ 2 giây rồi tiếp tục với chunk tiếp theo
                                                 
                                                 return; // DỪNG, không tiếp tục fetch
                                             }
@@ -4603,36 +4544,16 @@ async function uSTZrHUt_IC() {
                                                     window.processingChunks.delete(currentChunkIndex);
                                                 }
                                                 
-                                                // QUAN TRỌNG: Kích hoạt retry ngay sau khi đánh dấu failed
-                                                addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Đang reset web interface và kích hoạt retry...`, 'info');
+                                                // Reset web interface - giống như timeout
+                                                await resetWebInterface();
                                                 
-                                                // Reset web interface và kích hoạt retry
-                                                (async () => {
-                                                    try {
-                                                        await resetWebInterface();
-                                                        addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Đã reset web interface`, 'info');
-                                                        
-                                                        // Kích hoạt retry bằng cách set isFinalCheck và gọi lại uSTZrHUt_IC
-                                                        window.isFinalCheck = true;
-                                                        
-                                                        // Chờ một chút rồi kích hoạt retry
-                                                        setTimeout(() => {
-                                                            addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Kích hoạt retry ngay...`, 'info');
-                                                            ttuo$y_KhCV = currentChunkIndex;
-                                                            setTimeout(uSTZrHUt_IC, 1000);
-                                                        }, 2000);
-                                                    } catch (resetError) {
-                                                        addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Lỗi khi reset web interface: ${resetError.message}`, 'warning');
-                                                        
-                                                        // Vẫn kích hoạt retry dù có lỗi reset
-                                                        window.isFinalCheck = true;
-                                                        setTimeout(() => {
-                                                            addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Kích hoạt retry (dù có lỗi reset)...`, 'info');
-                                                            ttuo$y_KhCV = currentChunkIndex;
-                                                            setTimeout(uSTZrHUt_IC, 1000);
-                                                        }, 2000);
-                                                    }
-                                                })();
+                                                // Sau khi reset, tiếp tục với chunk tiếp theo (không retry chunk lỗi ngay)
+                                                window.retryCount = 0; // Reset bộ đếm retry
+                                                ttuo$y_KhCV = currentChunkIndex + 1; // Chuyển sang chunk tiếp theo
+                                                addLogEntry(`🔄 Sau khi reset, tiếp tục với chunk ${ttuo$y_KhCV + 1}...`, 'info');
+                                                addLogEntry(`📊 Trạng thái: ${window.chunkStatus.filter(s => s === 'success' || s === 'failed').length}/${SI$acY.length} chunks đã xử lý`, 'info');
+                                                addLogEntry(`💡 Chunk bị lỗi sẽ được retry vô hạn sau khi xong tất cả chunks`, 'info');
+                                                setTimeout(uSTZrHUt_IC, 2000); // Chờ 2 giây rồi tiếp tục với chunk tiếp theo
                                                 
                                                 return; // DỪNG, không tiếp tục fetch
                                             }
@@ -4656,36 +4577,16 @@ async function uSTZrHUt_IC() {
                                                     window.processingChunks.delete(currentChunkIndex);
                                                 }
                                                 
-                                                // QUAN TRỌNG: Kích hoạt retry ngay sau khi đánh dấu failed
-                                                addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Đang reset web interface và kích hoạt retry...`, 'info');
+                                                // Reset web interface - giống như timeout
+                                                await resetWebInterface();
                                                 
-                                                // Reset web interface và kích hoạt retry
-                                                (async () => {
-                                                    try {
-                                                        await resetWebInterface();
-                                                        addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Đã reset web interface`, 'info');
-                                                        
-                                                        // Kích hoạt retry bằng cách set isFinalCheck và gọi lại uSTZrHUt_IC
-                                                        window.isFinalCheck = true;
-                                                        
-                                                        // Chờ một chút rồi kích hoạt retry
-                                                        setTimeout(() => {
-                                                            addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Kích hoạt retry ngay...`, 'info');
-                                                            ttuo$y_KhCV = currentChunkIndex;
-                                                            setTimeout(uSTZrHUt_IC, 1000);
-                                                        }, 2000);
-                                                    } catch (resetError) {
-                                                        addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Lỗi khi reset web interface: ${resetError.message}`, 'warning');
-                                                        
-                                                        // Vẫn kích hoạt retry dù có lỗi reset
-                                                        window.isFinalCheck = true;
-                                                        setTimeout(() => {
-                                                            addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Kích hoạt retry (dù có lỗi reset)...`, 'info');
-                                                            ttuo$y_KhCV = currentChunkIndex;
-                                                            setTimeout(uSTZrHUt_IC, 1000);
-                                                        }, 2000);
-                                                    }
-                                                })();
+                                                // Sau khi reset, tiếp tục với chunk tiếp theo (không retry chunk lỗi ngay)
+                                                window.retryCount = 0; // Reset bộ đếm retry
+                                                ttuo$y_KhCV = currentChunkIndex + 1; // Chuyển sang chunk tiếp theo
+                                                addLogEntry(`🔄 Sau khi reset, tiếp tục với chunk ${ttuo$y_KhCV + 1}...`, 'info');
+                                                addLogEntry(`📊 Trạng thái: ${window.chunkStatus.filter(s => s === 'success' || s === 'failed').length}/${SI$acY.length} chunks đã xử lý`, 'info');
+                                                addLogEntry(`💡 Chunk bị lỗi sẽ được retry vô hạn sau khi xong tất cả chunks`, 'info');
+                                                setTimeout(uSTZrHUt_IC, 2000); // Chờ 2 giây rồi tiếp tục với chunk tiếp theo
                                                 
                                                 return; // DỪNG, không tiếp tục fetch
                                             }
