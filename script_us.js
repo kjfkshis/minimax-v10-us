@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      26.0
+// @version      25.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -1246,7 +1246,7 @@ button:disabled {
         
         <div id="gemini-quota-display" style="color: #8be9fd; font-weight: bold; margin-left: 15px; margin-top: 10px; font-size: 14px;">Đang tải quota...</div>
         </div> 
-    <div class="column-content"> <div class="section" style="margin-bottom: 10px!important;"> <h4>1. Tải lên tệp âm thanh (Tối đa 1 file, độ dài 20-60 giây)</h4> <input type="file" id="gemini-file-input" accept=".wav,.mp3,.mpeg,.mp4,.m4a,.avi,.mov,.wmv,.flv,.mkv,.webm"> </div> <div class="section"> <h4>2. Chọn ngôn ngữ</h4> <select id="gemini-language-select"><option value="Vietnamese">Vietnamese</option><option value="English">English</option><option value="Arabic">Arabic</option><option value="Cantonese">Cantonese</option><option value="Chinese (Mandarin)">Chinese (Mandarin)</option><option value="Dutch">Dutch</option><option value="French">French</option><option value="German">German</option><option value="Indonesian">Indonesian</option><option value="Italian">Italian</option><option value="Japanese">Japanese</option><option value="Korean">Korean</option><option value="Portuguese">Portuguese</option><option value="Russian">Russian</option><option value="Spanish">Spanish</option><option value="Turkish">Turkish</option><option value="Ukrainian">Ukrainian</option><option value="Thai">Thai</option><option value="Polish">Polish</option><option value="Romanian">Romanian</option><option value="Greek">Greek</option><option value="Czech">Czech</option><option value="Finnish">Finnish</option><option value="Hindi">Hindi</option><option value="Bulgarian">Bulgarian</option><option value="Danish">Danish</option><option value="Hebrew">Hebrew</option><option value="Malay">Malay</option><option value="Persian">Persian</option><option value="Slovak">Slovak</option><option value="Swedish">Swedish</option><option value="Croatian">Croatian</option><option value="Filipino">Filipino</option><option value="Hungarian">Hungarian</option><option value="Norwegian">Norwegian</option><option value="Slovenian">Slovenian</option><option value="Catalan">Catalan</option><option value="Nynorsk">Nynorsk</option><option value="Tamil">Tamil</option><option value="Afrikaans">Afrikaans</option></select> </div> <div class="section"> <button id="gemini-upload-btn">Tải lên & Cấu hình tự động</button> <div id="gemini-upload-status"></div> </div> <div class="log-section"> <h2>Log hoạt động</h2> <div id="log-container" class="log-container"> <div class="log-entry">Sẵn sàng theo dõi văn bản chunk</div> </div> <button id="clear-log-btn" class="clear-log-btn">Xóa log</button> </div> </div> </div> </div> <div id="gemini-col-2" class="gemini-column"> <div class="column-header box-info-version"><h3>Trình tạo nội dung</h3><div>Version: 24.0 - Update: 27/01/2025 - Tạo bởi: <a href="https://fb.com/HuynhDucLoi/" target="_blank">Huỳnh Đức Lợi</a></div></div> <div class="column-content">     <div id="gemini-col-2-left">     <div class="section text-section"> <h4>Nhập văn bản cần tạo giọng nói</h4>
+    <div class="column-content"> <div class="section" style="margin-bottom: 10px!important;"> <h4>1. Tải lên tệp âm thanh (Tối đa 1 file, độ dài 20-60 giây)</h4> <input type="file" id="gemini-file-input" accept=".wav,.mp3,.mpeg,.mp4,.m4a,.avi,.mov,.wmv,.flv,.mkv,.webm"> </div> <div class="section"> <h4>2. Chọn ngôn ngữ</h4> <select id="gemini-language-select"><option value="Vietnamese">Vietnamese</option><option value="English">English</option><option value="Arabic">Arabic</option><option value="Cantonese">Cantonese</option><option value="Chinese (Mandarin)">Chinese (Mandarin)</option><option value="Dutch">Dutch</option><option value="French">French</option><option value="German">German</option><option value="Indonesian">Indonesian</option><option value="Italian">Italian</option><option value="Japanese">Japanese</option><option value="Korean">Korean</option><option value="Portuguese">Portuguese</option><option value="Russian">Russian</option><option value="Spanish">Spanish</option><option value="Turkish">Turkish</option><option value="Ukrainian">Ukrainian</option><option value="Thai">Thai</option><option value="Polish">Polish</option><option value="Romanian">Romanian</option><option value="Greek">Greek</option><option value="Czech">Czech</option><option value="Finnish">Finnish</option><option value="Hindi">Hindi</option><option value="Bulgarian">Bulgarian</option><option value="Danish">Danish</option><option value="Hebrew">Hebrew</option><option value="Malay">Malay</option><option value="Persian">Persian</option><option value="Slovak">Slovak</option><option value="Swedish">Swedish</option><option value="Croatian">Croatian</option><option value="Filipino">Filipino</option><option value="Hungarian">Hungarian</option><option value="Norwegian">Norwegian</option><option value="Slovenian">Slovenian</option><option value="Catalan">Catalan</option><option value="Nynorsk">Nynorsk</option><option value="Tamil">Tamil</option><option value="Afrikaans">Afrikaans</option></select> </div> <div class="section"> <button id="gemini-upload-btn">Tải lên & Cấu hình tự động</button> <div id="gemini-upload-status"></div> </div> <div class="log-section"> <h2>Log hoạt động</h2> <div id="log-container" class="log-container"> <div class="log-entry">Sẵn sàng theo dõi văn bản chunk</div> </div> <button id="clear-log-btn" class="clear-log-btn">Xóa log</button> </div> </div> </div> </div> <div id="gemini-col-2" class="gemini-column"> <div class="column-header box-info-version"><h3>Trình tạo nội dung</h3><div>Version: 25.0 - Update: 27/01/2025 - Tạo bởi: <a href="https://fb.com/HuynhDucLoi/" target="_blank">Huỳnh Đức Lợi</a></div></div> <div class="column-content">     <div id="gemini-col-2-left">     <div class="section text-section"> <h4>Nhập văn bản cần tạo giọng nói</h4>
     <div class="text-input-options">
         <div class="input-tabs">
             <button id="text-tab" class="tab-btn active">Nhập trực tiếp</button>
@@ -2445,87 +2445,18 @@ if (validFinalBlobs.length !== finalBlobs.length) {
 addLogEntry(`✅ Validation hoàn tất: ${finalBlobs.length} chunks hợp lệ`, 'success');
 
 // =======================================================
-// BATCH MERGE: Merge từng batch để tránh hết RAM
+// MERGE ĐƠN GIẢN: Merge trực tiếp tất cả chunks (không dùng batch/mega)
 // =======================================================
 let InRdxToeqTDyPgDGZb;
 try {
-    if (finalBlobs.length > 100) {
-        addLogEntry(`🔄 File lớn (${finalBlobs.length} chunks) - Đang merge từng batch để tránh hết RAM...`, 'info');
-        const BATCH_SIZE = 50; // Merge 50 chunks mỗi batch
-        const mergedBatches = [];
-        
-        // Bước 1: Chia thành batches và merge từng batch
-        for (let i = 0; i < finalBlobs.length; i += BATCH_SIZE) {
-            const batch = finalBlobs.slice(i, i + BATCH_SIZE);
-            const batchBlob = new Blob(batch, {'type': VCAHyXsrERcpXVhFPxmgdBjjh(0x1f5)});
-            mergedBatches.push(batchBlob);
-            const progress = Math.min(100, Math.round(((i + batch.length) / finalBlobs.length) * 100));
-            addLogEntry(`📊 Đang merge batch ${Math.floor(i / BATCH_SIZE) + 1}/${Math.ceil(finalBlobs.length / BATCH_SIZE)} (${progress}%)...`, 'info');
-            // Cho trình duyệt nghỉ một chút giữa các batch để tránh lag
-            await new Promise(resolve => setTimeout(resolve, 50));
-        }
-        
-        // Bước 2: Merge đệ quy các batches nếu quá nhiều
-        // Nếu có > 10 batches, merge từng nhóm 10 batches để tránh hết RAM
-        if (mergedBatches.length > 10) {
-            addLogEntry(`🔄 Có ${mergedBatches.length} batches - Đang merge đệ quy từng nhóm...`, 'info');
-            let currentBatches = mergedBatches;
-            let level = 1;
-            
-            while (currentBatches.length > 1) {
-                const nextLevelBatches = [];
-                const MERGE_GROUP_SIZE = 10; // Merge 10 batches mỗi nhóm
-                
-                for (let i = 0; i < currentBatches.length; i += MERGE_GROUP_SIZE) {
-                    const group = currentBatches.slice(i, i + MERGE_GROUP_SIZE);
-                    const groupBlob = new Blob(group, {'type': VCAHyXsrERcpXVhFPxmgdBjjh(0x1f5)});
-                    nextLevelBatches.push(groupBlob);
-                    
-                    const groupNum = Math.floor(i / MERGE_GROUP_SIZE) + 1;
-                    const totalGroups = Math.ceil(currentBatches.length / MERGE_GROUP_SIZE);
-                    addLogEntry(`📊 Level ${level}: Đang merge nhóm ${groupNum}/${totalGroups}...`, 'info');
-                    
-                    // Nghỉ một chút giữa các nhóm
-                    await new Promise(resolve => setTimeout(resolve, 50));
-                }
-                
-                currentBatches = nextLevelBatches;
-                level++;
-                
-                // Nếu chỉ còn 1 batch, dừng lại
-                if (currentBatches.length === 1) {
-                    InRdxToeqTDyPgDGZb = currentBatches[0];
-                    break;
-                }
-            }
-            
-            addLogEntry(`✅ Đã merge xong file lớn (${(InRdxToeqTDyPgDGZb.size / 1024 / 1024).toFixed(2)}MB) sau ${level} level(s)`, 'success');
-        } else {
-            // Nếu ≤ 10 batches, merge trực tiếp
-            addLogEntry(`🔄 Đang merge ${mergedBatches.length} batches cuối cùng...`, 'info');
-            InRdxToeqTDyPgDGZb = new Blob(mergedBatches, {'type': VCAHyXsrERcpXVhFPxmgdBjjh(0x1f5)});
-            addLogEntry(`✅ Đã merge xong file lớn (${(InRdxToeqTDyPgDGZb.size / 1024 / 1024).toFixed(2)}MB)`, 'success');
-        }
-    } else {
-        // File nhỏ: merge bình thường
-        addLogEntry(`🔄 File nhỏ (${finalBlobs.length} chunks) - Merge trực tiếp...`, 'info');
-        InRdxToeqTDyPgDGZb = new Blob(finalBlobs, {'type': VCAHyXsrERcpXVhFPxmgdBjjh(0x1f5)});
-        addLogEntry(`✅ Đã merge xong (${(InRdxToeqTDyPgDGZb.size / 1024 / 1024).toFixed(2)}MB)`, 'success');
-    }
+    addLogEntry(`🔄 Đang merge ${finalBlobs.length} chunks...`, 'info');
+    InRdxToeqTDyPgDGZb = new Blob(finalBlobs, {'type': VCAHyXsrERcpXVhFPxmgdBjjh(0x1f5)});
+    addLogEntry(`✅ Đã merge xong (${(InRdxToeqTDyPgDGZb.size / 1024 / 1024).toFixed(2)}MB)`, 'success');
 } catch (mergeError) {
     console.error('❌ Lỗi merge:', mergeError);
     addLogEntry(`❌ Lỗi merge: ${mergeError.message}`, 'error');
-    addLogEntry(`🔄 Thử merge trực tiếp (fallback)...`, 'warning');
-    
-    // Fallback: merge trực tiếp
-    try {
-        InRdxToeqTDyPgDGZb = new Blob(finalBlobs, {'type': VCAHyXsrERcpXVhFPxmgdBjjh(0x1f5)});
-        addLogEntry(`✅ Đã merge bằng phương pháp fallback`, 'success');
-    } catch (fallbackError) {
-        addLogEntry(`❌ Lỗi merge fallback: ${fallbackError.message}`, 'error');
-        window.isMerging = false; // Reset flag khi merge lỗi
-        return;
-    }
+    window.isMerging = false; // Reset flag khi merge lỗi
+    return;
 }
 
 const BBNDYjhHoGkj_qbbbJu=URL[VCAHyXsrERcpXVhFPxmgdBjjh(0x1f0)](InRdxToeqTDyPgDGZb);PEYtOIOW[VCAHyXsrERcpXVhFPxmgdBjjh(0x25c)]=BBNDYjhHoGkj_qbbbJu,PEYtOIOW[VCAHyXsrERcpXVhFPxmgdBjjh(0x1c8)]=i_B_kZYD(),zQizakWdLEdLjtenmCbNC[VCAHyXsrERcpXVhFPxmgdBjjh(0x1fb)][VCAHyXsrERcpXVhFPxmgdBjjh(0x1e1)]=VCAHyXsrERcpXVhFPxmgdBjjh(0x258),document[VCAHyXsrERcpXVhFPxmgdBjjh(0x1de)](VCAHyXsrERcpXVhFPxmgdBjjh(0x225))[VCAHyXsrERcpXVhFPxmgdBjjh(0x1fb)][VCAHyXsrERcpXVhFPxmgdBjjh(0x1e1)]=VCAHyXsrERcpXVhFPxmgdBjjh(0x258);
@@ -5863,24 +5794,78 @@ async function waitForVoiceModelReady() {
     // == KẾT NỐI EVENT LISTENER VỚI HỆ THỐNG MỚI ==
     // =======================================================
 
-    // Kết nối nút Start với hệ thống thông minh
-    const startBtn = document.getElementById('gemini-start-queue-btn');
-    const pauseBtn = document.getElementById('gemini-pause-btn');
-    const stopBtn = document.getElementById('gemini-stop-btn');
-    const mainTextarea = document.getElementById('gemini-main-textarea');
-    const progressContainer = document.getElementById('gemini-progress-container');
-    const playPauseWaveformBtn = document.getElementById('waveform-play-pause');
+    // Hàm helper để đợi element xuất hiện trong DOM - Sử dụng cả polling và MutationObserver
+    function waitForElement(selector, callback, maxAttempts = 100, interval = 100) {
+        let attempts = 0;
+        let observer = null;
+        let callbackCalled = false;
+        
+        const checkElement = () => {
+            const element = document.getElementById(selector);
+            if (element && !callbackCalled) {
+                callbackCalled = true;
+                console.log(`✅ [waitForElement] Đã tìm thấy element: ${selector}`);
+                if (observer) observer.disconnect();
+                callback(element);
+                return true;
+            }
+            return false;
+        };
+        
+        // Kiểm tra ngay lập tức
+        if (checkElement()) return;
+        
+        console.log(`🔍 [waitForElement] Bắt đầu tìm element: ${selector}`);
+        
+        // Sử dụng MutationObserver để theo dõi DOM changes
+        observer = new MutationObserver(() => {
+            if (checkElement()) return;
+        });
+        
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+        
+        // Fallback: polling
+        const pollInterval = setInterval(() => {
+            if (checkElement()) {
+                clearInterval(pollInterval);
+                return;
+            }
+            attempts++;
+            if (attempts >= maxAttempts) {
+                clearInterval(pollInterval);
+                if (observer) observer.disconnect();
+                console.error(`❌ Không tìm thấy element với ID: ${selector} sau ${maxAttempts} lần thử`);
+            }
+        }, interval);
+    }
 
-    if (startBtn) {
-        startBtn.addEventListener('click', async () => {
+    // Kết nối nút Start với hệ thống thông minh - Đợi nút xuất hiện
+    waitForElement('gemini-start-queue-btn', (startBtn) => {
+        console.log('🔗 [Event Listener] Đang gắn event listener cho nút "Tạo âm thanh"');
+        console.log('🔗 [Event Listener] Nút element:', startBtn);
+        console.log('🔗 [Event Listener] Nút có disabled?', startBtn.disabled);
+        
+        // Gắn event listener - sử dụng capture để chạy sớm nhất có thể
+        const clickHandler = async (e) => {
+            console.log('🎯 [Event Listener] Nút "Tạo âm thanh" đã được click!');
+            console.log('🎯 [Event Listener] Event object:', e);
             // [BẮT ĐẦU CODE THAY THẾ]
             try {
                 addLogEntry('🚀 [DEBUG] Bắt đầu xử lý khi bấm nút "Tạo âm thanh"', 'info');
-            } catch (e) {
-                console.error('Lỗi khi log DEBUG:', e);
+                console.log('✅ [DEBUG] Đã log: Bắt đầu xử lý khi bấm nút "Tạo âm thanh"');
+            } catch (err) {
+                console.error('❌ Lỗi khi log DEBUG:', err);
             }
 
             // 1. Lấy và làm sạch văn bản (Giữ nguyên từ code mới)
+            const mainTextarea = document.getElementById('gemini-main-textarea');
+            if (!mainTextarea) {
+                addLogEntry('❌ Không tìm thấy textarea chính', 'error');
+                return;
+            }
             const text = mainTextarea.value.trim();
             let sanitizedText = text;
             // Fix lỗi "beep"
@@ -5921,7 +5906,11 @@ async function waitForVoiceModelReady() {
             // =======================================================
             // == XÓA SẠCH MỌI DỮ LIỆU CŨ ĐỂ TRÁNH DÍNH ÂM THANH CŨ ==
             // =======================================================
-            addLogEntry('🧹 Đang xóa sạch dữ liệu cũ...', 'info');
+            try {
+                addLogEntry('🧹 Đang xóa sạch dữ liệu cũ...', 'info');
+            } catch (e) {
+                console.error('Lỗi khi log xóa dữ liệu cũ:', e);
+            }
             
             // 1. Xóa tất cả timeout đang chạy (tránh xử lý chunk cũ)
             if (typeof window.chunkTimeoutIds !== 'undefined' && window.chunkTimeoutIds) {
@@ -5946,7 +5935,11 @@ async function waitForVoiceModelReady() {
             // =======================================================
             // NÂNG CẤP: XÓA TẤT CẢ AUDIO ELEMENTS CŨ TRONG DOM
             // =======================================================
-            addLogEntry('🧹 [Bước 1/5] Đang xóa audio elements cũ từ DOM...', 'info');
+            try {
+                addLogEntry('🧹 [Bước 1/5] Đang xóa audio elements cũ từ DOM...', 'info');
+            } catch (e) {
+                console.error('Lỗi khi log Bước 1/5:', e);
+            }
             try {
                 const allAudioElements = document.querySelectorAll('audio');
                 let removedCount = 0;
@@ -6007,7 +6000,11 @@ async function waitForVoiceModelReady() {
             // =======================================================
             // NÂNG CẤP: XÓA SẠCH CACHE CỦA WEBSITE VÀ BROWSER
             // =======================================================
-            addLogEntry('🧹 [Bước 2/5] Đang xóa cache của website và browser...', 'info');
+            try {
+                addLogEntry('🧹 [Bước 2/5] Đang xóa cache của website và browser...', 'info');
+            } catch (e) {
+                console.error('Lỗi khi log Bước 2/5:', e);
+            }
             try {
                 // 1. Revoke tất cả blob URLs đã tạo để giải phóng bộ nhớ
                 if (typeof window.createdBlobURLs === 'undefined') {
@@ -6116,7 +6113,11 @@ async function waitForVoiceModelReady() {
             // =======================================================
             // NÂNG CẤP: XÓA TẤT CẢ INDEX TRONG window.chunkBlobs (kể cả index từ 1)
             // =======================================================
-            addLogEntry('🧹 [Bước 3/5] Đang reset các mảng blob và text...', 'info');
+            try {
+                addLogEntry('🧹 [Bước 3/5] Đang reset các mảng blob và text...', 'info');
+            } catch (e) {
+                console.error('Lỗi khi log Bước 3/5:', e);
+            }
             
             // 2. Reset các mảng blob (âm thanh cũ) - QUAN TRỌNG: Reset HOÀN TOÀN
             const oldChunkBlobsLength = window.chunkBlobs ? window.chunkBlobs.length : 0;
@@ -6271,38 +6272,47 @@ async function waitForVoiceModelReady() {
             uSTZrHUt_IC();
 
             // [KẾT THÚC CODE THAY THẾ]
-        });
-    }
+        };
+        
+        // Gắn event listener với capture phase để chạy trước các listener khác
+        startBtn.addEventListener('click', clickHandler, { capture: true, passive: false });
+        
+        console.log('✅ [Event Listener] Đã gắn xong event listener cho nút "Tạo âm thanh" (capture phase)');
+    });
 
-    // Nút Tạm dừng / Tiếp tục
-    if (pauseBtn) {
+    // Nút Tạm dừng / Tiếp tục - Đợi nút xuất hiện
+    waitForElement('gemini-pause-btn', (pauseBtn) => {
         pauseBtn.addEventListener('click', () => {
             processingState.isPaused = !processingState.isPaused;
             pauseBtn.textContent = processingState.isPaused ? '▶️ Tiếp tục' : '⏸️ Tạm dừng';
         });
-    }
+    });
 
-    // Nút Dừng hẳn
-    if (stopBtn) {
+    // Nút Dừng hẳn - Đợi nút xuất hiện
+    waitForElement('gemini-stop-btn', (stopBtn) => {
         stopBtn.addEventListener('click', () => {
             processingState.isStopped = true;
             processingState.isPaused = false;
             addLogEntry("🔴 Người dùng đã yêu cầu dừng hẳn quá trình.", 'error');
 
             // Reset giao diện
-            startBtn.disabled = false;
-            startBtn.style.display = 'block';
-            pauseBtn.style.display = 'none';
-            stopBtn.style.display = 'none';
+            const startBtn = document.getElementById('gemini-start-queue-btn');
+            const pauseBtn = document.getElementById('gemini-pause-btn');
+            if (startBtn) {
+                startBtn.disabled = false;
+                startBtn.style.display = 'block';
+            }
+            if (pauseBtn) pauseBtn.style.display = 'none';
+            if (stopBtn) stopBtn.style.display = 'none';
         });
-    }
+    });
 
-    // Nút Play/Pause của WaveSurfer
-    if (playPauseWaveformBtn) {
+    // Nút Play/Pause của WaveSurfer - Đợi nút xuất hiện
+    waitForElement('waveform-play-pause', (playPauseWaveformBtn) => {
         playPauseWaveformBtn.addEventListener('click', ()=>{
             if(n_WwsStaC$jzsWjOIjRqedTG) n_WwsStaC$jzsWjOIjRqedTG.playPause();
         });
-    }
+    });
 
     // === THÊM CẢNH BÁO GMAIL ĐĂNG NHẬP ===
 
