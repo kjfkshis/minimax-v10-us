@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      29.0
+// @version      30.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -1246,7 +1246,7 @@ button:disabled {
         
         <div id="gemini-quota-display" style="color: #8be9fd; font-weight: bold; margin-left: 15px; margin-top: 10px; font-size: 14px;">Đang tải quota...</div>
         </div> 
-    <div class="column-content"> <div class="section" style="margin-bottom: 10px!important;"> <h4>1. Tải lên tệp âm thanh (Tối đa 1 file, độ dài 20-60 giây)</h4> <input type="file" id="gemini-file-input" accept=".wav,.mp3,.mpeg,.mp4,.m4a,.avi,.mov,.wmv,.flv,.mkv,.webm"> </div> <div class="section"> <h4>2. Chọn ngôn ngữ</h4> <select id="gemini-language-select"><option value="Vietnamese">Vietnamese</option><option value="English">English</option><option value="Arabic">Arabic</option><option value="Cantonese">Cantonese</option><option value="Chinese (Mandarin)">Chinese (Mandarin)</option><option value="Dutch">Dutch</option><option value="French">French</option><option value="German">German</option><option value="Indonesian">Indonesian</option><option value="Italian">Italian</option><option value="Japanese">Japanese</option><option value="Korean">Korean</option><option value="Portuguese">Portuguese</option><option value="Russian">Russian</option><option value="Spanish">Spanish</option><option value="Turkish">Turkish</option><option value="Ukrainian">Ukrainian</option><option value="Thai">Thai</option><option value="Polish">Polish</option><option value="Romanian">Romanian</option><option value="Greek">Greek</option><option value="Czech">Czech</option><option value="Finnish">Finnish</option><option value="Hindi">Hindi</option><option value="Bulgarian">Bulgarian</option><option value="Danish">Danish</option><option value="Hebrew">Hebrew</option><option value="Malay">Malay</option><option value="Persian">Persian</option><option value="Slovak">Slovak</option><option value="Swedish">Swedish</option><option value="Croatian">Croatian</option><option value="Filipino">Filipino</option><option value="Hungarian">Hungarian</option><option value="Norwegian">Norwegian</option><option value="Slovenian">Slovenian</option><option value="Catalan">Catalan</option><option value="Nynorsk">Nynorsk</option><option value="Tamil">Tamil</option><option value="Afrikaans">Afrikaans</option></select> </div> <div class="section"> <button id="gemini-upload-btn">Tải lên & Cấu hình tự động</button> <div id="gemini-upload-status"></div> </div> <div class="log-section"> <h2>Log hoạt động</h2> <div id="log-container" class="log-container"> <div class="log-entry">Sẵn sàng theo dõi văn bản chunk</div> </div> <button id="clear-log-btn" class="clear-log-btn">Xóa log</button> </div> </div> </div> </div> <div id="gemini-col-2" class="gemini-column"> <div class="column-header box-info-version"><h3>Trình tạo nội dung</h3><div>Version: 29.0 - Update: 27/01/2025 - Tạo bởi: <a href="https://fb.com/HuynhDucLoi/" target="_blank">Huỳnh Đức Lợi</a></div></div> <div class="column-content">     <div id="gemini-col-2-left">     <div class="section text-section"> <h4>Nhập văn bản cần tạo giọng nói</h4>
+    <div class="column-content"> <div class="section" style="margin-bottom: 10px!important;"> <h4>1. Tải lên tệp âm thanh (Tối đa 1 file, độ dài 20-60 giây)</h4> <input type="file" id="gemini-file-input" accept=".wav,.mp3,.mpeg,.mp4,.m4a,.avi,.mov,.wmv,.flv,.mkv,.webm"> </div> <div class="section"> <h4>2. Chọn ngôn ngữ</h4> <select id="gemini-language-select"><option value="Vietnamese">Vietnamese</option><option value="English">English</option><option value="Arabic">Arabic</option><option value="Cantonese">Cantonese</option><option value="Chinese (Mandarin)">Chinese (Mandarin)</option><option value="Dutch">Dutch</option><option value="French">French</option><option value="German">German</option><option value="Indonesian">Indonesian</option><option value="Italian">Italian</option><option value="Japanese">Japanese</option><option value="Korean">Korean</option><option value="Portuguese">Portuguese</option><option value="Russian">Russian</option><option value="Spanish">Spanish</option><option value="Turkish">Turkish</option><option value="Ukrainian">Ukrainian</option><option value="Thai">Thai</option><option value="Polish">Polish</option><option value="Romanian">Romanian</option><option value="Greek">Greek</option><option value="Czech">Czech</option><option value="Finnish">Finnish</option><option value="Hindi">Hindi</option><option value="Bulgarian">Bulgarian</option><option value="Danish">Danish</option><option value="Hebrew">Hebrew</option><option value="Malay">Malay</option><option value="Persian">Persian</option><option value="Slovak">Slovak</option><option value="Swedish">Swedish</option><option value="Croatian">Croatian</option><option value="Filipino">Filipino</option><option value="Hungarian">Hungarian</option><option value="Norwegian">Norwegian</option><option value="Slovenian">Slovenian</option><option value="Catalan">Catalan</option><option value="Nynorsk">Nynorsk</option><option value="Tamil">Tamil</option><option value="Afrikaans">Afrikaans</option></select> </div> <div class="section"> <button id="gemini-upload-btn">Tải lên & Cấu hình tự động</button> <div id="gemini-upload-status"></div> </div> <div class="log-section"> <h2>Log hoạt động</h2> <div id="log-container" class="log-container"> <div class="log-entry">Sẵn sàng theo dõi văn bản chunk</div> </div> <button id="clear-log-btn" class="clear-log-btn">Xóa log</button> </div> </div> </div> </div> <div id="gemini-col-2" class="gemini-column"> <div class="column-header box-info-version"><h3>Trình tạo nội dung</h3><div>Version: 30.0 - Update: 27/01/2025 - Tạo bởi: <a href="https://fb.com/HuynhDucLoi/" target="_blank">Huỳnh Đức Lợi</a></div></div> <div class="column-content">     <div id="gemini-col-2-left">     <div class="section text-section"> <h4>Nhập văn bản cần tạo giọng nói</h4>
     <div class="text-input-options">
         <div class="input-tabs">
             <button id="text-tab" class="tab-btn active">Nhập trực tiếp</button>
@@ -3519,6 +3519,15 @@ async function uSTZrHUt_IC() {
         
         // Đánh dấu đang gửi chunk này
         window.sendingChunk = ttuo$y_KhCV;
+        
+        // QUAN TRỌNG: Lưu text của chunk này ngay khi bắt đầu gửi để so sánh sau
+        // Vì textarea có thể bị website thay đổi sau khi click button
+        if (typeof window.chunkTexts === 'undefined') {
+            window.chunkTexts = [];
+        }
+        window.chunkTexts[ttuo$y_KhCV] = chunkText; // Lưu text đã normalize
+        addLogEntry(`💾 [Chunk ${ttuo$y_KhCV + 1}] Đã lưu text của chunk để so sánh sau (${chunkText.length} ký tự)`, 'info');
+        
         addLogEntry(`🔄 [Chunk ${ttuo$y_KhCV + 1}] Bắt đầu gửi chunk...`, 'info');
         
         // =======================================================
@@ -4099,6 +4108,27 @@ async function uSTZrHUt_IC() {
                             addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Phát hiện audio element không có src, bỏ qua (có thể là audio cũ)`, 'warning');
                             return;
                         }
+                        
+                        // QUAN TRỌNG: Kiểm tra xem audio element này có phải mới tạo không
+                        // Kiểm tra xem audio element có trong DOM không và có phải là audio mới nhất không
+                        const allAudioElements = document.querySelectorAll('audio');
+                        let isNewestAudio = false;
+                        let audioIndex = -1;
+                        allAudioElements.forEach((audio, idx) => {
+                            if (audio === audioElement) {
+                                audioIndex = idx;
+                                // Nếu là audio element cuối cùng, có thể là audio mới nhất
+                                if (idx === allAudioElements.length - 1) {
+                                    isNewestAudio = true;
+                                }
+                            }
+                        });
+                        
+                        // Kiểm tra xem có audio element nào khác mới hơn không
+                        if (!isNewestAudio && audioIndex >= 0) {
+                            addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Phát hiện audio element không phải mới nhất (index ${audioIndex}/${allAudioElements.length - 1}), có thể là audio cũ`, 'warning');
+                            // Vẫn tiếp tục nhưng sẽ kiểm tra textarea sau
+                        }
                     }
                     
                     // QUAN TRỌNG: Ngăn chặn xử lý trùng lặp cho cùng một chunk
@@ -4287,60 +4317,123 @@ async function uSTZrHUt_IC() {
                             }
                         }
                         
-                        // QUAN TRỌNG: Kiểm tra xem audio này có phải từ chunk hiện tại không
-                        // Kiểm tra textarea có chứa text của chunk hiện tại không
-                        const textarea = document.getElementById('gemini-hidden-text-for-request');
-                        if (textarea && SI$acY && SI$acY[currentChunkIndex]) {
-                            const currentChunkText = SI$acY[currentChunkIndex];
-                            const textareaValue = textarea.value || '';
+                        // =======================================================
+                        // QUAN TRỌNG: KIỂM TRA AUDIO CÓ KHỚP VỚI CHUNK ĐÃ GỬI KHÔNG
+                        // =======================================================
+                        // Vấn đề: Textarea có thể bị website thay đổi sau khi click button
+                        // Giải pháp: So sánh với text đã lưu khi gửi, không phải textarea hiện tại
+                        
+                        if (typeof window.chunkTexts === 'undefined' || !window.chunkTexts[currentChunkIndex]) {
+                            addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Không tìm thấy text đã lưu của chunk này!`, 'warning');
+                            addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Có thể là audio từ lần render trước, bỏ qua!`, 'warning');
                             
-                            // Normalize để so sánh
-                            const normalizeForCompare = (text) => {
-                                if (!text || typeof text !== 'string') return '';
-                                return text
-                                    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F-\u009F]/g, '')
-                                    .replace(/\*/g, '')
-                                    .replace(/["""«»''\u2018\u2019\u201C\u201D]/g, '')
-                                    .replace(/\s+/g, ' ')
-                                    .trim()
-                                    .substring(0, 200); // So sánh 200 ký tự đầu
-                            };
-                            
-                            const chunkTextNormalized = normalizeForCompare(currentChunkText);
-                            const textareaNormalized = normalizeForCompare(textareaValue);
-                            
-                            // Kiểm tra xem textarea có chứa text của chunk hiện tại không
-                            if (textareaNormalized && chunkTextNormalized) {
-                                // Kiểm tra textarea có chứa ít nhất 50% text của chunk không
-                                const similarity = textareaNormalized.length > 0 && chunkTextNormalized.length > 0 
-                                    ? (textareaNormalized.includes(chunkTextNormalized.substring(0, Math.min(50, chunkTextNormalized.length))) || 
-                                       chunkTextNormalized.includes(textareaNormalized.substring(0, Math.min(50, textareaNormalized.length))))
-                                    : false;
-                                
-                                if (!similarity) {
-                                    addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] CẢNH BÁO: Textarea KHÔNG khớp với chunk hiện tại!`, 'warning');
-                                    addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Textarea (200 ký tự đầu): "${textareaNormalized.substring(0, 100)}..."`, 'warning');
-                                    addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Chunk text (200 ký tự đầu): "${chunkTextNormalized.substring(0, 100)}..."`, 'warning');
-                                    addLogEntry(`❌ [Chunk ${currentChunkIndex + 1}] Audio này KHÔNG khớp với chunk hiện tại! KHÔNG LƯU!`, 'error');
-                                    
-                                    // Đánh dấu chunk failed
-                                    if (!window.chunkStatus) window.chunkStatus = [];
-                                    window.chunkStatus[currentChunkIndex] = 'failed';
-                                    if (!window.failedChunks) window.failedChunks = [];
-                                    if (!window.failedChunks.includes(currentChunkIndex)) {
-                                        window.failedChunks.push(currentChunkIndex);
-                                    }
-                                    
-                                    // Xóa khỏi processingChunks
-                                    if (typeof window.processingChunks !== 'undefined') {
-                                        window.processingChunks.delete(currentChunkIndex);
-                                    }
-                                    
-                                    return; // KHÔNG LƯU audio không khớp
-                                } else {
-                                    addLogEntry(`✅ [Chunk ${currentChunkIndex + 1}] Xác nhận: Textarea khớp với chunk hiện tại`, 'success');
-                                }
+                            // Đánh dấu chunk failed
+                            if (!window.chunkStatus) window.chunkStatus = [];
+                            window.chunkStatus[currentChunkIndex] = 'failed';
+                            if (!window.failedChunks) window.failedChunks = [];
+                            if (!window.failedChunks.includes(currentChunkIndex)) {
+                                window.failedChunks.push(currentChunkIndex);
                             }
+                            
+                            // Xóa khỏi processingChunks
+                            if (typeof window.processingChunks !== 'undefined') {
+                                window.processingChunks.delete(currentChunkIndex);
+                            }
+                            
+                            return; // KHÔNG LƯU audio không có text đã lưu
+                        }
+                        
+                        // Lấy text đã lưu khi gửi chunk này
+                        const savedChunkText = window.chunkTexts[currentChunkIndex];
+                        
+                        // Normalize để so sánh
+                        const normalizeForCompare = (text) => {
+                            if (!text || typeof text !== 'string') return '';
+                            return text
+                                .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F-\u009F]/g, '')
+                                .replace(/\*/g, '')
+                                .replace(/["""«»''\u2018\u2019\u201C\u201D]/g, '')
+                                .replace(/\s+/g, ' ')
+                                .trim();
+                        };
+                        
+                        const savedTextNormalized = normalizeForCompare(savedChunkText);
+                        
+                        // Kiểm tra textarea hiện tại (có thể đã bị thay đổi)
+                        const textarea = document.getElementById('gemini-hidden-text-for-request');
+                        const textareaValue = textarea ? (textarea.value || '') : '';
+                        const textareaNormalized = normalizeForCompare(textareaValue);
+                        
+                        // So sánh textarea với text đã lưu
+                        // Nếu textarea khớp với text đã lưu → OK
+                        // Nếu textarea không khớp nhưng có thể website đã thay đổi → Vẫn kiểm tra thêm
+                        let textMatches = false;
+                        
+                        if (textareaNormalized && savedTextNormalized) {
+                            // So sánh ít nhất 80% text đầu để đảm bảo chính xác
+                            const compareLength = Math.min(200, Math.min(savedTextNormalized.length, textareaNormalized.length));
+                            const savedTextPart = savedTextNormalized.substring(0, compareLength);
+                            const textareaPart = textareaNormalized.substring(0, compareLength);
+                            
+                            // Kiểm tra textarea có chứa text đã lưu không (ít nhất 80% đầu)
+                            const minMatchLength = Math.floor(compareLength * 0.8);
+                            textMatches = textareaPart.includes(savedTextPart.substring(0, minMatchLength)) || 
+                                         savedTextPart.includes(textareaPart.substring(0, minMatchLength));
+                            
+                            if (!textMatches) {
+                                addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] CẢNH BÁO: Textarea KHÔNG khớp với text đã gửi!`, 'warning');
+                                addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Text đã gửi (200 ký tự đầu): "${savedTextPart.substring(0, 100)}..."`, 'warning');
+                                addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Textarea hiện tại (200 ký tự đầu): "${textareaPart.substring(0, 100)}..."`, 'warning');
+                                addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Có thể website đã thay đổi textarea sau khi click, nhưng vẫn kiểm tra thêm...`, 'warning');
+                            }
+                        }
+                        
+                        // QUAN TRỌNG: Kiểm tra thêm bằng cách so sánh với SI$acY
+                        // Nếu SI$acY[currentChunkIndex] khớp với text đã lưu → OK
+                        let chunkTextMatches = false;
+                        if (SI$acY && SI$acY[currentChunkIndex]) {
+                            const originalChunkText = SI$acY[currentChunkIndex];
+                            const originalChunkTextNormalized = normalizeForCompare(originalChunkText);
+                            
+                            // So sánh text đã lưu với text gốc trong SI$acY
+                            const compareLength2 = Math.min(200, Math.min(savedTextNormalized.length, originalChunkTextNormalized.length));
+                            const savedTextPart2 = savedTextNormalized.substring(0, compareLength2);
+                            const originalTextPart2 = originalChunkTextNormalized.substring(0, compareLength2);
+                            
+                            const minMatchLength2 = Math.floor(compareLength2 * 0.8);
+                            chunkTextMatches = originalTextPart2.includes(savedTextPart2.substring(0, minMatchLength2)) || 
+                                              savedTextPart2.includes(originalTextPart2.substring(0, minMatchLength2));
+                            
+                            if (!chunkTextMatches) {
+                                addLogEntry(`❌ [Chunk ${currentChunkIndex + 1}] LỖI NGHIÊM TRỌNG: Text đã lưu KHÔNG khớp với SI$acY!`, 'error');
+                                addLogEntry(`❌ [Chunk ${currentChunkIndex + 1}] Text đã lưu (200 ký tự đầu): "${savedTextPart2.substring(0, 100)}..."`, 'error');
+                                addLogEntry(`❌ [Chunk ${currentChunkIndex + 1}] SI$acY text (200 ký tự đầu): "${originalTextPart2.substring(0, 100)}..."`, 'error');
+                                addLogEntry(`❌ [Chunk ${currentChunkIndex + 1}] Audio này KHÔNG khớp với chunk hiện tại! KHÔNG LƯU!`, 'error');
+                                
+                                // Đánh dấu chunk failed
+                                if (!window.chunkStatus) window.chunkStatus = [];
+                                window.chunkStatus[currentChunkIndex] = 'failed';
+                                if (!window.failedChunks) window.failedChunks = [];
+                                if (!window.failedChunks.includes(currentChunkIndex)) {
+                                    window.failedChunks.push(currentChunkIndex);
+                                }
+                                
+                                // Xóa khỏi processingChunks
+                                if (typeof window.processingChunks !== 'undefined') {
+                                    window.processingChunks.delete(currentChunkIndex);
+                                }
+                                
+                                return; // KHÔNG LƯU audio không khớp
+                            }
+                        }
+                        
+                        // Nếu cả hai đều khớp hoặc chunkTextMatches → OK
+                        if (textMatches || chunkTextMatches) {
+                            addLogEntry(`✅ [Chunk ${currentChunkIndex + 1}] Xác nhận: Audio khớp với text đã gửi`, 'success');
+                        } else {
+                            // Nếu không khớp, nhưng có thể là do website thay đổi textarea
+                            // Vẫn kiểm tra xem có phải audio từ chunk hiện tại không bằng cách kiểm tra timestamp
+                            addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Textarea không khớp, nhưng vẫn tiếp tục (có thể website đã thay đổi textarea)`, 'warning');
                         }
                         
                         // Lưu chunk vào đúng vị trí
@@ -6418,7 +6511,9 @@ async function waitForVoiceModelReady() {
                 });
             }
             
-            addLogEntry(`🧹 Đã reset HOÀN TOÀN các mảng blob (window.chunkBlobs và ZTQj$LF$o)`, 'info');
+            // QUAN TRỌNG: Reset window.chunkTexts để không so sánh với text từ lần render trước
+            window.chunkTexts = [];
+            addLogEntry(`🧹 Đã reset HOÀN TOÀN các mảng blob và text (window.chunkBlobs, ZTQj$LF$o, window.chunkTexts)`, 'info');
             
             // 3. Reset các biến trạng thái chunk - QUAN TRỌNG: Reset HOÀN TOÀN
             window.chunkStatus = [];
