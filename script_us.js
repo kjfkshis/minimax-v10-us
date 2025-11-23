@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      24.0
+// @version      25.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -1246,7 +1246,7 @@ button:disabled {
         
         <div id="gemini-quota-display" style="color: #8be9fd; font-weight: bold; margin-left: 15px; margin-top: 10px; font-size: 14px;">Đang tải quota...</div>
         </div> 
-    <div class="column-content"> <div class="section" style="margin-bottom: 10px!important;"> <h4>1. Tải lên tệp âm thanh (Tối đa 1 file, độ dài 20-60 giây)</h4> <input type="file" id="gemini-file-input" accept=".wav,.mp3,.mpeg,.mp4,.m4a,.avi,.mov,.wmv,.flv,.mkv,.webm"> </div> <div class="section"> <h4>2. Chọn ngôn ngữ</h4> <select id="gemini-language-select"><option value="Vietnamese">Vietnamese</option><option value="English">English</option><option value="Arabic">Arabic</option><option value="Cantonese">Cantonese</option><option value="Chinese (Mandarin)">Chinese (Mandarin)</option><option value="Dutch">Dutch</option><option value="French">French</option><option value="German">German</option><option value="Indonesian">Indonesian</option><option value="Italian">Italian</option><option value="Japanese">Japanese</option><option value="Korean">Korean</option><option value="Portuguese">Portuguese</option><option value="Russian">Russian</option><option value="Spanish">Spanish</option><option value="Turkish">Turkish</option><option value="Ukrainian">Ukrainian</option><option value="Thai">Thai</option><option value="Polish">Polish</option><option value="Romanian">Romanian</option><option value="Greek">Greek</option><option value="Czech">Czech</option><option value="Finnish">Finnish</option><option value="Hindi">Hindi</option><option value="Bulgarian">Bulgarian</option><option value="Danish">Danish</option><option value="Hebrew">Hebrew</option><option value="Malay">Malay</option><option value="Persian">Persian</option><option value="Slovak">Slovak</option><option value="Swedish">Swedish</option><option value="Croatian">Croatian</option><option value="Filipino">Filipino</option><option value="Hungarian">Hungarian</option><option value="Norwegian">Norwegian</option><option value="Slovenian">Slovenian</option><option value="Catalan">Catalan</option><option value="Nynorsk">Nynorsk</option><option value="Tamil">Tamil</option><option value="Afrikaans">Afrikaans</option></select> </div> <div class="section"> <button id="gemini-upload-btn">Tải lên & Cấu hình tự động</button> <div id="gemini-upload-status"></div> </div> <div class="log-section"> <h2>Log hoạt động</h2> <div id="log-container" class="log-container"> <div class="log-entry">Sẵn sàng theo dõi văn bản chunk</div> </div> <button id="clear-log-btn" class="clear-log-btn">Xóa log</button> </div> </div> </div> </div> <div id="gemini-col-2" class="gemini-column"> <div class="column-header box-info-version"><h3>Trình tạo nội dung</h3><div>Version: 24.0 - Update: 27/01/2025 - Tạo bởi: <a href="https://fb.com/HuynhDucLoi/" target="_blank">Huỳnh Đức Lợi</a></div></div> <div class="column-content">     <div id="gemini-col-2-left">     <div class="section text-section"> <h4>Nhập văn bản cần tạo giọng nói</h4>
+    <div class="column-content"> <div class="section" style="margin-bottom: 10px!important;"> <h4>1. Tải lên tệp âm thanh (Tối đa 1 file, độ dài 20-60 giây)</h4> <input type="file" id="gemini-file-input" accept=".wav,.mp3,.mpeg,.mp4,.m4a,.avi,.mov,.wmv,.flv,.mkv,.webm"> </div> <div class="section"> <h4>2. Chọn ngôn ngữ</h4> <select id="gemini-language-select"><option value="Vietnamese">Vietnamese</option><option value="English">English</option><option value="Arabic">Arabic</option><option value="Cantonese">Cantonese</option><option value="Chinese (Mandarin)">Chinese (Mandarin)</option><option value="Dutch">Dutch</option><option value="French">French</option><option value="German">German</option><option value="Indonesian">Indonesian</option><option value="Italian">Italian</option><option value="Japanese">Japanese</option><option value="Korean">Korean</option><option value="Portuguese">Portuguese</option><option value="Russian">Russian</option><option value="Spanish">Spanish</option><option value="Turkish">Turkish</option><option value="Ukrainian">Ukrainian</option><option value="Thai">Thai</option><option value="Polish">Polish</option><option value="Romanian">Romanian</option><option value="Greek">Greek</option><option value="Czech">Czech</option><option value="Finnish">Finnish</option><option value="Hindi">Hindi</option><option value="Bulgarian">Bulgarian</option><option value="Danish">Danish</option><option value="Hebrew">Hebrew</option><option value="Malay">Malay</option><option value="Persian">Persian</option><option value="Slovak">Slovak</option><option value="Swedish">Swedish</option><option value="Croatian">Croatian</option><option value="Filipino">Filipino</option><option value="Hungarian">Hungarian</option><option value="Norwegian">Norwegian</option><option value="Slovenian">Slovenian</option><option value="Catalan">Catalan</option><option value="Nynorsk">Nynorsk</option><option value="Tamil">Tamil</option><option value="Afrikaans">Afrikaans</option></select> </div> <div class="section"> <button id="gemini-upload-btn">Tải lên & Cấu hình tự động</button> <div id="gemini-upload-status"></div> </div> <div class="log-section"> <h2>Log hoạt động</h2> <div id="log-container" class="log-container"> <div class="log-entry">Sẵn sàng theo dõi văn bản chunk</div> </div> <button id="clear-log-btn" class="clear-log-btn">Xóa log</button> </div> </div> </div> </div> <div id="gemini-col-2" class="gemini-column"> <div class="column-header box-info-version"><h3>Trình tạo nội dung</h3><div>Version: 25.0 - Update: 27/01/2025 - Tạo bởi: <a href="https://fb.com/HuynhDucLoi/" target="_blank">Huỳnh Đức Lợi</a></div></div> <div class="column-content">     <div id="gemini-col-2-left">     <div class="section text-section"> <h4>Nhập văn bản cần tạo giọng nói</h4>
     <div class="text-input-options">
         <div class="input-tabs">
             <button id="text-tab" class="tab-btn active">Nhập trực tiếp</button>
@@ -5863,15 +5863,25 @@ async function waitForVoiceModelReady() {
     // == KẾT NỐI EVENT LISTENER VỚI HỆ THỐNG MỚI ==
     // =======================================================
 
-    // Kết nối nút Start với hệ thống thông minh
-    const startBtn = document.getElementById('gemini-start-queue-btn');
-    const pauseBtn = document.getElementById('gemini-pause-btn');
-    const stopBtn = document.getElementById('gemini-stop-btn');
-    const mainTextarea = document.getElementById('gemini-main-textarea');
-    const progressContainer = document.getElementById('gemini-progress-container');
-    const playPauseWaveformBtn = document.getElementById('waveform-play-pause');
+    // Hàm helper để đợi element xuất hiện trong DOM
+    function waitForElement(selector, callback, maxAttempts = 50, interval = 100) {
+        let attempts = 0;
+        const checkElement = () => {
+            const element = document.getElementById(selector);
+            if (element) {
+                callback(element);
+            } else if (attempts < maxAttempts) {
+                attempts++;
+                setTimeout(checkElement, interval);
+            } else {
+                console.error(`❌ Không tìm thấy element với ID: ${selector} sau ${maxAttempts} lần thử`);
+            }
+        };
+        checkElement();
+    }
 
-    if (startBtn) {
+    // Kết nối nút Start với hệ thống thông minh - Đợi nút xuất hiện
+    waitForElement('gemini-start-queue-btn', (startBtn) => {
         startBtn.addEventListener('click', async () => {
             // [BẮT ĐẦU CODE THAY THẾ]
             try {
@@ -5881,6 +5891,11 @@ async function waitForVoiceModelReady() {
             }
 
             // 1. Lấy và làm sạch văn bản (Giữ nguyên từ code mới)
+            const mainTextarea = document.getElementById('gemini-main-textarea');
+            if (!mainTextarea) {
+                addLogEntry('❌ Không tìm thấy textarea chính', 'error');
+                return;
+            }
             const text = mainTextarea.value.trim();
             let sanitizedText = text;
             // Fix lỗi "beep"
@@ -5921,7 +5936,11 @@ async function waitForVoiceModelReady() {
             // =======================================================
             // == XÓA SẠCH MỌI DỮ LIỆU CŨ ĐỂ TRÁNH DÍNH ÂM THANH CŨ ==
             // =======================================================
-            addLogEntry('🧹 Đang xóa sạch dữ liệu cũ...', 'info');
+            try {
+                addLogEntry('🧹 Đang xóa sạch dữ liệu cũ...', 'info');
+            } catch (e) {
+                console.error('Lỗi khi log xóa dữ liệu cũ:', e);
+            }
             
             // 1. Xóa tất cả timeout đang chạy (tránh xử lý chunk cũ)
             if (typeof window.chunkTimeoutIds !== 'undefined' && window.chunkTimeoutIds) {
@@ -5946,7 +5965,11 @@ async function waitForVoiceModelReady() {
             // =======================================================
             // NÂNG CẤP: XÓA TẤT CẢ AUDIO ELEMENTS CŨ TRONG DOM
             // =======================================================
-            addLogEntry('🧹 [Bước 1/5] Đang xóa audio elements cũ từ DOM...', 'info');
+            try {
+                addLogEntry('🧹 [Bước 1/5] Đang xóa audio elements cũ từ DOM...', 'info');
+            } catch (e) {
+                console.error('Lỗi khi log Bước 1/5:', e);
+            }
             try {
                 const allAudioElements = document.querySelectorAll('audio');
                 let removedCount = 0;
@@ -6007,7 +6030,11 @@ async function waitForVoiceModelReady() {
             // =======================================================
             // NÂNG CẤP: XÓA SẠCH CACHE CỦA WEBSITE VÀ BROWSER
             // =======================================================
-            addLogEntry('🧹 [Bước 2/5] Đang xóa cache của website và browser...', 'info');
+            try {
+                addLogEntry('🧹 [Bước 2/5] Đang xóa cache của website và browser...', 'info');
+            } catch (e) {
+                console.error('Lỗi khi log Bước 2/5:', e);
+            }
             try {
                 // 1. Revoke tất cả blob URLs đã tạo để giải phóng bộ nhớ
                 if (typeof window.createdBlobURLs === 'undefined') {
@@ -6116,7 +6143,11 @@ async function waitForVoiceModelReady() {
             // =======================================================
             // NÂNG CẤP: XÓA TẤT CẢ INDEX TRONG window.chunkBlobs (kể cả index từ 1)
             // =======================================================
-            addLogEntry('🧹 [Bước 3/5] Đang reset các mảng blob và text...', 'info');
+            try {
+                addLogEntry('🧹 [Bước 3/5] Đang reset các mảng blob và text...', 'info');
+            } catch (e) {
+                console.error('Lỗi khi log Bước 3/5:', e);
+            }
             
             // 2. Reset các mảng blob (âm thanh cũ) - QUAN TRỌNG: Reset HOÀN TOÀN
             const oldChunkBlobsLength = window.chunkBlobs ? window.chunkBlobs.length : 0;
@@ -6272,37 +6303,41 @@ async function waitForVoiceModelReady() {
 
             // [KẾT THÚC CODE THAY THẾ]
         });
-    }
+    });
 
-    // Nút Tạm dừng / Tiếp tục
-    if (pauseBtn) {
+    // Nút Tạm dừng / Tiếp tục - Đợi nút xuất hiện
+    waitForElement('gemini-pause-btn', (pauseBtn) => {
         pauseBtn.addEventListener('click', () => {
             processingState.isPaused = !processingState.isPaused;
             pauseBtn.textContent = processingState.isPaused ? '▶️ Tiếp tục' : '⏸️ Tạm dừng';
         });
-    }
+    });
 
-    // Nút Dừng hẳn
-    if (stopBtn) {
+    // Nút Dừng hẳn - Đợi nút xuất hiện
+    waitForElement('gemini-stop-btn', (stopBtn) => {
         stopBtn.addEventListener('click', () => {
             processingState.isStopped = true;
             processingState.isPaused = false;
             addLogEntry("🔴 Người dùng đã yêu cầu dừng hẳn quá trình.", 'error');
 
             // Reset giao diện
-            startBtn.disabled = false;
-            startBtn.style.display = 'block';
-            pauseBtn.style.display = 'none';
-            stopBtn.style.display = 'none';
+            const startBtn = document.getElementById('gemini-start-queue-btn');
+            const pauseBtn = document.getElementById('gemini-pause-btn');
+            if (startBtn) {
+                startBtn.disabled = false;
+                startBtn.style.display = 'block';
+            }
+            if (pauseBtn) pauseBtn.style.display = 'none';
+            if (stopBtn) stopBtn.style.display = 'none';
         });
-    }
+    });
 
-    // Nút Play/Pause của WaveSurfer
-    if (playPauseWaveformBtn) {
+    // Nút Play/Pause của WaveSurfer - Đợi nút xuất hiện
+    waitForElement('waveform-play-pause', (playPauseWaveformBtn) => {
         playPauseWaveformBtn.addEventListener('click', ()=>{
             if(n_WwsStaC$jzsWjOIjRqedTG) n_WwsStaC$jzsWjOIjRqedTG.playPause();
         });
-    }
+    });
 
     // === THÊM CẢNH BÁO GMAIL ĐĂNG NHẬP ===
 
