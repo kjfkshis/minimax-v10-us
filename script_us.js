@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      39.0
+// @version      31.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -2426,54 +2426,57 @@ if (currentJobChunkCount === 0) {
 
 addLogEntry(`🔍 Đang tìm chunks cho job hiện tại (${currentJobChunkCount} chunks)...`, 'info');
 
-// ƯU TIÊN 1: Kiểm tra window.chunkBlobs trước (CHỈ lấy chunk có index < SI$acY.length)
+// =======================================================
+// NÂNG CẤP: LƯU INDEX TỪ 1 (CHUNK 1 → INDEX 1)
+// =======================================================
+// ƯU TIÊN 1: Kiểm tra window.chunkBlobs trước (CHỈ lấy chunk có index từ 1 đến currentJobChunkCount)
 if (window.chunkBlobs && window.chunkBlobs.length > 0) {
     let foundCount = 0;
     let skippedCount = 0;
     
-    // QUAN TRỌNG: Chỉ lấy chunk có index < currentJobChunkCount
-    for (let i = 0; i < Math.min(window.chunkBlobs.length, currentJobChunkCount); i++) {
+    // QUAN TRỌNG: Lấy chunk từ index 1 đến currentJobChunkCount (vì lưu từ index 1)
+    for (let i = 1; i <= currentJobChunkCount && i < window.chunkBlobs.length; i++) {
         if (window.chunkBlobs[i] !== null && window.chunkBlobs[i] !== undefined) {
             chunksWithIndex.push({
-                index: i,
+                index: i - 1, // Map về index 0-based cho chunksWithIndex (chunk 1 → index 0 trong chunksWithIndex)
                 blob: window.chunkBlobs[i]
             });
             foundCount++;
         }
     }
     
-    // Kiểm tra xem có chunk ở index >= currentJobChunkCount không (chunk cũ)
-    if (window.chunkBlobs.length > currentJobChunkCount) {
-        skippedCount = window.chunkBlobs.length - currentJobChunkCount;
-        addLogEntry(`⚠️ Phát hiện ${skippedCount} chunk ở index >= ${currentJobChunkCount} (chunk từ lần render trước), đã bỏ qua!`, 'warning');
+    // Kiểm tra xem có chunk ở index > currentJobChunkCount không (chunk cũ)
+    if (window.chunkBlobs.length > currentJobChunkCount + 1) {
+        skippedCount = window.chunkBlobs.length - (currentJobChunkCount + 1);
+        addLogEntry(`⚠️ Phát hiện ${skippedCount} chunk ở index > ${currentJobChunkCount} (chunk từ lần render trước), đã bỏ qua!`, 'warning');
     }
     
-    addLogEntry(`📦 Tìm thấy ${foundCount} chunk từ window.chunkBlobs (chỉ lấy chunk từ job hiện tại)`, 'info');
+    addLogEntry(`📦 Tìm thấy ${foundCount} chunk từ window.chunkBlobs (chỉ lấy chunk từ job hiện tại, index từ 1)`, 'info');
 }
 
-// ƯU TIÊN 2: Nếu window.chunkBlobs rỗng hoặc không đủ, dùng ZTQj$LF$o (CHỈ lấy chunk có index < SI$acY.length)
+// ƯU TIÊN 2: Nếu window.chunkBlobs rỗng hoặc không đủ, dùng ZTQj$LF$o (CHỈ lấy chunk có index từ 1 đến currentJobChunkCount)
 if (chunksWithIndex.length === 0 && ZTQj$LF$o && ZTQj$LF$o.length > 0) {
     let foundCount = 0;
     let skippedCount = 0;
     
-    // QUAN TRỌNG: Chỉ lấy chunk có index < currentJobChunkCount
-    for (let i = 0; i < Math.min(ZTQj$LF$o.length, currentJobChunkCount); i++) {
+    // QUAN TRỌNG: Lấy chunk từ index 1 đến currentJobChunkCount (vì lưu từ index 1)
+    for (let i = 1; i <= currentJobChunkCount && i < ZTQj$LF$o.length; i++) {
         if (ZTQj$LF$o[i] !== null && ZTQj$LF$o[i] !== undefined) {
             chunksWithIndex.push({
-                index: i,
+                index: i - 1, // Map về index 0-based cho chunksWithIndex (chunk 1 → index 0 trong chunksWithIndex)
                 blob: ZTQj$LF$o[i]
             });
             foundCount++;
         }
     }
     
-    // Kiểm tra xem có chunk ở index >= currentJobChunkCount không (chunk cũ)
-    if (ZTQj$LF$o.length > currentJobChunkCount) {
-        skippedCount = ZTQj$LF$o.length - currentJobChunkCount;
-        addLogEntry(`⚠️ Phát hiện ${skippedCount} chunk ở index >= ${currentJobChunkCount} (chunk từ lần render trước), đã bỏ qua!`, 'warning');
+    // Kiểm tra xem có chunk ở index > currentJobChunkCount không (chunk cũ)
+    if (ZTQj$LF$o.length > currentJobChunkCount + 1) {
+        skippedCount = ZTQj$LF$o.length - (currentJobChunkCount + 1);
+        addLogEntry(`⚠️ Phát hiện ${skippedCount} chunk ở index > ${currentJobChunkCount} (chunk từ lần render trước), đã bỏ qua!`, 'warning');
     }
     
-    addLogEntry(`📦 Fallback: Tìm thấy ${foundCount} chunk từ ZTQj$LF$o (chỉ lấy chunk từ job hiện tại)`, 'info');
+    addLogEntry(`📦 Fallback: Tìm thấy ${foundCount} chunk từ ZTQj$LF$o (chỉ lấy chunk từ job hiện tại, index từ 1)`, 'info');
 }
 
 // =======================================================
@@ -2487,6 +2490,7 @@ if (chunksWithIndex.length === 0) {
 }
 
 // QUAN TRỌNG: Kiểm tra xem có chunk nào có index >= currentJobChunkCount không (chunk cũ)
+// Lưu ý: chunksWithIndex đã được map về index 0-based (chunk 1 → index 0 trong chunksWithIndex)
 const oldChunksFromPreviousJob = chunksWithIndex.filter(chunk => chunk.index >= currentJobChunkCount);
 if (oldChunksFromPreviousJob.length > 0) {
     addLogEntry(`❌ PHÁT HIỆN ${oldChunksFromPreviousJob.length} CHUNK CŨ (index >= ${currentJobChunkCount})! Đã loại bỏ!`, 'error');
@@ -3785,21 +3789,26 @@ async function uSTZrHUt_IC() {
             
             // QUAN TRỌNG: Đảm bảo vị trí này để trống (null) để sau này retry có thể lưu vào
             if (typeof window.chunkBlobs === 'undefined') {
-                window.chunkBlobs = new Array(SI$acY.length).fill(null);
+                window.chunkBlobs = new Array(SI$acY.length + 1).fill(null); // +1 vì lưu từ index 1
             }
-            // Đảm bảo window.chunkBlobs có đủ độ dài
-            while (window.chunkBlobs.length <= ttuo$y_KhCV) {
+            // =======================================================
+            // NÂNG CẤP: LƯU INDEX TỪ 1 (CHUNK 1 → INDEX 1)
+            // =======================================================
+            const storageIndex = ttuo$y_KhCV + 1; // Chunk 1 → index 1, Chunk 2 → index 2, ...
+            
+            // Đảm bảo window.chunkBlobs có đủ độ dài (cần index + 1 vì bắt đầu từ 1)
+            while (window.chunkBlobs.length <= storageIndex) {
                 window.chunkBlobs.push(null);
             }
-            window.chunkBlobs[ttuo$y_KhCV] = null; // Đảm bảo vị trí này để trống
+            window.chunkBlobs[storageIndex] = null; // Đảm bảo vị trí này để trống
             
-            // ĐỒNG BỘ HÓA ZTQj$LF$o: Đảm bảo ZTQj$LF$o cũng để trống
-            while (ZTQj$LF$o.length <= ttuo$y_KhCV) {
+            // ĐỒNG BỘ HÓA ZTQj$LF$o: Đảm bảo ZTQj$LF$o cũng để trống (index từ 1)
+            while (ZTQj$LF$o.length <= storageIndex) {
                 ZTQj$LF$o.push(null);
             }
-            ZTQj$LF$o[ttuo$y_KhCV] = null; // Đảm bảo vị trí này để trống
+            ZTQj$LF$o[storageIndex] = null; // Đảm bảo vị trí này để trống
             
-            addLogEntry(`🔄 [Chunk ${ttuo$y_KhCV + 1}] Đã đánh dấu thất bại và để trống vị trí ${ttuo$y_KhCV} để retry sau`, 'info');
+            addLogEntry(`🔄 [Chunk ${ttuo$y_KhCV + 1}] Đã đánh dấu thất bại và để trống vị trí ${storageIndex} để retry sau`, 'info');
             
             // Reset flag sendingChunk khi chunk thất bại
             if (window.sendingChunk === ttuo$y_KhCV) {
@@ -3984,21 +3993,26 @@ async function uSTZrHUt_IC() {
             
             // QUAN TRỌNG: Đảm bảo vị trí này để trống (null) để sau này retry có thể lưu vào
             if (typeof window.chunkBlobs === 'undefined') {
-                window.chunkBlobs = new Array(SI$acY.length).fill(null);
+                window.chunkBlobs = new Array(SI$acY.length + 1).fill(null); // +1 vì lưu từ index 1
             }
-            // Đảm bảo window.chunkBlobs có đủ độ dài
-            while (window.chunkBlobs.length <= ttuo$y_KhCV) {
+            // =======================================================
+            // NÂNG CẤP: LƯU INDEX TỪ 1 (CHUNK 1 → INDEX 1)
+            // =======================================================
+            const storageIndex = ttuo$y_KhCV + 1; // Chunk 1 → index 1, Chunk 2 → index 2, ...
+            
+            // Đảm bảo window.chunkBlobs có đủ độ dài (cần index + 1 vì bắt đầu từ 1)
+            while (window.chunkBlobs.length <= storageIndex) {
                 window.chunkBlobs.push(null);
             }
-            window.chunkBlobs[ttuo$y_KhCV] = null; // Đảm bảo vị trí này để trống
+            window.chunkBlobs[storageIndex] = null; // Đảm bảo vị trí này để trống
             
-            // ĐỒNG BỘ HÓA ZTQj$LF$o: Đảm bảo ZTQj$LF$o cũng để trống
-            while (ZTQj$LF$o.length <= ttuo$y_KhCV) {
+            // ĐỒNG BỘ HÓA ZTQj$LF$o: Đảm bảo ZTQj$LF$o cũng để trống (index từ 1)
+            while (ZTQj$LF$o.length <= storageIndex) {
                 ZTQj$LF$o.push(null);
             }
-            ZTQj$LF$o[ttuo$y_KhCV] = null; // Đảm bảo vị trí này để trống
+            ZTQj$LF$o[storageIndex] = null; // Đảm bảo vị trí này để trống
             
-            addLogEntry(`🔄 [Chunk ${ttuo$y_KhCV + 1}] Đã đánh dấu thất bại và để trống vị trí ${ttuo$y_KhCV} để retry sau`, 'info');
+            addLogEntry(`🔄 [Chunk ${ttuo$y_KhCV + 1}] Đã đánh dấu thất bại và để trống vị trí ${storageIndex} để retry sau`, 'info');
             
             // Reset flag sendingChunk khi chunk thất bại
             if (window.sendingChunk === ttuo$y_KhCV) {
@@ -4312,8 +4326,9 @@ async function uSTZrHUt_IC() {
                     }
 
                     // ĐỒNG BỘ HÓA KHI RETRY: Đảm bảo window.chunkBlobs được cập nhật khi retry thành công
+                    // NÂNG CẤP: Lưu từ index 1, nên cần +1 để có đủ chỗ
                     if (typeof window.chunkBlobs === 'undefined') {
-                        window.chunkBlobs = new Array(SI$acY.length).fill(null);
+                        window.chunkBlobs = new Array(SI$acY.length + 1).fill(null);
                     }
                     // Chunk này sẽ được lưu vào window.chunkBlobs ở phần code phía dưới
 
@@ -4459,21 +4474,27 @@ async function uSTZrHUt_IC() {
                         addLogEntry(`✅ [Chunk ${currentChunkIndex + 1}] Blob hợp lệ: ${(qILAV.size / 1024).toFixed(2)} KB`, 'success');
                         
                         // Lưu chunk vào đúng vị trí dựa trên currentChunkIndex (đã lưu ở đầu callback)
+                        // NÂNG CẤP: Lưu từ index 1, nên cần +1 để có đủ chỗ
                         if (typeof window.chunkBlobs === 'undefined') {
-                            window.chunkBlobs = new Array(SI$acY.length).fill(null);
+                            window.chunkBlobs = new Array(SI$acY.length + 1).fill(null);
                         }
 
-                        // Đảm bảo window.chunkBlobs có đủ độ dài
-                        while (window.chunkBlobs.length <= currentChunkIndex) {
+                        // =======================================================
+                        // NÂNG CẤP: LƯU INDEX TỪ 1 (CHUNK 1 → INDEX 1)
+                        // =======================================================
+                        const storageIndex = currentChunkIndex + 1; // Chunk 1 → index 1, Chunk 2 → index 2, ...
+                        
+                        // Đảm bảo window.chunkBlobs có đủ độ dài (cần index + 1 vì bắt đầu từ 1)
+                        while (window.chunkBlobs.length <= storageIndex) {
                             window.chunkBlobs.push(null);
                         }
                         
                         // QUAN TRỌNG: Kiểm tra xem vị trí này đã có chunk chưa
                         // Nếu đã có chunk và chunk đó đã thành công, không ghi đè (có thể là chunk khác)
-                        if (window.chunkBlobs[currentChunkIndex] !== null) {
+                        if (window.chunkBlobs[storageIndex] !== null) {
                             // Kiểm tra xem chunk ở vị trí này có phải là chunk hiện tại không
                             if (window.chunkStatus && window.chunkStatus[currentChunkIndex] === 'success') {
-                                addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Vị trí ${currentChunkIndex} đã có chunk thành công, không ghi đè`, 'warning');
+                                addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Vị trí ${storageIndex} đã có chunk thành công, không ghi đè`, 'warning');
                                 // Xóa khỏi processingChunks và return
                                 if (typeof window.processingChunks !== 'undefined') {
                                     window.processingChunks.delete(currentChunkIndex);
@@ -4482,16 +4503,16 @@ async function uSTZrHUt_IC() {
                             }
                             // Nếu vị trí này có chunk nhưng chunk đó failed, có thể ghi đè (retry)
                             if (window.chunkStatus && window.chunkStatus[currentChunkIndex] === 'failed') {
-                                addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Vị trí ${currentChunkIndex} có chunk failed, ghi đè (retry)`, 'info');
+                                addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Vị trí ${storageIndex} có chunk failed, ghi đè (retry)`, 'info');
                             }
                         }
                         
-                        // QUAN TRỌNG: Kiểm tra xem vị trí này đã có chunk chưa
+                        // QUAN TRỌNG: Kiểm tra xem vị trí này đã có chunk chưa (kiểm tra lại)
                         // Nếu đã có chunk và chunk đó đã thành công, không ghi đè (có thể là chunk khác)
-                        if (window.chunkBlobs[currentChunkIndex] !== null) {
+                        if (window.chunkBlobs[storageIndex] !== null) {
                             // Kiểm tra xem chunk ở vị trí này có phải là chunk hiện tại không
                             if (window.chunkStatus && window.chunkStatus[currentChunkIndex] === 'success') {
-                                addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Vị trí ${currentChunkIndex} đã có chunk thành công, không ghi đè`, 'warning');
+                                addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Vị trí ${storageIndex} đã có chunk thành công, không ghi đè`, 'warning');
                                 // Xóa khỏi processingChunks và return
                                 if (typeof window.processingChunks !== 'undefined') {
                                     window.processingChunks.delete(currentChunkIndex);
@@ -4500,22 +4521,22 @@ async function uSTZrHUt_IC() {
                             }
                             // Nếu vị trí này có chunk nhưng chunk đó failed, có thể ghi đè (retry)
                             if (window.chunkStatus && window.chunkStatus[currentChunkIndex] === 'failed') {
-                                addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Vị trí ${currentChunkIndex} có chunk failed, ghi đè (retry)`, 'info');
+                                addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Vị trí ${storageIndex} có chunk failed, ghi đè (retry)`, 'info');
                             }
                         }
                         
-                        // Lưu chunk vào đúng vị trí
-                        window.chunkBlobs[currentChunkIndex] = qILAV;
+                        // Lưu chunk vào đúng vị trí (index từ 1)
+                        window.chunkBlobs[storageIndex] = qILAV;
 
-                        // ĐỒNG BỘ HÓA ZTQj$LF$o: Đảm bảo ZTQj$LF$o cũng có chunk ở đúng vị trí
+                        // ĐỒNG BỘ HÓA ZTQj$LF$o: Đảm bảo ZTQj$LF$o cũng có chunk ở đúng vị trí (index từ 1)
                         // Nếu ZTQj$LF$o chưa đủ độ dài, mở rộng mảng
-                        while (ZTQj$LF$o.length <= currentChunkIndex) {
+                        while (ZTQj$LF$o.length <= storageIndex) {
                             ZTQj$LF$o.push(null);
                         }
-                        ZTQj$LF$o[currentChunkIndex] = qILAV;
+                        ZTQj$LF$o[storageIndex] = qILAV;
 
-                        // ĐỒNG BỘ HÓA: Đảm bảo cả hai mảng đều có chunk này ở đúng vị trí
-                        addLogEntry(`🔄 Đã lưu chunk ${currentChunkIndex + 1} vào vị trí ${currentChunkIndex} của cả window.chunkBlobs và ZTQj$LF$o`, 'info');
+                        // ĐỒNG BỘ HÓA: Đảm bảo cả hai mảng đều có chunk này ở đúng vị trí (index từ 1)
+                        addLogEntry(`🔄 Đã lưu chunk ${currentChunkIndex + 1} vào vị trí ${storageIndex} của cả window.chunkBlobs và ZTQj$LF$o`, 'info');
 
                         // DEBUG: Kiểm tra trạng thái mảng sau khi lưu
                         const chunkStatus = window.chunkBlobs.map((blob, idx) => blob ? 'có' : 'null').join(', ');
