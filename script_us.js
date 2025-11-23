@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      26.0
+// @version      24.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -5695,19 +5695,14 @@ async function waitForVoiceModelReady() {
             addLogEntry('🧹 [Profile Cleanup] Bắt đầu xóa dữ liệu profile trình duyệt...', 'info');
             
             try {
-                // 1. Xóa localStorage (chỉ các key liên quan đến Minimax/audio)
+                // 1. Xóa localStorage (CHỈ các key của tool, KHÔNG xóa key của website Minimax)
+                // QUAN TRỌNG: Chỉ xóa key có prefix "mmx_" để tránh xóa dữ liệu cấu hình của website
                 const localStorageKeys = [];
                 for (let i = 0; i < localStorage.length; i++) {
                     const key = localStorage.key(i);
                     if (key && (
-                        key.includes('minimax') || 
-                        key.includes('audio') || 
-                        key.includes('voice') || 
-                        key.includes('cache') ||
-                        key.includes('chunk') ||
-                        key.includes('blob') ||
-                        key.includes('mmx_') ||
-                        key.toLowerCase().includes('gemini')
+                        key.startsWith('mmx_') || // Chỉ xóa key của tool
+                        (key.includes('chunk') && key.includes('blob')) // Chỉ xóa key liên quan đến chunk/blob của tool
                     )) {
                         localStorageKeys.push(key);
                     }
@@ -5720,22 +5715,17 @@ async function waitForVoiceModelReady() {
                     }
                 });
                 if (localStorageKeys.length > 0) {
-                    addLogEntry(`✅ [Profile Cleanup] Đã xóa ${localStorageKeys.length} key(s) từ localStorage`, 'success');
+                    addLogEntry(`✅ [Profile Cleanup] Đã xóa ${localStorageKeys.length} key(s) từ localStorage (chỉ key của tool)`, 'success');
                 }
 
-                // 2. Xóa sessionStorage (chỉ các key liên quan đến Minimax/audio)
+                // 2. Xóa sessionStorage (CHỈ các key của tool, KHÔNG xóa key của website Minimax)
+                // QUAN TRỌNG: Chỉ xóa key có prefix "mmx_" để tránh xóa dữ liệu cấu hình của website
                 const sessionStorageKeys = [];
                 for (let i = 0; i < sessionStorage.length; i++) {
                     const key = sessionStorage.key(i);
                     if (key && (
-                        key.includes('minimax') || 
-                        key.includes('audio') || 
-                        key.includes('voice') || 
-                        key.includes('cache') ||
-                        key.includes('chunk') ||
-                        key.includes('blob') ||
-                        key.includes('mmx_') ||
-                        key.toLowerCase().includes('gemini')
+                        key.startsWith('mmx_') || // Chỉ xóa key của tool
+                        (key.includes('chunk') && key.includes('blob')) // Chỉ xóa key liên quan đến chunk/blob của tool
                     )) {
                         sessionStorageKeys.push(key);
                     }
@@ -5748,43 +5738,41 @@ async function waitForVoiceModelReady() {
                     }
                 });
                 if (sessionStorageKeys.length > 0) {
-                    addLogEntry(`✅ [Profile Cleanup] Đã xóa ${sessionStorageKeys.length} key(s) từ sessionStorage`, 'success');
+                    addLogEntry(`✅ [Profile Cleanup] Đã xóa ${sessionStorageKeys.length} key(s) từ sessionStorage (chỉ key của tool)`, 'success');
                 }
 
-                // 3. Xóa Cache API (Service Worker cache)
+                // 3. Xóa Cache API (CHỈ cache của tool, KHÔNG xóa cache của website Minimax)
+                // QUAN TRỌNG: Không xóa cache của website Minimax để tránh làm hỏng website
                 if ('caches' in window) {
                     try {
                         const cacheNames = await caches.keys();
+                        // CHỈ xóa cache có tên chứa "mmx_" (cache của tool)
                         const relevantCaches = cacheNames.filter(name => 
-                            name.includes('minimax') || 
-                            name.includes('audio') || 
-                            name.includes('voice') || 
-                            name.includes('cache') ||
-                            name.toLowerCase().includes('gemini')
+                            name.includes('mmx_') || // Chỉ xóa cache của tool
+                            (name.includes('audio') && name.includes('chunk')) // Chỉ xóa cache audio chunk của tool
                         );
                         for (const cacheName of relevantCaches) {
                             await caches.delete(cacheName);
                         }
                         if (relevantCaches.length > 0) {
-                            addLogEntry(`✅ [Profile Cleanup] Đã xóa ${relevantCaches.length} cache(s) từ Cache API`, 'success');
+                            addLogEntry(`✅ [Profile Cleanup] Đã xóa ${relevantCaches.length} cache(s) từ Cache API (chỉ cache của tool)`, 'success');
                         }
                     } catch (cacheError) {
                         console.warn('[Profile Cleanup] Lỗi khi xóa Cache API:', cacheError);
                     }
                 }
 
-                // 4. Xóa IndexedDB (nếu có database liên quan)
+                // 4. Xóa IndexedDB (CHỈ database của tool, KHÔNG xóa database của website Minimax)
+                // QUAN TRỌNG: Không xóa database của website Minimax để tránh làm hỏng website
                 if ('indexedDB' in window) {
                     try {
                         // Lấy danh sách databases
                         const databases = await indexedDB.databases();
+                        // CHỈ xóa database có tên chứa "mmx_" (database của tool)
                         const relevantDBs = databases.filter(db => 
                             db.name && (
-                                db.name.includes('minimax') || 
-                                db.name.includes('audio') || 
-                                db.name.includes('voice') || 
-                                db.name.includes('cache') ||
-                                db.name.toLowerCase().includes('gemini')
+                                db.name.includes('mmx_') || // Chỉ xóa database của tool
+                                (db.name.includes('audio') && db.name.includes('chunk')) // Chỉ xóa database audio chunk của tool
                             )
                         );
                         for (const db of relevantDBs) {
@@ -5799,52 +5787,89 @@ async function waitForVoiceModelReady() {
                             }
                         }
                         if (relevantDBs.length > 0) {
-                            addLogEntry(`✅ [Profile Cleanup] Đã xóa ${relevantDBs.length} database(s) từ IndexedDB`, 'success');
+                            addLogEntry(`✅ [Profile Cleanup] Đã xóa ${relevantDBs.length} database(s) từ IndexedDB (chỉ database của tool)`, 'success');
                         }
                     } catch (idbError) {
                         console.warn('[Profile Cleanup] Lỗi khi truy cập IndexedDB:', idbError);
                     }
                 }
 
-                // 5. Revoke tất cả Blob URLs đã tạo
+                // 5. Revoke Blob URLs CŨ (chỉ các URL không còn được sử dụng)
+                // QUAN TRỌNG: KHÔNG revoke blob URLs đang được sử dụng bởi audio elements hiện tại
                 if (typeof window.createdBlobURLs !== 'undefined' && window.createdBlobURLs instanceof Set) {
-                    const blobURLCount = window.createdBlobURLs.size;
+                    // Lấy danh sách blob URLs đang được sử dụng bởi audio elements
+                    const activeBlobURLs = new Set();
+                    try {
+                        const allAudioElements = document.querySelectorAll('audio');
+                        allAudioElements.forEach(audio => {
+                            if (audio.src && audio.src.startsWith('blob:')) {
+                                activeBlobURLs.add(audio.src);
+                            }
+                        });
+                    } catch (e) {
+                        console.warn('[Profile Cleanup] Lỗi khi kiểm tra audio elements:', e);
+                    }
+                    
+                    // Chỉ revoke các blob URLs không còn được sử dụng
+                    let revokedCount = 0;
                     window.createdBlobURLs.forEach(url => {
-                        try {
-                            URL.revokeObjectURL(url);
-                        } catch (e) {
-                            console.warn('[Profile Cleanup] Lỗi khi revoke blob URL:', e);
+                        if (!activeBlobURLs.has(url)) {
+                            try {
+                                URL.revokeObjectURL(url);
+                                revokedCount++;
+                            } catch (e) {
+                                console.warn('[Profile Cleanup] Lỗi khi revoke blob URL:', e);
+                            }
                         }
                     });
                     window.createdBlobURLs.clear();
-                    if (blobURLCount > 0) {
-                        addLogEntry(`✅ [Profile Cleanup] Đã revoke ${blobURLCount} blob URL(s)`, 'success');
+                    // Thêm lại các URL đang được sử dụng vào set
+                    activeBlobURLs.forEach(url => window.createdBlobURLs.add(url));
+                    
+                    if (revokedCount > 0) {
+                        addLogEntry(`✅ [Profile Cleanup] Đã revoke ${revokedCount} blob URL(s) cũ (giữ lại ${activeBlobURLs.size} URL đang sử dụng)`, 'success');
                     }
                 }
 
-                // 6. Xóa tất cả audio elements cũ trong DOM
+                // 6. Xóa CHỈ các audio elements CŨ (không có dataset.chunkIndex hoặc đã xử lý xong)
+                // QUAN TRỌNG: KHÔNG xóa audio elements đang được xử lý
                 try {
                     const allAudioElements = document.querySelectorAll('audio');
                     let removedCount = 0;
+                    const currentTime = Date.now();
+                    
                     allAudioElements.forEach(audio => {
                         try {
-                            if (!audio.paused) {
-                                audio.pause();
-                                audio.currentTime = 0;
-                            }
-                            if (audio.src && audio.src.startsWith('blob:')) {
-                                URL.revokeObjectURL(audio.src);
-                            }
-                            if (audio.parentNode) {
-                                audio.remove();
-                                removedCount++;
+                            // Kiểm tra xem audio element có đang được xử lý không
+                            const chunkIndex = audio.dataset?.chunkIndex;
+                            const timestamp = audio.dataset?.timestamp ? parseInt(audio.dataset.timestamp) : 0;
+                            const isRecent = (currentTime - timestamp) < 30000; // 30 giây gần đây
+                            
+                            // Chỉ xóa audio elements CŨ (không có chunkIndex hoặc quá cũ)
+                            if (!chunkIndex || !isRecent) {
+                                if (!audio.paused) {
+                                    audio.pause();
+                                    audio.currentTime = 0;
+                                }
+                                if (audio.src && audio.src.startsWith('blob:')) {
+                                    // Chỉ revoke nếu không có audio element khác đang dùng
+                                    try {
+                                        URL.revokeObjectURL(audio.src);
+                                    } catch (e) {
+                                        // Bỏ qua nếu đã được revoke
+                                    }
+                                }
+                                if (audio.parentNode) {
+                                    audio.remove();
+                                    removedCount++;
+                                }
                             }
                         } catch (e) {
                             console.warn('[Profile Cleanup] Lỗi khi xóa audio element:', e);
                         }
                     });
                     if (removedCount > 0) {
-                        addLogEntry(`✅ [Profile Cleanup] Đã xóa ${removedCount} audio element(s) từ DOM`, 'success');
+                        addLogEntry(`✅ [Profile Cleanup] Đã xóa ${removedCount} audio element(s) cũ từ DOM (giữ lại các element đang xử lý)`, 'success');
                     }
                 } catch (audioError) {
                     console.warn('[Profile Cleanup] Lỗi khi xóa audio elements:', audioError);
