@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      32.0
+// @version      33.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -1246,7 +1246,7 @@ button:disabled {
         
         <div id="gemini-quota-display" style="color: #8be9fd; font-weight: bold; margin-left: 15px; margin-top: 10px; font-size: 14px;">Đang tải quota...</div>
         </div> 
-    <div class="column-content"> <div class="section" style="margin-bottom: 10px!important;"> <h4>1. Tải lên tệp âm thanh (Tối đa 1 file, độ dài 20-60 giây)</h4> <input type="file" id="gemini-file-input" accept=".wav,.mp3,.mpeg,.mp4,.m4a,.avi,.mov,.wmv,.flv,.mkv,.webm"> </div> <div class="section"> <h4>2. Chọn ngôn ngữ</h4> <select id="gemini-language-select"><option value="Vietnamese">Vietnamese</option><option value="English">English</option><option value="Arabic">Arabic</option><option value="Cantonese">Cantonese</option><option value="Chinese (Mandarin)">Chinese (Mandarin)</option><option value="Dutch">Dutch</option><option value="French">French</option><option value="German">German</option><option value="Indonesian">Indonesian</option><option value="Italian">Italian</option><option value="Japanese">Japanese</option><option value="Korean">Korean</option><option value="Portuguese">Portuguese</option><option value="Russian">Russian</option><option value="Spanish">Spanish</option><option value="Turkish">Turkish</option><option value="Ukrainian">Ukrainian</option><option value="Thai">Thai</option><option value="Polish">Polish</option><option value="Romanian">Romanian</option><option value="Greek">Greek</option><option value="Czech">Czech</option><option value="Finnish">Finnish</option><option value="Hindi">Hindi</option><option value="Bulgarian">Bulgarian</option><option value="Danish">Danish</option><option value="Hebrew">Hebrew</option><option value="Malay">Malay</option><option value="Persian">Persian</option><option value="Slovak">Slovak</option><option value="Swedish">Swedish</option><option value="Croatian">Croatian</option><option value="Filipino">Filipino</option><option value="Hungarian">Hungarian</option><option value="Norwegian">Norwegian</option><option value="Slovenian">Slovenian</option><option value="Catalan">Catalan</option><option value="Nynorsk">Nynorsk</option><option value="Tamil">Tamil</option><option value="Afrikaans">Afrikaans</option></select> </div> <div class="section"> <button id="gemini-upload-btn">Tải lên & Cấu hình tự động</button> <div id="gemini-upload-status"></div> </div> <div class="log-section"> <h2>Log hoạt động</h2> <div id="log-container" class="log-container"> <div class="log-entry">Sẵn sàng theo dõi văn bản chunk</div> </div> <button id="clear-log-btn" class="clear-log-btn">Xóa log</button> </div> </div> </div> </div> <div id="gemini-col-2" class="gemini-column"> <div class="column-header box-info-version"><h3>Trình tạo nội dung</h3><div>Version: 31.0 - Update: 27/01/2025 - Tạo bởi: <a href="https://fb.com/HuynhDucLoi/" target="_blank">Huỳnh Đức Lợi</a></div></div> <div class="column-content">     <div id="gemini-col-2-left">     <div class="section text-section"> <h4>Nhập văn bản cần tạo giọng nói</h4>
+    <div class="column-content"> <div class="section" style="margin-bottom: 10px!important;"> <h4>1. Tải lên tệp âm thanh (Tối đa 1 file, độ dài 20-60 giây)</h4> <input type="file" id="gemini-file-input" accept=".wav,.mp3,.mpeg,.mp4,.m4a,.avi,.mov,.wmv,.flv,.mkv,.webm"> </div> <div class="section"> <h4>2. Chọn ngôn ngữ</h4> <select id="gemini-language-select"><option value="Vietnamese">Vietnamese</option><option value="English">English</option><option value="Arabic">Arabic</option><option value="Cantonese">Cantonese</option><option value="Chinese (Mandarin)">Chinese (Mandarin)</option><option value="Dutch">Dutch</option><option value="French">French</option><option value="German">German</option><option value="Indonesian">Indonesian</option><option value="Italian">Italian</option><option value="Japanese">Japanese</option><option value="Korean">Korean</option><option value="Portuguese">Portuguese</option><option value="Russian">Russian</option><option value="Spanish">Spanish</option><option value="Turkish">Turkish</option><option value="Ukrainian">Ukrainian</option><option value="Thai">Thai</option><option value="Polish">Polish</option><option value="Romanian">Romanian</option><option value="Greek">Greek</option><option value="Czech">Czech</option><option value="Finnish">Finnish</option><option value="Hindi">Hindi</option><option value="Bulgarian">Bulgarian</option><option value="Danish">Danish</option><option value="Hebrew">Hebrew</option><option value="Malay">Malay</option><option value="Persian">Persian</option><option value="Slovak">Slovak</option><option value="Swedish">Swedish</option><option value="Croatian">Croatian</option><option value="Filipino">Filipino</option><option value="Hungarian">Hungarian</option><option value="Norwegian">Norwegian</option><option value="Slovenian">Slovenian</option><option value="Catalan">Catalan</option><option value="Nynorsk">Nynorsk</option><option value="Tamil">Tamil</option><option value="Afrikaans">Afrikaans</option></select> </div> <div class="section"> <button id="gemini-upload-btn">Tải lên & Cấu hình tự động</button> <div id="gemini-upload-status"></div> </div> <div class="log-section"> <h2>Log hoạt động</h2> <div id="log-container" class="log-container"> <div class="log-entry">Sẵn sàng theo dõi văn bản chunk</div> </div> <button id="clear-log-btn" class="clear-log-btn">Xóa log</button> </div> </div> </div> </div> <div id="gemini-col-2" class="gemini-column"> <div class="column-header box-info-version"><h3>Trình tạo nội dung</h3><div>Version: 33.0 - Update: 27/01/2025 - Tạo bởi: <a href="https://fb.com/HuynhDucLoi/" target="_blank">Huỳnh Đức Lợi</a></div></div> <div class="column-content">     <div id="gemini-col-2-left">     <div class="section text-section"> <h4>Nhập văn bản cần tạo giọng nói</h4>
     <div class="text-input-options">
         <div class="input-tabs">
             <button id="text-tab" class="tab-btn active">Nhập trực tiếp</button>
@@ -4193,11 +4193,22 @@ async function uSTZrHUt_IC() {
                                     break;
                                 } else {
                                     // Audio element có src nhưng chưa load xong
-                                    // QUAN TRỌNG: Nếu readyState = 0 quá 3 lần, kích hoạt retry
+                                    // QUAN TRỌNG: Kiểm tra readyState = 0 (HAVE_NOTHING)
+                                    // readyState = 0 có nghĩa là audio element chưa có metadata, chưa bắt đầu load
+                                    // Nếu quá 3 lần (3 giây) mà readyState vẫn = 0, có thể là:
+                                    // 1. Audio URL không hợp lệ
+                                    // 2. Website chưa thực sự load audio
+                                    // 3. Có lỗi khi load audio
+                                    
                                     if (detectedAudioElement.readyState === 0) {
                                         readyState0Count++;
-                                        if (readyState0Count > maxWaitReadyState0) {
-                                            addLogEntry(`❌ [Chunk ${currentChunkIndex + 1}] Đợi quá ${maxWaitReadyState0} lần (${maxWaitReadyState0}s) mà readyState vẫn = 0!`, 'error');
+                                        
+                                        // Kiểm tra thêm: Audio element có error không
+                                        const hasError = detectedAudioElement.error !== null && detectedAudioElement.error !== undefined;
+                                        const networkState = detectedAudioElement.networkState; // 0=EMPTY, 1=IDLE, 2=LOADING, 3=NO_SOURCE
+                                        
+                                        if (hasError) {
+                                            addLogEntry(`❌ [Chunk ${currentChunkIndex + 1}] Audio element có lỗi! Error code: ${detectedAudioElement.error ? detectedAudioElement.error.code : 'unknown'}`, 'error');
                                             addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] KÍCH HOẠT RETRY - Đánh dấu thất bại!`, 'warning');
                                             
                                             // Đánh dấu chunk failed
@@ -4220,10 +4231,95 @@ async function uSTZrHUt_IC() {
                                             
                                             return; // DỪNG, không tiếp tục xử lý chunk này
                                         }
+                                        
+                                        // Nếu networkState = 3 (NO_SOURCE), có nghĩa là không có source hợp lệ
+                                        if (networkState === 3) {
+                                            addLogEntry(`❌ [Chunk ${currentChunkIndex + 1}] Audio element không có source hợp lệ (networkState: ${networkState})!`, 'error');
+                                            addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] KÍCH HOẠT RETRY - Đánh dấu thất bại!`, 'warning');
+                                            
+                                            // Đánh dấu chunk failed
+                                            if (!window.chunkStatus) window.chunkStatus = [];
+                                            window.chunkStatus[currentChunkIndex] = 'failed';
+                                            if (!window.failedChunks) window.failedChunks = [];
+                                            if (!window.failedChunks.includes(currentChunkIndex)) {
+                                                window.failedChunks.push(currentChunkIndex);
+                                            }
+                                            
+                                            // Xóa khỏi processingChunks
+                                            if (typeof window.processingChunks !== 'undefined') {
+                                                window.processingChunks.delete(currentChunkIndex);
+                                            }
+                                            
+                                            // Reset flag
+                                            if (window.sendingChunk === currentChunkIndex) {
+                                                window.sendingChunk = null;
+                                            }
+                                            
+                                            return; // DỪNG, không tiếp tục xử lý chunk này
+                                        }
+                                        
+                                        // Nếu quá 3 lần mà readyState vẫn = 0 và không có error, kích hoạt retry
+                                        if (readyState0Count > maxWaitReadyState0) {
+                                            addLogEntry(`❌ [Chunk ${currentChunkIndex + 1}] Đợi quá ${maxWaitReadyState0} lần (${maxWaitReadyState0}s) mà readyState vẫn = 0!`, 'error');
+                                            addLogEntry(`❌ [Chunk ${currentChunkIndex + 1}] networkState: ${networkState} (0=EMPTY, 1=IDLE, 2=LOADING, 3=NO_SOURCE)`, 'error');
+                                            addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] KÍCH HOẠT RETRY - Đánh dấu thất bại!`, 'warning');
+                                            
+                                            // Đánh dấu chunk failed
+                                            if (!window.chunkStatus) window.chunkStatus = [];
+                                            window.chunkStatus[currentChunkIndex] = 'failed';
+                                            if (!window.failedChunks) window.failedChunks = [];
+                                            if (!window.failedChunks.includes(currentChunkIndex)) {
+                                                window.failedChunks.push(currentChunkIndex);
+                                            }
+                                            
+                                            // Xóa khỏi processingChunks
+                                            if (typeof window.processingChunks !== 'undefined') {
+                                                window.processingChunks.delete(currentChunkIndex);
+                                            }
+                                            
+                                            // Reset flag
+                                            if (window.sendingChunk === currentChunkIndex) {
+                                                window.sendingChunk = null;
+                                            }
+                                            
+                                            // QUAN TRỌNG: Kích hoạt retry ngay sau khi đánh dấu failed
+                                            addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Đang reset web interface và kích hoạt retry...`, 'info');
+                                            
+                                            // Reset web interface và kích hoạt retry
+                                            (async () => {
+                                                try {
+                                                    await resetWebInterface();
+                                                    addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Đã reset web interface`, 'info');
+                                                    
+                                                    // Kích hoạt retry bằng cách set isFinalCheck và gọi lại uSTZrHUt_IC
+                                                    window.isFinalCheck = true;
+                                                    
+                                                    // Chờ một chút rồi kích hoạt retry
+                                                    setTimeout(() => {
+                                                        addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Kích hoạt retry ngay...`, 'info');
+                                                        ttuo$y_KhCV = currentChunkIndex;
+                                                        setTimeout(uSTZrHUt_IC, 1000);
+                                                    }, 2000);
+                                                } catch (resetError) {
+                                                    addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Lỗi khi reset web interface: ${resetError.message}`, 'warning');
+                                                    
+                                                    // Vẫn kích hoạt retry dù có lỗi reset
+                                                    window.isFinalCheck = true;
+                                                    setTimeout(() => {
+                                                        addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Kích hoạt retry (dù có lỗi reset)...`, 'info');
+                                                        ttuo$y_KhCV = currentChunkIndex;
+                                                        setTimeout(uSTZrHUt_IC, 1000);
+                                                    }, 2000);
+                                                }
+                                            })();
+                                            
+                                            return; // DỪNG, không tiếp tục xử lý chunk này
+                                        }
                                     }
                                     
                                     if (waitCount % 3 === 0 || readyState0Count <= maxWaitReadyState0) { // Log mỗi 3 giây hoặc khi readyState0Count <= 3
-                                        addLogEntry(`⏳ [Chunk ${currentChunkIndex + 1}] Audio element có src nhưng chưa load xong (readyState: ${detectedAudioElement.readyState}), đợi thêm... (${readyState0Count}/${maxWaitReadyState0})`, 'info');
+                                        const networkStateInfo = detectedAudioElement.networkState !== undefined ? `, networkState: ${detectedAudioElement.networkState}` : '';
+                                        addLogEntry(`⏳ [Chunk ${currentChunkIndex + 1}] Audio element có src nhưng chưa load xong (readyState: ${detectedAudioElement.readyState}${networkStateInfo}), đợi thêm... (${readyState0Count}/${maxWaitReadyState0})`, 'info');
                                     }
                                     await new Promise(resolve => setTimeout(resolve, 1000)); // Đợi 1 giây
                                     waitCount++;
@@ -4322,11 +4418,16 @@ async function uSTZrHUt_IC() {
                                         break;
                                     } else {
                                         // Audio element có src nhưng chưa load xong
-                                        // QUAN TRỌNG: Nếu readyState = 0 quá 3 lần, kích hoạt retry
+                                        // QUAN TRỌNG: Kiểm tra readyState = 0 (HAVE_NOTHING)
                                         if (audioElementToWait.readyState === 0) {
                                             readyState0Count2++;
-                                            if (readyState0Count2 > maxWaitReadyState0_2) {
-                                                addLogEntry(`❌ [Chunk ${currentChunkIndex + 1}] Đợi quá ${maxWaitReadyState0_2} lần (${maxWaitReadyState0_2}s) mà readyState vẫn = 0!`, 'error');
+                                            
+                                            // Kiểm tra thêm: Audio element có error không
+                                            const hasError = audioElementToWait.error !== null && audioElementToWait.error !== undefined;
+                                            const networkState = audioElementToWait.networkState; // 0=EMPTY, 1=IDLE, 2=LOADING, 3=NO_SOURCE
+                                            
+                                            if (hasError) {
+                                                addLogEntry(`❌ [Chunk ${currentChunkIndex + 1}] Audio element có lỗi! Error code: ${audioElementToWait.error ? audioElementToWait.error.code : 'unknown'}`, 'error');
                                                 addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] KÍCH HOẠT RETRY - Đánh dấu thất bại!`, 'warning');
                                                 
                                                 // Đánh dấu chunk failed
@@ -4344,10 +4445,85 @@ async function uSTZrHUt_IC() {
                                                 
                                                 return; // DỪNG, không tiếp tục fetch
                                             }
+                                            
+                                            // Nếu networkState = 3 (NO_SOURCE), có nghĩa là không có source hợp lệ
+                                            if (networkState === 3) {
+                                                addLogEntry(`❌ [Chunk ${currentChunkIndex + 1}] Audio element không có source hợp lệ (networkState: ${networkState})!`, 'error');
+                                                addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] KÍCH HOẠT RETRY - Đánh dấu thất bại!`, 'warning');
+                                                
+                                                // Đánh dấu chunk failed
+                                                if (!window.chunkStatus) window.chunkStatus = [];
+                                                window.chunkStatus[currentChunkIndex] = 'failed';
+                                                if (!window.failedChunks) window.failedChunks = [];
+                                                if (!window.failedChunks.includes(currentChunkIndex)) {
+                                                    window.failedChunks.push(currentChunkIndex);
+                                                }
+                                                
+                                                // Xóa khỏi processingChunks
+                                                if (typeof window.processingChunks !== 'undefined') {
+                                                    window.processingChunks.delete(currentChunkIndex);
+                                                }
+                                                
+                                                return; // DỪNG, không tiếp tục fetch
+                                            }
+                                            
+                                            // Nếu quá 3 lần mà readyState vẫn = 0 và không có error, kích hoạt retry
+                                            if (readyState0Count2 > maxWaitReadyState0_2) {
+                                                addLogEntry(`❌ [Chunk ${currentChunkIndex + 1}] Đợi quá ${maxWaitReadyState0_2} lần (${maxWaitReadyState0_2}s) mà readyState vẫn = 0!`, 'error');
+                                                addLogEntry(`❌ [Chunk ${currentChunkIndex + 1}] networkState: ${networkState} (0=EMPTY, 1=IDLE, 2=LOADING, 3=NO_SOURCE)`, 'error');
+                                                addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] KÍCH HOẠT RETRY - Đánh dấu thất bại!`, 'warning');
+                                                
+                                                // Đánh dấu chunk failed
+                                                if (!window.chunkStatus) window.chunkStatus = [];
+                                                window.chunkStatus[currentChunkIndex] = 'failed';
+                                                if (!window.failedChunks) window.failedChunks = [];
+                                                if (!window.failedChunks.includes(currentChunkIndex)) {
+                                                    window.failedChunks.push(currentChunkIndex);
+                                                }
+                                                
+                                                // Xóa khỏi processingChunks
+                                                if (typeof window.processingChunks !== 'undefined') {
+                                                    window.processingChunks.delete(currentChunkIndex);
+                                                }
+                                                
+                                                // QUAN TRỌNG: Kích hoạt retry ngay sau khi đánh dấu failed
+                                                addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Đang reset web interface và kích hoạt retry...`, 'info');
+                                                
+                                                // Reset web interface và kích hoạt retry
+                                                (async () => {
+                                                    try {
+                                                        await resetWebInterface();
+                                                        addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Đã reset web interface`, 'info');
+                                                        
+                                                        // Kích hoạt retry bằng cách set isFinalCheck và gọi lại uSTZrHUt_IC
+                                                        window.isFinalCheck = true;
+                                                        
+                                                        // Chờ một chút rồi kích hoạt retry
+                                                        setTimeout(() => {
+                                                            addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Kích hoạt retry ngay...`, 'info');
+                                                            ttuo$y_KhCV = currentChunkIndex;
+                                                            setTimeout(uSTZrHUt_IC, 1000);
+                                                        }, 2000);
+                                                    } catch (resetError) {
+                                                        addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Lỗi khi reset web interface: ${resetError.message}`, 'warning');
+                                                        
+                                                        // Vẫn kích hoạt retry dù có lỗi reset
+                                                        window.isFinalCheck = true;
+                                                        setTimeout(() => {
+                                                            addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Kích hoạt retry (dù có lỗi reset)...`, 'info');
+                                                            ttuo$y_KhCV = currentChunkIndex;
+                                                            setTimeout(uSTZrHUt_IC, 1000);
+                                                        }, 2000);
+                                                    }
+                                                })();
+                                                
+                                                return; // DỪNG, không tiếp tục fetch
+                                            }
                                         }
                                         
                                         if (waitCount % 3 === 0 || readyState0Count2 <= maxWaitReadyState0_2) { // Log mỗi 3 giây hoặc khi readyState0Count2 <= 3
-                                            addLogEntry(`⏳ [Chunk ${currentChunkIndex + 1}] Audio element có src nhưng chưa load xong (readyState: ${audioElementToWait.readyState}), đợi thêm... (${readyState0Count2}/${maxWaitReadyState0_2})`, 'info');
+                                            const networkStateInfo = audioElementToWait.networkState !== undefined ? `, networkState: ${audioElementToWait.networkState}` : '';
+                                            addLogEntry(`⏳ [Chunk ${currentChunkIndex + 1}] Audio element có src nhưng chưa load xong (readyState: ${audioElementToWait.readyState}${networkStateInfo}), đợi thêm... (${readyState0Count2}/${maxWaitReadyState0_2})`, 'info');
                                         }
                                         await new Promise(resolve => setTimeout(resolve, 1000)); // Đợi 1 giây
                                         waitCount++;
