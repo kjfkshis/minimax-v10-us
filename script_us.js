@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      40.0
+// @version      41.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -4259,8 +4259,7 @@ async function uSTZrHUt_IC() {
                                             // Vẫn tiếp tục đợi và fetch audio blob
                                             // Chỉ đánh dấu failed nếu không fetch được blob hoặc blob rỗng
                                             if (errorCode === 4) {
-                                                addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Audio element có error code 4, nhưng vẫn tiếp tục đợi và fetch audio blob...`, 'warning');
-                                                addLogEntry(`💡 [Chunk ${currentChunkIndex + 1}] Chỉ cần có audio blob (size > 0) là tính là hợp lệ`, 'info');
+                                                // KHÔNG log, chỉ tiếp tục đợi và fetch
                                                 // KHÔNG return, tiếp tục đợi và fetch
                                             } else {
                                                 // Các error code khác (1, 2, 3) vẫn xử lý như cũ
@@ -4442,8 +4441,7 @@ async function uSTZrHUt_IC() {
                                                 // Vẫn tiếp tục đợi và fetch audio blob
                                                 // Chỉ đánh dấu failed nếu không fetch được blob hoặc blob rỗng
                                                 if (errorCode === 4) {
-                                                    addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Audio element có error code 4, nhưng vẫn tiếp tục đợi và fetch audio blob...`, 'warning');
-                                                    addLogEntry(`💡 [Chunk ${currentChunkIndex + 1}] Chỉ cần có audio blob (size > 0) là tính là hợp lệ`, 'info');
+                                                    // KHÔNG log, chỉ tiếp tục đợi và fetch
                                                     // KHÔNG return, tiếp tục đợi và fetch
                                                 } else {
                                                     // Các error code khác (1, 2, 3) vẫn xử lý như cũ
@@ -4560,6 +4558,7 @@ async function uSTZrHUt_IC() {
                         // Kiểm tra blob có size > 0
                         if (qILAV.size === undefined || qILAV.size === 0) {
                             addLogEntry(`❌ [Chunk ${currentChunkIndex + 1}] Blob có size = 0! Không lưu chunk này.`, 'error');
+                            
                             // Đánh dấu chunk failed
                             if (!window.chunkStatus) window.chunkStatus = [];
                             window.chunkStatus[currentChunkIndex] = 'failed';
@@ -4567,10 +4566,29 @@ async function uSTZrHUt_IC() {
                             if (!window.failedChunks.includes(currentChunkIndex)) {
                                 window.failedChunks.push(currentChunkIndex);
                             }
+                            
                             // Xóa khỏi processingChunks
                             if (typeof window.processingChunks !== 'undefined') {
                                 window.processingChunks.delete(currentChunkIndex);
                             }
+                            
+                            // Reset flag
+                            if (window.sendingChunk === currentChunkIndex) {
+                                window.sendingChunk = null;
+                            }
+                            
+                            // QUAN TRỌNG: Xử lý giống timeout - tiếp tục với chunk tiếp theo
+                            // Reset web interface
+                            await resetWebInterface();
+                            
+                            // Sau khi reset, tiếp tục với chunk tiếp theo (không retry chunk lỗi ngay)
+                            window.retryCount = 0; // Reset bộ đếm retry
+                            ttuo$y_KhCV = currentChunkIndex + 1; // Chuyển sang chunk tiếp theo
+                            addLogEntry(`🔄 Sau khi reset, tiếp tục với chunk ${ttuo$y_KhCV + 1}...`, 'info');
+                            addLogEntry(`📊 Trạng thái: ${window.chunkStatus.filter(s => s === 'success' || s === 'failed').length}/${SI$acY.length} chunks đã xử lý`, 'info');
+                            addLogEntry(`💡 Chunk bị lỗi sẽ được retry vô hạn sau khi xong tất cả chunks`, 'info');
+                            setTimeout(uSTZrHUt_IC, 2000); // Chờ 2 giây rồi tiếp tục với chunk tiếp theo
+                            
                             return; // DỪNG, không lưu chunk không hợp lệ
                         }
                         
