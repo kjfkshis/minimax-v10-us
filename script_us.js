@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      39.0
+// @version      38.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -3541,8 +3541,13 @@ async function uSTZrHUt_IC() {
         if (typeof window.chunkTexts === 'undefined') {
             window.chunkTexts = [];
         }
-        window.chunkTexts[ttuo$y_KhCV] = chunkText; // Lưu text đã normalize
-        addLogEntry(`💾 [Chunk ${ttuo$y_KhCV + 1}] Đã lưu text của chunk để so sánh sau (${chunkText.length} ký tự)`, 'info');
+        // GIẢI PHÁP 7: Lưu mapping text → index với timestamp để xác định job
+        window.chunkTexts[ttuo$y_KhCV] = {
+            text: chunkText, // Lưu text đã normalize
+            timestamp: Date.now(), // Timestamp để xác định job
+            jobId: window.currentJobId || 'unknown' // Job ID để xác định job
+        };
+        addLogEntry(`💾 [Chunk ${ttuo$y_KhCV + 1}] Đã lưu text của chunk để so sánh sau (${chunkText.length} ký tự, jobId: ${window.currentJobId || 'unknown'})`, 'info');
         
         addLogEntry(`🔄 [Chunk ${ttuo$y_KhCV + 1}] Bắt đầu gửi chunk...`, 'info');
         
@@ -4106,8 +4111,102 @@ async function uSTZrHUt_IC() {
         for (const qcgcrPbku_NfOSGWmbTlMZNUOu of w$KFkMtMom_agF) {
             for (const TYRNWSSd$QOYZe of qcgcrPbku_NfOSGWmbTlMZNUOu[ndkpgKnjg(0x1db)]) {
                 if (TYRNWSSd$QOYZe[ndkpgKnjg(0x217)] === 0x7fd * parseInt(-0x3) + 0xa02 + 0xdf6 && TYRNWSSd$QOYZe[ndkpgKnjg(0x1cd)](ndkpgKnjg(0x1f2))) {
-                    // QUAN TRỌNG: Lưu currentChunkIndex ngay đầu để tránh race condition
-                    const currentChunkIndex = ttuo$y_KhCV;
+                    // =======================================================
+                    // GIẢI PHÁP 7: TÌM INDEX ĐÚNG BẰNG TEXT, KHÔNG DỰA VÀO ttuo$y_KhCV
+                    // =======================================================
+                    // Vấn đề: ttuo$y_KhCV có thể đã thay đổi khi audio element được phát hiện
+                    // Giải pháp: So sánh textarea với window.chunkTexts để tìm index đúng
+                    
+                    // Bước 1: Lấy text từ textarea hiện tại
+                    const textarea = document.getElementById('gemini-hidden-text-for-request');
+                    const textareaValue = textarea ? (textarea.value || '') : '';
+                    
+                    // Normalize để so sánh
+                    const normalizeForCompare = (text) => {
+                        if (!text || typeof text !== 'string') return '';
+                        return text
+                            .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F-\u009F]/g, '')
+                            .replace(/\*/g, '')
+                            .replace(/["""«»''\u2018\u2019\u201C\u201D]/g, '')
+                            .replace(/\s+/g, ' ')
+                            .trim();
+                    };
+                    
+                    const textareaNormalized = normalizeForCompare(textareaValue);
+                    
+                    // Bước 2: Tìm index đúng bằng cách so sánh với window.chunkTexts
+                    let currentChunkIndex = -1;
+                    let bestMatchIndex = -1;
+                    let bestMatchScore = 0;
+                    
+                    if (textareaNormalized && window.chunkTexts && window.chunkTexts.length > 0) {
+                        // So sánh với tất cả chunk texts đã lưu
+                        for (let i = 0; i < window.chunkTexts.length; i++) {
+                            if (!window.chunkTexts[i]) continue;
+                            
+                            // GIẢI PHÁP 7: Xử lý cả object và string (tương thích với code cũ)
+                            let chunkTextObj = window.chunkTexts[i];
+                            let savedText = '';
+                            
+                            if (typeof chunkTextObj === 'object' && chunkTextObj.text) {
+                                // Kiểm tra job ID để đảm bảo chunk thuộc job hiện tại
+                                if (window.currentJobId && chunkTextObj.jobId !== window.currentJobId) {
+                                    continue; // Bỏ qua chunk từ job khác
+                                }
+                                savedText = chunkTextObj.text;
+                            } else if (typeof chunkTextObj === 'string') {
+                                // Code cũ: string
+                                savedText = chunkTextObj;
+                            } else {
+                                continue;
+                            }
+                            
+                            const savedTextNormalized = normalizeForCompare(savedText);
+                            if (!savedTextNormalized) continue;
+                            
+                            // So sánh ít nhất 80% text đầu để đảm bảo chính xác
+                            const compareLength = Math.min(200, Math.min(savedTextNormalized.length, textareaNormalized.length));
+                            const savedTextPart = savedTextNormalized.substring(0, compareLength);
+                            const textareaPart = textareaNormalized.substring(0, compareLength);
+                            
+                            // Tính điểm khớp (0-1)
+                            const minMatchLength = Math.floor(compareLength * 0.8);
+                            const matches = textareaPart.includes(savedTextPart.substring(0, minMatchLength)) || 
+                                          savedTextPart.includes(textareaPart.substring(0, minMatchLength));
+                            
+                            if (matches) {
+                                // Tính điểm khớp chi tiết hơn
+                                let matchScore = 0;
+                                for (let j = 0; j < Math.min(savedTextPart.length, textareaPart.length); j++) {
+                                    if (savedTextPart[j] === textareaPart[j]) matchScore++;
+                                }
+                                matchScore = matchScore / Math.max(savedTextPart.length, textareaPart.length);
+                                
+                                if (matchScore > bestMatchScore) {
+                                    bestMatchScore = matchScore;
+                                    bestMatchIndex = i;
+                                }
+                            }
+                        }
+                        
+                        // Nếu tìm thấy match tốt (>= 80%), dùng index đó
+                        if (bestMatchIndex >= 0 && bestMatchScore >= 0.8) {
+                            currentChunkIndex = bestMatchIndex;
+                            addLogEntry(`✅ [Tìm index] Phát hiện audio element, tìm thấy index đúng: ${currentChunkIndex + 1} (điểm khớp: ${(bestMatchScore * 100).toFixed(1)}%)`, 'success');
+                        } else {
+                            // Fallback: Dùng ttuo$y_KhCV như cũ (nhưng cảnh báo)
+                            currentChunkIndex = ttuo$y_KhCV;
+                            if (bestMatchIndex >= 0) {
+                                addLogEntry(`⚠️ [Tìm index] Không tìm thấy match tốt, dùng ttuo$y_KhCV: ${currentChunkIndex + 1} (match tốt nhất: index ${bestMatchIndex + 1}, điểm: ${(bestMatchScore * 100).toFixed(1)}%)`, 'warning');
+                            } else {
+                                addLogEntry(`⚠️ [Tìm index] Không tìm thấy match nào, dùng ttuo$y_KhCV: ${currentChunkIndex + 1}`, 'warning');
+                            }
+                        }
+                    } else {
+                        // Fallback: Dùng ttuo$y_KhCV như cũ
+                        currentChunkIndex = ttuo$y_KhCV;
+                        addLogEntry(`⚠️ [Tìm index] Không có textarea hoặc chunkTexts, dùng ttuo$y_KhCV: ${currentChunkIndex + 1}`, 'warning');
+                    }
                     
                     // QUAN TRỌNG: Kiểm tra xem audio element này có phải từ job hiện tại không
                     // Nếu SI$acY chưa được khởi tạo hoặc currentChunkIndex không hợp lệ, bỏ qua
@@ -4450,8 +4549,26 @@ async function uSTZrHUt_IC() {
                         // Vấn đề: Textarea có thể bị website thay đổi sau khi click button
                         // Giải pháp: So sánh với text đã lưu khi gửi, không phải textarea hiện tại
                         
-                        if (typeof window.chunkTexts === 'undefined' || !window.chunkTexts[currentChunkIndex]) {
-                            addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Không tìm thấy text đã lưu của chunk này!`, 'warning');
+                        // GIẢI PHÁP 7: Kiểm tra chunk text với job ID
+                        let savedChunkTextObj = null;
+                        if (typeof window.chunkTexts !== 'undefined' && window.chunkTexts[currentChunkIndex]) {
+                            // Kiểm tra xem có phải object hay string (tương thích với code cũ)
+                            if (typeof window.chunkTexts[currentChunkIndex] === 'object') {
+                                savedChunkTextObj = window.chunkTexts[currentChunkIndex];
+                            } else {
+                                // Code cũ: string, chuyển thành object
+                                savedChunkTextObj = {
+                                    text: window.chunkTexts[currentChunkIndex],
+                                    timestamp: Date.now(),
+                                    jobId: window.currentJobId || 'unknown'
+                                };
+                            }
+                        }
+                        
+                        // Kiểm tra job ID để đảm bảo chunk thuộc job hiện tại
+                        if (!savedChunkTextObj || (window.currentJobId && savedChunkTextObj.jobId !== window.currentJobId)) {
+                            addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Không tìm thấy text đã lưu hoặc job ID không khớp!`, 'warning');
+                            addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Job ID hiện tại: ${window.currentJobId || 'unknown'}, Job ID của chunk: ${savedChunkTextObj ? savedChunkTextObj.jobId : 'none'}`, 'warning');
                             addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Có thể là audio từ lần render trước, bỏ qua!`, 'warning');
                             
                             // Đánh dấu chunk failed
@@ -4467,11 +4584,11 @@ async function uSTZrHUt_IC() {
                                 window.processingChunks.delete(currentChunkIndex);
                             }
                             
-                            return; // KHÔNG LƯU audio không có text đã lưu
+                            return; // KHÔNG LƯU audio không có text đã lưu hoặc job ID không khớp
                         }
                         
                         // Lấy text đã lưu khi gửi chunk này
-                        const savedChunkText = window.chunkTexts[currentChunkIndex];
+                        const savedChunkText = savedChunkTextObj.text;
                         
                         // Normalize để so sánh
                         const normalizeForCompare = (text) => {
@@ -6640,6 +6757,10 @@ async function waitForVoiceModelReady() {
             
             // QUAN TRỌNG: Reset window.chunkTexts để không so sánh với text từ lần render trước
             window.chunkTexts = [];
+            
+            // GIẢI PHÁP 7: Tạo unique job ID cho job mới
+            window.currentJobId = `job_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+            addLogEntry(`🆔 [Job ID] Đã tạo job mới: ${window.currentJobId}`, 'info');
             addLogEntry(`🧹 Đã reset HOÀN TOÀN các mảng blob và text (window.chunkBlobs, ZTQj$LF$o, window.chunkTexts)`, 'info');
             
             // 3. Reset các biến trạng thái chunk - QUAN TRỌNG: Reset HOÀN TOÀN
