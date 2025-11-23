@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      25.0
+// @version      24.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -5863,31 +5863,70 @@ async function waitForVoiceModelReady() {
     // == KẾT NỐI EVENT LISTENER VỚI HỆ THỐNG MỚI ==
     // =======================================================
 
-    // Hàm helper để đợi element xuất hiện trong DOM
-    function waitForElement(selector, callback, maxAttempts = 50, interval = 100) {
+    // Hàm helper để đợi element xuất hiện trong DOM - Sử dụng cả polling và MutationObserver
+    function waitForElement(selector, callback, maxAttempts = 100, interval = 100) {
         let attempts = 0;
+        let observer = null;
+        let callbackCalled = false;
+        
         const checkElement = () => {
             const element = document.getElementById(selector);
-            if (element) {
+            if (element && !callbackCalled) {
+                callbackCalled = true;
+                console.log(`✅ [waitForElement] Đã tìm thấy element: ${selector}`);
+                if (observer) observer.disconnect();
                 callback(element);
-            } else if (attempts < maxAttempts) {
-                attempts++;
-                setTimeout(checkElement, interval);
-            } else {
+                return true;
+            }
+            return false;
+        };
+        
+        // Kiểm tra ngay lập tức
+        if (checkElement()) return;
+        
+        console.log(`🔍 [waitForElement] Bắt đầu tìm element: ${selector}`);
+        
+        // Sử dụng MutationObserver để theo dõi DOM changes
+        observer = new MutationObserver(() => {
+            if (checkElement()) return;
+        });
+        
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+        
+        // Fallback: polling
+        const pollInterval = setInterval(() => {
+            if (checkElement()) {
+                clearInterval(pollInterval);
+                return;
+            }
+            attempts++;
+            if (attempts >= maxAttempts) {
+                clearInterval(pollInterval);
+                if (observer) observer.disconnect();
                 console.error(`❌ Không tìm thấy element với ID: ${selector} sau ${maxAttempts} lần thử`);
             }
-        };
-        checkElement();
+        }, interval);
     }
 
     // Kết nối nút Start với hệ thống thông minh - Đợi nút xuất hiện
     waitForElement('gemini-start-queue-btn', (startBtn) => {
-        startBtn.addEventListener('click', async () => {
+        console.log('🔗 [Event Listener] Đang gắn event listener cho nút "Tạo âm thanh"');
+        console.log('🔗 [Event Listener] Nút element:', startBtn);
+        console.log('🔗 [Event Listener] Nút có disabled?', startBtn.disabled);
+        
+        // Gắn event listener - sử dụng capture để chạy sớm nhất có thể
+        const clickHandler = async (e) => {
+            console.log('🎯 [Event Listener] Nút "Tạo âm thanh" đã được click!');
+            console.log('🎯 [Event Listener] Event object:', e);
             // [BẮT ĐẦU CODE THAY THẾ]
             try {
                 addLogEntry('🚀 [DEBUG] Bắt đầu xử lý khi bấm nút "Tạo âm thanh"', 'info');
-            } catch (e) {
-                console.error('Lỗi khi log DEBUG:', e);
+                console.log('✅ [DEBUG] Đã log: Bắt đầu xử lý khi bấm nút "Tạo âm thanh"');
+            } catch (err) {
+                console.error('❌ Lỗi khi log DEBUG:', err);
             }
 
             // 1. Lấy và làm sạch văn bản (Giữ nguyên từ code mới)
@@ -6302,7 +6341,12 @@ async function waitForVoiceModelReady() {
             uSTZrHUt_IC();
 
             // [KẾT THÚC CODE THAY THẾ]
-        });
+        };
+        
+        // Gắn event listener với capture phase để chạy trước các listener khác
+        startBtn.addEventListener('click', clickHandler, { capture: true, passive: false });
+        
+        console.log('✅ [Event Listener] Đã gắn xong event listener cho nút "Tạo âm thanh" (capture phase)');
     });
 
     // Nút Tạm dừng / Tiếp tục - Đợi nút xuất hiện
