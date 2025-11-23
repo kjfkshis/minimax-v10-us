@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      31.0
+// @version      39.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -6582,8 +6582,14 @@ async function waitForVoiceModelReady() {
                 addLogEntry(`⚠️ Lỗi khi xóa audio elements cũ: ${audioClearError.message}`, 'warning');
             }
             
-            // Chờ một chút để DOM ổn định sau khi xóa audio
-            await new Promise(resolve => setTimeout(resolve, 300));
+            // =======================================================
+            // NÂNG CẤP: REVOKE TẤT CẢ OBJECT URLs ĐÃ TẠO (nếu có lưu)
+            // =======================================================
+            // Lưu ý: Các Object URLs đã được revoke khi xóa audio elements ở trên
+            // Nhưng để chắc chắn, có thể thêm logic revoke thêm nếu cần
+            
+            // Chờ một chút để DOM ổn định sau khi xóa audio và clear textarea
+            await new Promise(resolve => setTimeout(resolve, 500)); // Tăng từ 300ms lên 500ms để DOM ổn định hơn
             
             // 2. Reset các mảng blob (âm thanh cũ) - QUAN TRỌNG: Reset HOÀN TOÀN
             ZTQj$LF$o = []; // Mảng chứa blob (legacy)
@@ -6591,17 +6597,58 @@ async function waitForVoiceModelReady() {
             window.chunkBlobs.length = 0; // Đảm bảo reset độ dài về 0
             ZTQj$LF$o.length = 0; // Đảm bảo reset độ dài về 0
             
-            // Xóa tất cả thuộc tính của window.chunkBlobs nếu có
+            // =======================================================
+            // NÂNG CẤP: XÓA TẤT CẢ INDEX TRONG window.chunkBlobs (kể cả index từ 1)
+            // =======================================================
+            // Xóa tất cả thuộc tính của window.chunkBlobs (bao gồm cả index số)
             if (window.chunkBlobs && typeof window.chunkBlobs === 'object') {
+                // Xóa tất cả index (kể cả index từ 1 trở đi)
                 Object.keys(window.chunkBlobs).forEach(key => {
-                    if (isNaN(parseInt(key))) { // Chỉ xóa key không phải số (index)
-                        delete window.chunkBlobs[key];
-                    }
+                    delete window.chunkBlobs[key];
                 });
+                // Đảm bảo mảng rỗng hoàn toàn
+                window.chunkBlobs.length = 0;
+            }
+            
+            // Xóa tất cả index trong ZTQj$LF$o (legacy)
+            if (ZTQj$LF$o && typeof ZTQj$LF$o === 'object') {
+                Object.keys(ZTQj$LF$o).forEach(key => {
+                    delete ZTQj$LF$o[key];
+                });
+                ZTQj$LF$o.length = 0;
             }
             
             // QUAN TRỌNG: Reset window.chunkTexts để không so sánh với text từ lần render trước
             window.chunkTexts = [];
+            
+            // =======================================================
+            // NÂNG CẤP: CLEAR TEXTAREA CỦA WEBSITE để tránh dính text cũ
+            // =======================================================
+            try {
+                // Clear textarea ẩn của website (nếu có)
+                const hiddenTextarea = document.querySelector('textarea[style*="display: none"], textarea[style*="display:none"], textarea.hidden');
+                if (hiddenTextarea) {
+                    hiddenTextarea.value = '';
+                    hiddenTextarea.textContent = '';
+                    // Trigger events để website nhận biết
+                    hiddenTextarea.dispatchEvent(new Event('input', { bubbles: true }));
+                    hiddenTextarea.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+                
+                // Clear textarea chính của website (nếu có)
+                const mainTextarea = document.querySelector('.clone-voice-ux-v2 textarea, textarea[placeholder*="text"], textarea[placeholder*="Text"]');
+                if (mainTextarea && mainTextarea !== hiddenTextarea) {
+                    mainTextarea.value = '';
+                    mainTextarea.textContent = '';
+                    // Trigger events để website nhận biết
+                    mainTextarea.dispatchEvent(new Event('input', { bubbles: true }));
+                    mainTextarea.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+                
+                addLogEntry(`🧹 Đã clear textarea của website để tránh dính text cũ`, 'info');
+            } catch (textareaClearError) {
+                addLogEntry(`⚠️ Lỗi khi clear textarea: ${textareaClearError.message}`, 'warning');
+            }
             
             // GIẢI PHÁP 7: Tạo unique job ID cho job mới
             window.currentJobId = `job_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
