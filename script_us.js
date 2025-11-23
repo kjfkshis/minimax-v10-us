@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      31.0
+// @version      32.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -4179,7 +4179,9 @@ async function uSTZrHUt_IC() {
                         // Đợi audio element có src hợp lệ và load xong
                         let waitCount = 0;
                         const maxWait = 30; // Tối đa 30 lần (30 giây)
+                        const maxWaitReadyState0 = 3; // Tối đa 3 lần (3 giây) nếu readyState = 0
                         let audioReady = false;
+                        let readyState0Count = 0; // Đếm số lần readyState = 0
                         
                         while (waitCount < maxWait && !audioReady) {
                             // Kiểm tra audio element có src hợp lệ không
@@ -4191,8 +4193,37 @@ async function uSTZrHUt_IC() {
                                     break;
                                 } else {
                                     // Audio element có src nhưng chưa load xong
-                                    if (waitCount % 3 === 0) { // Log mỗi 3 giây để không spam
-                                        addLogEntry(`⏳ [Chunk ${currentChunkIndex + 1}] Audio element có src nhưng chưa load xong (readyState: ${detectedAudioElement.readyState}), đợi thêm...`, 'info');
+                                    // QUAN TRỌNG: Nếu readyState = 0 quá 3 lần, kích hoạt retry
+                                    if (detectedAudioElement.readyState === 0) {
+                                        readyState0Count++;
+                                        if (readyState0Count > maxWaitReadyState0) {
+                                            addLogEntry(`❌ [Chunk ${currentChunkIndex + 1}] Đợi quá ${maxWaitReadyState0} lần (${maxWaitReadyState0}s) mà readyState vẫn = 0!`, 'error');
+                                            addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] KÍCH HOẠT RETRY - Đánh dấu thất bại!`, 'warning');
+                                            
+                                            // Đánh dấu chunk failed
+                                            if (!window.chunkStatus) window.chunkStatus = [];
+                                            window.chunkStatus[currentChunkIndex] = 'failed';
+                                            if (!window.failedChunks) window.failedChunks = [];
+                                            if (!window.failedChunks.includes(currentChunkIndex)) {
+                                                window.failedChunks.push(currentChunkIndex);
+                                            }
+                                            
+                                            // Xóa khỏi processingChunks
+                                            if (typeof window.processingChunks !== 'undefined') {
+                                                window.processingChunks.delete(currentChunkIndex);
+                                            }
+                                            
+                                            // Reset flag
+                                            if (window.sendingChunk === currentChunkIndex) {
+                                                window.sendingChunk = null;
+                                            }
+                                            
+                                            return; // DỪNG, không tiếp tục xử lý chunk này
+                                        }
+                                    }
+                                    
+                                    if (waitCount % 3 === 0 || readyState0Count <= maxWaitReadyState0) { // Log mỗi 3 giây hoặc khi readyState0Count <= 3
+                                        addLogEntry(`⏳ [Chunk ${currentChunkIndex + 1}] Audio element có src nhưng chưa load xong (readyState: ${detectedAudioElement.readyState}), đợi thêm... (${readyState0Count}/${maxWaitReadyState0})`, 'info');
                                     }
                                     await new Promise(resolve => setTimeout(resolve, 1000)); // Đợi 1 giây
                                     waitCount++;
@@ -4279,6 +4310,9 @@ async function uSTZrHUt_IC() {
                             let waitCount = 0;
                             const maxWait = 30; // Tối đa 30 lần (30 giây)
                             
+                            let readyState0Count2 = 0; // Đếm số lần readyState = 0
+                            const maxWaitReadyState0_2 = 3; // Tối đa 3 lần (3 giây) nếu readyState = 0
+                            
                             while (waitCount < maxWait) {
                                 // Kiểm tra audio element có src hợp lệ không
                                 if (audioElementToWait.src && audioElementToWait.src !== '' && audioElementToWait.src !== 'null' && audioElementToWait.src !== 'undefined') {
@@ -4288,8 +4322,32 @@ async function uSTZrHUt_IC() {
                                         break;
                                     } else {
                                         // Audio element có src nhưng chưa load xong
-                                        if (waitCount % 3 === 0) { // Log mỗi 3 giây để không spam
-                                            addLogEntry(`⏳ [Chunk ${currentChunkIndex + 1}] Audio element có src nhưng chưa load xong (readyState: ${audioElementToWait.readyState}), đợi thêm...`, 'info');
+                                        // QUAN TRỌNG: Nếu readyState = 0 quá 3 lần, kích hoạt retry
+                                        if (audioElementToWait.readyState === 0) {
+                                            readyState0Count2++;
+                                            if (readyState0Count2 > maxWaitReadyState0_2) {
+                                                addLogEntry(`❌ [Chunk ${currentChunkIndex + 1}] Đợi quá ${maxWaitReadyState0_2} lần (${maxWaitReadyState0_2}s) mà readyState vẫn = 0!`, 'error');
+                                                addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] KÍCH HOẠT RETRY - Đánh dấu thất bại!`, 'warning');
+                                                
+                                                // Đánh dấu chunk failed
+                                                if (!window.chunkStatus) window.chunkStatus = [];
+                                                window.chunkStatus[currentChunkIndex] = 'failed';
+                                                if (!window.failedChunks) window.failedChunks = [];
+                                                if (!window.failedChunks.includes(currentChunkIndex)) {
+                                                    window.failedChunks.push(currentChunkIndex);
+                                                }
+                                                
+                                                // Xóa khỏi processingChunks
+                                                if (typeof window.processingChunks !== 'undefined') {
+                                                    window.processingChunks.delete(currentChunkIndex);
+                                                }
+                                                
+                                                return; // DỪNG, không tiếp tục fetch
+                                            }
+                                        }
+                                        
+                                        if (waitCount % 3 === 0 || readyState0Count2 <= maxWaitReadyState0_2) { // Log mỗi 3 giây hoặc khi readyState0Count2 <= 3
+                                            addLogEntry(`⏳ [Chunk ${currentChunkIndex + 1}] Audio element có src nhưng chưa load xong (readyState: ${audioElementToWait.readyState}), đợi thêm... (${readyState0Count2}/${maxWaitReadyState0_2})`, 'info');
                                         }
                                         await new Promise(resolve => setTimeout(resolve, 1000)); // Đợi 1 giây
                                         waitCount++;
