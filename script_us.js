@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      24.0
+// @version      26.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -3210,8 +3210,49 @@ async function uSTZrHUt_IC() {
         window.sendingChunk = ttuo$y_KhCV;
         addLogEntry(`🔄 [Chunk ${ttuo$y_KhCV + 1}] Bắt đầu gửi chunk...`, 'info');
         
+        // =======================================================
+        // NÂNG CẤP: CLEAR VÀ SET TEXT MỚI VỚI EVENTS ĐỂ TRÁNH CACHE
+        // =======================================================
+        // QUAN TRỌNG: Clear textarea trước để đảm bảo website không dùng text cũ từ cache
+        rUxbIRagbBVychZ$GfsogD.value = '';
+        rUxbIRagbBVychZ$GfsogD[tQqGbytKzpHwhGmeQJucsrq(0x24c)] = '';
+        // Trigger events để website nhận biết text đã được clear
+        rUxbIRagbBVychZ$GfsogD.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
+        rUxbIRagbBVychZ$GfsogD.dispatchEvent(new Event('change', { bubbles: true, cancelable: true }));
+        
+        // Đợi một chút để website xử lý clear
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
         // Đặt text đã chuẩn hóa vào ô input ẩn
-        rUxbIRagbBVychZ$GfsogD[tQqGbytKzpHwhGmeQJucsrq(0x24c)] = chunkText;
+        rUxbIRagbBVychZ$GfsogD.value = chunkText; // Dùng .value trực tiếp cho chắc chắn
+        rUxbIRagbBVychZ$GfsogD[tQqGbytKzpHwhGmeQJucsrq(0x24c)] = chunkText; // Obfuscated version
+        
+        // Kích hoạt toàn bộ các sự kiện có thể để website nhận biết text mới
+        const events = ['input', 'change', 'keydown', 'keyup', 'keypress', 'blur', 'focus'];
+        events.forEach(evt => {
+            rUxbIRagbBVychZ$GfsogD.dispatchEvent(new Event(evt, { bubbles: true, cancelable: true }));
+        });
+        
+        // React Hack (đôi khi cần thiết cho các site React)
+        try {
+            const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, "value").set;
+            nativeInputValueSetter.call(rUxbIRagbBVychZ$GfsogD, chunkText);
+            rUxbIRagbBVychZ$GfsogD.dispatchEvent(new Event('input', { bubbles: true }));
+        } catch (e) {
+            // Bỏ qua nếu không có nativeInputValueSetter
+        }
+        
+        // Fallback for older browsers
+        try {
+            const inputEvent = document.createEvent('Event');
+            inputEvent.initEvent('input', true, true);
+            rUxbIRagbBVychZ$GfsogD.dispatchEvent(inputEvent);
+        } catch (e2) {
+            // Bỏ qua nếu không thể trigger event
+        }
+        
+        addLogEntry(`🔄 [Chunk ${ttuo$y_KhCV + 1}] Đã clear và set text mới với đầy đủ events để tránh cache`, 'info');
+        // =======================================================
 
         // Cập nhật progress bar
         nWHrScjZnIyNYzztyEWwM(ttuo$y_KhCV, SI$acY[tQqGbytKzpHwhGmeQJucsrq(0x216)]);
@@ -5803,20 +5844,28 @@ async function waitForVoiceModelReady() {
             // =======================================================
             // NÂNG CẤP: XÓA TẤT CẢ AUDIO ELEMENTS CŨ TRONG DOM
             // =======================================================
+            addLogEntry('🧹 [Bước 1/5] Đang xóa audio elements cũ từ DOM...', 'info');
             try {
                 const allAudioElements = document.querySelectorAll('audio');
                 let removedCount = 0;
+                let pausedCount = 0;
+                let revokedCount = 0;
+                
+                addLogEntry(`🔍 Tìm thấy ${allAudioElements.length} audio element(s) trong DOM`, 'info');
+                
                 allAudioElements.forEach(audio => {
                     try {
                         // Dừng audio nếu đang phát
                         if (!audio.paused) {
                             audio.pause();
                             audio.currentTime = 0;
+                            pausedCount++;
                         }
                         // Xóa src
                         if (audio.src) {
                             URL.revokeObjectURL(audio.src);
                             audio.src = '';
+                            revokedCount++;
                         }
                         // Xóa element khỏi DOM
                         if (audio.parentNode) {
@@ -5824,12 +5873,15 @@ async function waitForVoiceModelReady() {
                             removedCount++;
                         }
                     } catch (e) {
-                        // Bỏ qua lỗi từng audio element
+                        addLogEntry(`⚠️ Lỗi khi xóa audio element: ${e.message}`, 'warning');
                     }
                 });
                 
                 // Xóa source elements
                 const allSourceElements = document.querySelectorAll('source');
+                let sourceRemovedCount = 0;
+                addLogEntry(`🔍 Tìm thấy ${allSourceElements.length} source element(s) trong DOM`, 'info');
+                
                 allSourceElements.forEach(source => {
                     try {
                         if (source.src) {
@@ -5838,45 +5890,162 @@ async function waitForVoiceModelReady() {
                         }
                         if (source.parentNode) {
                             source.remove();
+                            sourceRemovedCount++;
                         }
                     } catch (e) {
-                        // Bỏ qua
+                        addLogEntry(`⚠️ Lỗi khi xóa source element: ${e.message}`, 'warning');
                     }
                 });
                 
-                if (removedCount > 0) {
-                    addLogEntry(`🧹 Đã xóa ${removedCount} audio element(s) cũ từ DOM để tránh lấy nhầm audio từ lần render trước`, 'info');
-                }
+                addLogEntry(`✅ [Bước 1/5] Hoàn tất: Đã dừng ${pausedCount} audio, revoke ${revokedCount} blob URLs, xóa ${removedCount} audio element(s) và ${sourceRemovedCount} source element(s)`, 'success');
             } catch (audioClearError) {
-                addLogEntry(`⚠️ Lỗi khi xóa audio elements cũ: ${audioClearError.message}`, 'warning');
+                addLogEntry(`❌ [Bước 1/5] Lỗi khi xóa audio elements cũ: ${audioClearError.message}`, 'error');
             }
             
-            // Chờ một chút để DOM ổn định sau khi xóa audio
+            // =======================================================
+            // NÂNG CẤP: XÓA SẠCH CACHE CỦA WEBSITE VÀ BROWSER
+            // =======================================================
+            addLogEntry('🧹 [Bước 2/5] Đang xóa cache của website và browser...', 'info');
+            try {
+                // 1. Revoke tất cả blob URLs đã tạo để giải phóng bộ nhớ
+                if (typeof window.createdBlobURLs === 'undefined') {
+                    window.createdBlobURLs = new Set();
+                }
+                const blobURLCount = window.createdBlobURLs.size;
+                addLogEntry(`🔍 Tìm thấy ${blobURLCount} blob URL(s) cần revoke`, 'info');
+                
+                // Revoke tất cả blob URLs cũ
+                let revokedBlobCount = 0;
+                window.createdBlobURLs.forEach(url => {
+                    try {
+                        URL.revokeObjectURL(url);
+                        revokedBlobCount++;
+                    } catch (e) {
+                        addLogEntry(`⚠️ Lỗi khi revoke blob URL: ${e.message}`, 'warning');
+                    }
+                });
+                window.createdBlobURLs.clear();
+                addLogEntry(`✅ Đã revoke ${revokedBlobCount} blob URL(s)`, 'info');
+                
+                // 2. Xóa cache của Service Worker (nếu có)
+                if ('serviceWorker' in navigator && 'caches' in window) {
+                    try {
+                        const cacheNames = await caches.keys();
+                        addLogEntry(`🔍 Tìm thấy ${cacheNames.length} cache(s) trong Service Worker`, 'info');
+                        let deletedCacheCount = 0;
+                        for (const cacheName of cacheNames) {
+                            // Chỉ xóa cache liên quan đến audio hoặc Minimax
+                            if (cacheName.includes('audio') || cacheName.includes('minimax') || cacheName.includes('voice')) {
+                                await caches.delete(cacheName);
+                                deletedCacheCount++;
+                                addLogEntry(`✅ Đã xóa cache: ${cacheName}`, 'info');
+                            }
+                        }
+                        if (deletedCacheCount === 0) {
+                            addLogEntry(`ℹ️ Không có cache nào cần xóa (không liên quan đến audio/minimax/voice)`, 'info');
+                        }
+                    } catch (cacheError) {
+                        addLogEntry(`❌ Lỗi khi xóa Service Worker cache: ${cacheError.message}`, 'error');
+                    }
+                } else {
+                    addLogEntry(`ℹ️ Service Worker hoặc Cache API không khả dụng`, 'info');
+                }
+                
+                // 3. Xóa cache của website Minimax (nếu có trong localStorage/sessionStorage)
+                try {
+                    const keysToRemove = [];
+                    for (let i = 0; i < localStorage.length; i++) {
+                        const key = localStorage.key(i);
+                        if (key && (key.includes('audio') || key.includes('minimax') || key.includes('voice') || key.includes('cache'))) {
+                            keysToRemove.push(key);
+                        }
+                    }
+                    addLogEntry(`🔍 Tìm thấy ${keysToRemove.length} cache key(s) trong localStorage cần xóa`, 'info');
+                    keysToRemove.forEach(key => {
+                        try {
+                            localStorage.removeItem(key);
+                        } catch (e) {
+                            addLogEntry(`⚠️ Lỗi khi xóa localStorage key "${key}": ${e.message}`, 'warning');
+                        }
+                    });
+                    if (keysToRemove.length > 0) {
+                        addLogEntry(`✅ Đã xóa ${keysToRemove.length} cache key(s) từ localStorage`, 'success');
+                    } else {
+                        addLogEntry(`ℹ️ Không có cache key nào trong localStorage cần xóa`, 'info');
+                    }
+                } catch (storageError) {
+                    addLogEntry(`❌ Lỗi khi xóa localStorage cache: ${storageError.message}`, 'error');
+                }
+                
+                // 4. Xóa sessionStorage cache (nếu có)
+                try {
+                    const sessionKeysToRemove = [];
+                    for (let i = 0; i < sessionStorage.length; i++) {
+                        const key = sessionStorage.key(i);
+                        if (key && (key.includes('audio') || key.includes('minimax') || key.includes('voice') || key.includes('cache'))) {
+                            sessionKeysToRemove.push(key);
+                        }
+                    }
+                    addLogEntry(`🔍 Tìm thấy ${sessionKeysToRemove.length} cache key(s) trong sessionStorage cần xóa`, 'info');
+                    sessionKeysToRemove.forEach(key => {
+                        try {
+                            sessionStorage.removeItem(key);
+                        } catch (e) {
+                            addLogEntry(`⚠️ Lỗi khi xóa sessionStorage key "${key}": ${e.message}`, 'warning');
+                        }
+                    });
+                    if (sessionKeysToRemove.length > 0) {
+                        addLogEntry(`✅ Đã xóa ${sessionKeysToRemove.length} cache key(s) từ sessionStorage`, 'success');
+                    } else {
+                        addLogEntry(`ℹ️ Không có cache key nào trong sessionStorage cần xóa`, 'info');
+                    }
+                } catch (sessionError) {
+                    addLogEntry(`❌ Lỗi khi xóa sessionStorage cache: ${sessionError.message}`, 'error');
+                }
+                
+                addLogEntry(`✅ [Bước 2/5] Hoàn tất: Đã xóa sạch cache của website và browser`, 'success');
+            } catch (cacheClearError) {
+                addLogEntry(`❌ [Bước 2/5] Lỗi khi xóa cache: ${cacheClearError.message}`, 'error');
+            }
+            
+            // Chờ một chút để DOM và cache ổn định sau khi xóa
             await new Promise(resolve => setTimeout(resolve, 500)); // Tăng delay để DOM ổn định hơn
             
             // =======================================================
             // NÂNG CẤP: XÓA TẤT CẢ INDEX TRONG window.chunkBlobs (kể cả index từ 1)
             // =======================================================
+            addLogEntry('🧹 [Bước 3/5] Đang reset các mảng blob và text...', 'info');
+            
             // 2. Reset các mảng blob (âm thanh cũ) - QUAN TRỌNG: Reset HOÀN TOÀN
+            const oldChunkBlobsLength = window.chunkBlobs ? window.chunkBlobs.length : 0;
+            const oldZTQjLength = ZTQj$LF$o ? ZTQj$LF$o.length : 0;
+            const oldChunkTextsLength = window.chunkTexts ? window.chunkTexts.length : 0;
+            
+            addLogEntry(`🔍 Trước khi reset: chunkBlobs có ${oldChunkBlobsLength} phần tử, ZTQj$LF$o có ${oldZTQjLength} phần tử, chunkTexts có ${oldChunkTextsLength} phần tử`, 'info');
+            
             ZTQj$LF$o = []; // Mảng chứa blob (legacy)
             window.chunkBlobs = []; // Đảm bảo mảng blob MỚI cũng được reset
             window.chunkBlobs.length = 0; // Đảm bảo reset độ dài về 0
             ZTQj$LF$o.length = 0; // Đảm bảo reset độ dài về 0
             
             // Xóa tất cả thuộc tính của window.chunkBlobs (bao gồm cả index số từ 1 trở đi)
+            let deletedChunkBlobsKeys = 0;
             if (window.chunkBlobs && typeof window.chunkBlobs === 'object') {
                 // Xóa tất cả index (kể cả index từ 1 trở đi)
                 Object.keys(window.chunkBlobs).forEach(key => {
                     delete window.chunkBlobs[key];
+                    deletedChunkBlobsKeys++;
                 });
                 // Đảm bảo mảng rỗng hoàn toàn
                 window.chunkBlobs.length = 0;
             }
             
             // Xóa tất cả index trong ZTQj$LF$o (legacy)
+            let deletedZTQjKeys = 0;
             if (ZTQj$LF$o && typeof ZTQj$LF$o === 'object') {
                 Object.keys(ZTQj$LF$o).forEach(key => {
                     delete ZTQj$LF$o[key];
+                    deletedZTQjKeys++;
                 });
                 ZTQj$LF$o.length = 0;
             }
@@ -5887,38 +6056,58 @@ async function waitForVoiceModelReady() {
             // GIẢI PHÁP 7: Tạo unique job ID cho job mới
             window.currentJobId = `job_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
             addLogEntry(`🆔 [Job ID] Đã tạo job mới: ${window.currentJobId}`, 'info');
-            addLogEntry(`🧹 Đã reset HOÀN TOÀN các mảng blob và text (window.chunkBlobs, ZTQj$LF$o, window.chunkTexts)`, 'info');
+            addLogEntry(`✅ [Bước 3/5] Hoàn tất: Đã xóa ${deletedChunkBlobsKeys} key(s) từ chunkBlobs, ${deletedZTQjKeys} key(s) từ ZTQj$LF$o, reset chunkTexts`, 'success');
             
             // =======================================================
             // NÂNG CẤP: CLEAR TEXTAREA CỦA WEBSITE để tránh dính text cũ
             // =======================================================
+            addLogEntry('🧹 [Bước 4/5] Đang clear textarea của website...', 'info');
             try {
                 // Clear textarea ẩn của website (nếu có)
                 const hiddenTextarea = document.querySelector('textarea[style*="display: none"], textarea[style*="display:none"], textarea.hidden');
                 if (hiddenTextarea) {
+                    const oldValue = hiddenTextarea.value || '';
                     hiddenTextarea.value = '';
                     hiddenTextarea.textContent = '';
                     // Trigger events để website nhận biết
                     hiddenTextarea.dispatchEvent(new Event('input', { bubbles: true }));
                     hiddenTextarea.dispatchEvent(new Event('change', { bubbles: true }));
+                    addLogEntry(`✅ Đã clear textarea ẩn (trước đó có ${oldValue.length} ký tự)`, 'info');
+                } else {
+                    addLogEntry(`ℹ️ Không tìm thấy textarea ẩn`, 'info');
                 }
                 
                 // Clear textarea chính của website (nếu có)
                 const mainTextarea = document.querySelector('.clone-voice-ux-v2 textarea, textarea[placeholder*="text"], textarea[placeholder*="Text"]');
                 if (mainTextarea && mainTextarea !== hiddenTextarea) {
+                    const oldValue = mainTextarea.value || '';
                     mainTextarea.value = '';
                     mainTextarea.textContent = '';
                     // Trigger events để website nhận biết
                     mainTextarea.dispatchEvent(new Event('input', { bubbles: true }));
                     mainTextarea.dispatchEvent(new Event('change', { bubbles: true }));
+                    addLogEntry(`✅ Đã clear textarea chính (trước đó có ${oldValue.length} ký tự)`, 'info');
+                } else {
+                    addLogEntry(`ℹ️ Không tìm thấy textarea chính`, 'info');
                 }
                 
-                addLogEntry(`🧹 Đã clear textarea của website để tránh dính text cũ`, 'info');
+                addLogEntry(`✅ [Bước 4/5] Hoàn tất: Đã clear textarea của website`, 'success');
             } catch (textareaClearError) {
-                addLogEntry(`⚠️ Lỗi khi clear textarea: ${textareaClearError.message}`, 'warning');
+                addLogEntry(`❌ [Bước 4/5] Lỗi khi clear textarea: ${textareaClearError.message}`, 'error');
             }
             
+            // =======================================================
+            // NÂNG CẤP: RESET TẤT CẢ BIẾN TRẠNG THÁI
+            // =======================================================
+            addLogEntry('🧹 [Bước 5/5] Đang reset tất cả biến trạng thái...', 'info');
+            
             // 3. Reset các biến trạng thái chunk
+            const oldChunkStatusLength = window.chunkStatus ? window.chunkStatus.length : 0;
+            const oldFailedChunksLength = window.failedChunks ? window.failedChunks.length : 0;
+            const oldProcessingChunksSize = window.processingChunks ? window.processingChunks.size : 0;
+            
+            addLogEntry(`🔍 Trước khi reset: chunkStatus có ${oldChunkStatusLength} phần tử, failedChunks có ${oldFailedChunksLength} phần tử, processingChunks có ${oldProcessingChunksSize} phần tử`, 'info');
+            
             window.chunkStatus = [];
             window.failedChunks = [];
             window.chunk1Failed = false;
@@ -5931,6 +6120,8 @@ async function waitForVoiceModelReady() {
             window.isMerging = false; // Reset flag merge để cho phép merge job mới
             window.sendingChunk = null; // Reset flag sendingChunk để cho phép gửi chunk mới
             window.processingChunks = new Set(); // Reset set processingChunks
+            
+            addLogEntry(`✅ [Bước 5/5] Hoàn tất: Đã reset tất cả biến trạng thái`, 'success');
             
             // 4. Reset các flag và biến để tránh crash
             window.isSettingUpObserver = false; // Flag để tránh tạo nhiều observer cùng lúc
@@ -5960,6 +6151,7 @@ async function waitForVoiceModelReady() {
             addLogEntry(`🔄 Đã khởi tạo lại window.chunkBlobs với độ dài ${SI$acY.length + 1} (1-based indexing) cho ${SI$acY.length} chunks`, 'info');
             
             addLogEntry(`✅ Đã xóa sạch dữ liệu cũ. Bắt đầu với ${SI$acY.length} chunk mới.`, 'success');
+            addLogEntry(`🎉 TẤT CẢ 5 BƯỚC DỌN DẸP ĐÃ HOÀN TẤT!`, 'success');
             // =======================================================
 
             // Cập nhật UI (Từ code legacy)
