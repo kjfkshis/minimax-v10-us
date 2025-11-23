@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      25.0
+// @version      24.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -3806,8 +3806,8 @@ async function uSTZrHUt_IC() {
                         }
                         // =======================================================
 
-                        // ĐỒNG BỘ HÓA: Đảm bảo cả hai mảng đều có chunk này ở đúng vị trí
-                        addLogEntry(`🔄 Đã lưu chunk ${currentChunkIndex + 1} vào vị trí ${currentChunkIndex} của cả window.chunkBlobs và ZTQj$LF$o`, 'info');
+                        // ĐỒNG BỘ HÓA: Đảm bảo cả hai mảng đều có chunk này ở đúng vị trí (1-based indexing)
+                        addLogEntry(`🔄 Đã lưu chunk ${currentChunkIndex + 1} vào vị trí ${storageIndex} (1-based) của cả window.chunkBlobs và ZTQj$LF$o`, 'info');
 
                         // DEBUG: Kiểm tra trạng thái mảng sau khi lưu
                         const chunkStatus = window.chunkBlobs.map((blob, idx) => blob ? 'có' : 'null').join(', ');
@@ -5944,11 +5944,20 @@ async function waitForVoiceModelReady() {
             EfNjYNYj_O_CGB = true; // Cờ đang chạy (legacy)
             MEpJezGZUsmpZdAgFRBRZW = false; // Cờ tạm dừng (legacy)
             
-            // 5. QUAN TRỌNG: Sử dụng hàm smartSplitter MỚI để chia chunk
+            // 5. QUAN TRỌNG: Reset SI$acY trước khi gán giá trị mới để tránh dính dữ liệu cũ
+            SI$acY = []; // Reset mảng text chunks cũ
+            SI$acY.length = 0; // Đảm bảo mảng rỗng hoàn toàn
+            
+            // 6. QUAN TRỌNG: Sử dụng hàm smartSplitter MỚI để chia chunk
             SI$acY = smartSplitter(sanitizedText, 3000); // Mảng chứa text (legacy)
             
-            // 6. Khởi tạo lại hệ thống theo dõi chunk với số lượng chunk mới
+            // 7. Khởi tạo lại hệ thống theo dõi chunk với số lượng chunk mới
             window.chunkStatus = new Array(SI$acY.length).fill('pending');
+            
+            // 8. QUAN TRỌNG: Khởi tạo lại window.chunkBlobs với độ dài đúng cho job mới (1-based indexing)
+            // Đảm bảo mảng có đủ độ dài để chứa tất cả chunks (index từ 1 đến SI$acY.length)
+            window.chunkBlobs = new Array(SI$acY.length + 1).fill(null); // +1 vì dùng 1-based indexing
+            addLogEntry(`🔄 Đã khởi tạo lại window.chunkBlobs với độ dài ${SI$acY.length + 1} (1-based indexing) cho ${SI$acY.length} chunks`, 'info');
             
             addLogEntry(`✅ Đã xóa sạch dữ liệu cũ. Bắt đầu với ${SI$acY.length} chunk mới.`, 'success');
             // =======================================================
