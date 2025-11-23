@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      24.0
+// @version      26.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -5686,8 +5686,179 @@ async function waitForVoiceModelReady() {
     const playPauseWaveformBtn = document.getElementById('waveform-play-pause');
 
     if (startBtn) {
-        startBtn.addEventListener('click', () => {
+        startBtn.addEventListener('click', async () => {
             // [BẮT ĐẦU CODE THAY THẾ]
+
+            // =======================================================
+            // == CƠ CHẾ MỚI: XÓA DỮ LIỆU PROFILE TRÌNH DUYỆT ==
+            // =======================================================
+            addLogEntry('🧹 [Profile Cleanup] Bắt đầu xóa dữ liệu profile trình duyệt...', 'info');
+            
+            try {
+                // 1. Xóa localStorage (chỉ các key liên quan đến Minimax/audio)
+                const localStorageKeys = [];
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    if (key && (
+                        key.includes('minimax') || 
+                        key.includes('audio') || 
+                        key.includes('voice') || 
+                        key.includes('cache') ||
+                        key.includes('chunk') ||
+                        key.includes('blob') ||
+                        key.includes('mmx_') ||
+                        key.toLowerCase().includes('gemini')
+                    )) {
+                        localStorageKeys.push(key);
+                    }
+                }
+                localStorageKeys.forEach(key => {
+                    try {
+                        localStorage.removeItem(key);
+                    } catch (e) {
+                        console.warn(`[Profile Cleanup] Lỗi khi xóa localStorage key "${key}":`, e);
+                    }
+                });
+                if (localStorageKeys.length > 0) {
+                    addLogEntry(`✅ [Profile Cleanup] Đã xóa ${localStorageKeys.length} key(s) từ localStorage`, 'success');
+                }
+
+                // 2. Xóa sessionStorage (chỉ các key liên quan đến Minimax/audio)
+                const sessionStorageKeys = [];
+                for (let i = 0; i < sessionStorage.length; i++) {
+                    const key = sessionStorage.key(i);
+                    if (key && (
+                        key.includes('minimax') || 
+                        key.includes('audio') || 
+                        key.includes('voice') || 
+                        key.includes('cache') ||
+                        key.includes('chunk') ||
+                        key.includes('blob') ||
+                        key.includes('mmx_') ||
+                        key.toLowerCase().includes('gemini')
+                    )) {
+                        sessionStorageKeys.push(key);
+                    }
+                }
+                sessionStorageKeys.forEach(key => {
+                    try {
+                        sessionStorage.removeItem(key);
+                    } catch (e) {
+                        console.warn(`[Profile Cleanup] Lỗi khi xóa sessionStorage key "${key}":`, e);
+                    }
+                });
+                if (sessionStorageKeys.length > 0) {
+                    addLogEntry(`✅ [Profile Cleanup] Đã xóa ${sessionStorageKeys.length} key(s) từ sessionStorage`, 'success');
+                }
+
+                // 3. Xóa Cache API (Service Worker cache)
+                if ('caches' in window) {
+                    try {
+                        const cacheNames = await caches.keys();
+                        const relevantCaches = cacheNames.filter(name => 
+                            name.includes('minimax') || 
+                            name.includes('audio') || 
+                            name.includes('voice') || 
+                            name.includes('cache') ||
+                            name.toLowerCase().includes('gemini')
+                        );
+                        for (const cacheName of relevantCaches) {
+                            await caches.delete(cacheName);
+                        }
+                        if (relevantCaches.length > 0) {
+                            addLogEntry(`✅ [Profile Cleanup] Đã xóa ${relevantCaches.length} cache(s) từ Cache API`, 'success');
+                        }
+                    } catch (cacheError) {
+                        console.warn('[Profile Cleanup] Lỗi khi xóa Cache API:', cacheError);
+                    }
+                }
+
+                // 4. Xóa IndexedDB (nếu có database liên quan)
+                if ('indexedDB' in window) {
+                    try {
+                        // Lấy danh sách databases
+                        const databases = await indexedDB.databases();
+                        const relevantDBs = databases.filter(db => 
+                            db.name && (
+                                db.name.includes('minimax') || 
+                                db.name.includes('audio') || 
+                                db.name.includes('voice') || 
+                                db.name.includes('cache') ||
+                                db.name.toLowerCase().includes('gemini')
+                            )
+                        );
+                        for (const db of relevantDBs) {
+                            try {
+                                const deleteReq = indexedDB.deleteDatabase(db.name);
+                                await new Promise((resolve, reject) => {
+                                    deleteReq.onsuccess = () => resolve();
+                                    deleteReq.onerror = () => reject(deleteReq.error);
+                                });
+                            } catch (dbError) {
+                                console.warn(`[Profile Cleanup] Lỗi khi xóa IndexedDB "${db.name}":`, dbError);
+                            }
+                        }
+                        if (relevantDBs.length > 0) {
+                            addLogEntry(`✅ [Profile Cleanup] Đã xóa ${relevantDBs.length} database(s) từ IndexedDB`, 'success');
+                        }
+                    } catch (idbError) {
+                        console.warn('[Profile Cleanup] Lỗi khi truy cập IndexedDB:', idbError);
+                    }
+                }
+
+                // 5. Revoke tất cả Blob URLs đã tạo
+                if (typeof window.createdBlobURLs !== 'undefined' && window.createdBlobURLs instanceof Set) {
+                    const blobURLCount = window.createdBlobURLs.size;
+                    window.createdBlobURLs.forEach(url => {
+                        try {
+                            URL.revokeObjectURL(url);
+                        } catch (e) {
+                            console.warn('[Profile Cleanup] Lỗi khi revoke blob URL:', e);
+                        }
+                    });
+                    window.createdBlobURLs.clear();
+                    if (blobURLCount > 0) {
+                        addLogEntry(`✅ [Profile Cleanup] Đã revoke ${blobURLCount} blob URL(s)`, 'success');
+                    }
+                }
+
+                // 6. Xóa tất cả audio elements cũ trong DOM
+                try {
+                    const allAudioElements = document.querySelectorAll('audio');
+                    let removedCount = 0;
+                    allAudioElements.forEach(audio => {
+                        try {
+                            if (!audio.paused) {
+                                audio.pause();
+                                audio.currentTime = 0;
+                            }
+                            if (audio.src && audio.src.startsWith('blob:')) {
+                                URL.revokeObjectURL(audio.src);
+                            }
+                            if (audio.parentNode) {
+                                audio.remove();
+                                removedCount++;
+                            }
+                        } catch (e) {
+                            console.warn('[Profile Cleanup] Lỗi khi xóa audio element:', e);
+                        }
+                    });
+                    if (removedCount > 0) {
+                        addLogEntry(`✅ [Profile Cleanup] Đã xóa ${removedCount} audio element(s) từ DOM`, 'success');
+                    }
+                } catch (audioError) {
+                    console.warn('[Profile Cleanup] Lỗi khi xóa audio elements:', audioError);
+                }
+
+                addLogEntry('✅ [Profile Cleanup] Hoàn tất xóa dữ liệu profile trình duyệt!', 'success');
+            } catch (cleanupError) {
+                console.error('[Profile Cleanup] Lỗi tổng quát khi xóa dữ liệu:', cleanupError);
+                addLogEntry(`⚠️ [Profile Cleanup] Có lỗi khi xóa dữ liệu: ${cleanupError.message}`, 'warning');
+            }
+            
+            // Đợi một chút để đảm bảo dữ liệu đã được xóa hoàn toàn
+            await new Promise(resolve => setTimeout(resolve, 200));
+            // =======================================================
 
             // 1. Lấy và làm sạch văn bản (Giữ nguyên từ code mới)
             const text = mainTextarea.value.trim();
