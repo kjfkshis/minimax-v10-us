@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      33.0
+// @version      34.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -4233,8 +4233,10 @@ async function uSTZrHUt_IC() {
                                         }
                                         
                                         // Nếu networkState = 3 (NO_SOURCE), có nghĩa là không có source hợp lệ
-                                        if (networkState === 3) {
-                                            addLogEntry(`❌ [Chunk ${currentChunkIndex + 1}] Audio element không có source hợp lệ (networkState: ${networkState})!`, 'error');
+                                        // QUAN TRỌNG: Chỉ coi là lỗi nếu đã đợi ít nhất 2 lần (2 giây) và vẫn còn networkState = 3
+                                        // Vì networkState = 3 có thể xảy ra tạm thời khi audio element mới được tạo và chưa bắt đầu load
+                                        if (networkState === 3 && readyState0Count >= 2) {
+                                            addLogEntry(`❌ [Chunk ${currentChunkIndex + 1}] Audio element không có source hợp lệ (networkState: ${networkState}) sau ${readyState0Count} lần kiểm tra!`, 'error');
                                             addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] KÍCH HOẠT RETRY - Đánh dấu thất bại!`, 'warning');
                                             
                                             // Đánh dấu chunk failed
@@ -4254,6 +4256,37 @@ async function uSTZrHUt_IC() {
                                             if (window.sendingChunk === currentChunkIndex) {
                                                 window.sendingChunk = null;
                                             }
+                                            
+                                            // QUAN TRỌNG: Kích hoạt retry ngay sau khi đánh dấu failed
+                                            addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Đang reset web interface và kích hoạt retry...`, 'info');
+                                            
+                                            // Reset web interface và kích hoạt retry
+                                            (async () => {
+                                                try {
+                                                    await resetWebInterface();
+                                                    addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Đã reset web interface`, 'info');
+                                                    
+                                                    // Kích hoạt retry bằng cách set isFinalCheck và gọi lại uSTZrHUt_IC
+                                                    window.isFinalCheck = true;
+                                                    
+                                                    // Chờ một chút rồi kích hoạt retry
+                                                    setTimeout(() => {
+                                                        addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Kích hoạt retry ngay...`, 'info');
+                                                        ttuo$y_KhCV = currentChunkIndex;
+                                                        setTimeout(uSTZrHUt_IC, 1000);
+                                                    }, 2000);
+                                                } catch (resetError) {
+                                                    addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Lỗi khi reset web interface: ${resetError.message}`, 'warning');
+                                                    
+                                                    // Vẫn kích hoạt retry dù có lỗi reset
+                                                    window.isFinalCheck = true;
+                                                    setTimeout(() => {
+                                                        addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Kích hoạt retry (dù có lỗi reset)...`, 'info');
+                                                        ttuo$y_KhCV = currentChunkIndex;
+                                                        setTimeout(uSTZrHUt_IC, 1000);
+                                                    }, 2000);
+                                                }
+                                            })();
                                             
                                             return; // DỪNG, không tiếp tục xử lý chunk này
                                         }
@@ -4447,8 +4480,10 @@ async function uSTZrHUt_IC() {
                                             }
                                             
                                             // Nếu networkState = 3 (NO_SOURCE), có nghĩa là không có source hợp lệ
-                                            if (networkState === 3) {
-                                                addLogEntry(`❌ [Chunk ${currentChunkIndex + 1}] Audio element không có source hợp lệ (networkState: ${networkState})!`, 'error');
+                                            // QUAN TRỌNG: Chỉ coi là lỗi nếu đã đợi ít nhất 2 lần (2 giây) và vẫn còn networkState = 3
+                                            // Vì networkState = 3 có thể xảy ra tạm thời khi audio element mới được tạo và chưa bắt đầu load
+                                            if (networkState === 3 && readyState0Count2 >= 2) {
+                                                addLogEntry(`❌ [Chunk ${currentChunkIndex + 1}] Audio element không có source hợp lệ (networkState: ${networkState}) sau ${readyState0Count2} lần kiểm tra!`, 'error');
                                                 addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] KÍCH HOẠT RETRY - Đánh dấu thất bại!`, 'warning');
                                                 
                                                 // Đánh dấu chunk failed
@@ -4463,6 +4498,37 @@ async function uSTZrHUt_IC() {
                                                 if (typeof window.processingChunks !== 'undefined') {
                                                     window.processingChunks.delete(currentChunkIndex);
                                                 }
+                                                
+                                                // QUAN TRỌNG: Kích hoạt retry ngay sau khi đánh dấu failed
+                                                addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Đang reset web interface và kích hoạt retry...`, 'info');
+                                                
+                                                // Reset web interface và kích hoạt retry
+                                                (async () => {
+                                                    try {
+                                                        await resetWebInterface();
+                                                        addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Đã reset web interface`, 'info');
+                                                        
+                                                        // Kích hoạt retry bằng cách set isFinalCheck và gọi lại uSTZrHUt_IC
+                                                        window.isFinalCheck = true;
+                                                        
+                                                        // Chờ một chút rồi kích hoạt retry
+                                                        setTimeout(() => {
+                                                            addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Kích hoạt retry ngay...`, 'info');
+                                                            ttuo$y_KhCV = currentChunkIndex;
+                                                            setTimeout(uSTZrHUt_IC, 1000);
+                                                        }, 2000);
+                                                    } catch (resetError) {
+                                                        addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Lỗi khi reset web interface: ${resetError.message}`, 'warning');
+                                                        
+                                                        // Vẫn kích hoạt retry dù có lỗi reset
+                                                        window.isFinalCheck = true;
+                                                        setTimeout(() => {
+                                                            addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Kích hoạt retry (dù có lỗi reset)...`, 'info');
+                                                            ttuo$y_KhCV = currentChunkIndex;
+                                                            setTimeout(uSTZrHUt_IC, 1000);
+                                                        }, 2000);
+                                                    }
+                                                })();
                                                 
                                                 return; // DỪNG, không tiếp tục fetch
                                             }
