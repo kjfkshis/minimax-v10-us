@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      9.0
+// @version      10.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -4079,6 +4079,28 @@ async function uSTZrHUt_IC() {
                     // QUAN TRỌNG: Lưu currentChunkIndex ngay đầu để tránh race condition
                     const currentChunkIndex = ttuo$y_KhCV;
                     
+                    // QUAN TRỌNG: Kiểm tra xem audio element này có phải từ job hiện tại không
+                    // Nếu SI$acY chưa được khởi tạo hoặc currentChunkIndex không hợp lệ, bỏ qua
+                    if (!SI$acY || SI$acY.length === 0) {
+                        addLogEntry(`⚠️ Phát hiện audio element nhưng SI$acY chưa được khởi tạo, bỏ qua (có thể là audio từ lần render trước)`, 'warning');
+                        return;
+                    }
+                    if (currentChunkIndex < 0 || currentChunkIndex >= SI$acY.length) {
+                        addLogEntry(`⚠️ Phát hiện audio element nhưng currentChunkIndex (${currentChunkIndex}) không hợp lệ với SI$acY.length (${SI$acY.length}), bỏ qua (có thể là audio từ lần render trước)`, 'warning');
+                        return;
+                    }
+                    
+                    // QUAN TRỌNG: Kiểm tra xem audio element này có phải mới không (không phải từ lần render trước)
+                    // Kiểm tra timestamp của audio element (nếu có)
+                    const audioElement = TYRNWSSd$QOYZe[ndkpgKnjg(0x1cd)](ndkpgKnjg(0x1f2));
+                    if (audioElement) {
+                        // Kiểm tra xem audio element này có src không (nếu không có src, có thể là audio cũ chưa được xóa)
+                        if (!audioElement.src || audioElement.src === '' || audioElement.src === 'null' || audioElement.src === 'undefined') {
+                            addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Phát hiện audio element không có src, bỏ qua (có thể là audio cũ)`, 'warning');
+                            return;
+                        }
+                    }
+                    
                     // QUAN TRỌNG: Ngăn chặn xử lý trùng lặp cho cùng một chunk
                     if (typeof window.processingChunks === 'undefined') {
                         window.processingChunks = new Set();
@@ -6207,7 +6229,7 @@ async function waitForVoiceModelReady() {
     const playPauseWaveformBtn = document.getElementById('waveform-play-pause');
 
     if (startBtn) {
-        startBtn.addEventListener('click', () => {
+        startBtn.addEventListener('click', async () => {
             // [BẮT ĐẦU CODE THAY THẾ]
 
             // 1. Lấy và làm sạch văn bản (Giữ nguyên từ code mới)
@@ -6272,6 +6294,58 @@ async function waitForVoiceModelReady() {
                 xlgJHLP$MATDT$kTXWV.disconnect();
                 xlgJHLP$MATDT$kTXWV = null;
             }
+            
+            // 1.5. QUAN TRỌNG: XÓA TẤT CẢ AUDIO ELEMENTS CŨ TRONG DOM để tránh lấy nhầm audio từ lần render trước
+            try {
+                const allAudioElements = document.querySelectorAll('audio');
+                let removedCount = 0;
+                allAudioElements.forEach(audio => {
+                    try {
+                        // Dừng audio nếu đang phát
+                        if (!audio.paused) {
+                            audio.pause();
+                            audio.currentTime = 0;
+                        }
+                        // Xóa src
+                        if (audio.src) {
+                            URL.revokeObjectURL(audio.src);
+                            audio.src = '';
+                        }
+                        // Xóa element khỏi DOM
+                        if (audio.parentNode) {
+                            audio.remove();
+                            removedCount++;
+                        }
+                    } catch (e) {
+                        // Bỏ qua lỗi từng audio element
+                    }
+                });
+                
+                // Xóa source elements
+                const allSourceElements = document.querySelectorAll('source');
+                allSourceElements.forEach(source => {
+                    try {
+                        if (source.src) {
+                            URL.revokeObjectURL(source.src);
+                            source.src = '';
+                        }
+                        if (source.parentNode) {
+                            source.remove();
+                        }
+                    } catch (e) {
+                        // Bỏ qua
+                    }
+                });
+                
+                if (removedCount > 0) {
+                    addLogEntry(`🧹 Đã xóa ${removedCount} audio element(s) cũ từ DOM để tránh lấy nhầm audio từ lần render trước`, 'info');
+                }
+            } catch (audioClearError) {
+                addLogEntry(`⚠️ Lỗi khi xóa audio elements cũ: ${audioClearError.message}`, 'warning');
+            }
+            
+            // Chờ một chút để DOM ổn định sau khi xóa audio
+            await new Promise(resolve => setTimeout(resolve, 300));
             
             // 2. Reset các mảng blob (âm thanh cũ) - QUAN TRỌNG: Reset HOÀN TOÀN
             ZTQj$LF$o = []; // Mảng chứa blob (legacy)
