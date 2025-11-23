@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      24.0
+// @version      25.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -3760,17 +3760,18 @@ async function uSTZrHUt_IC() {
                             window.chunkBlobs = new Array(SI$acY.length).fill(null);
                         }
 
-                        // Đảm bảo window.chunkBlobs có đủ độ dài
-                        while (window.chunkBlobs.length <= currentChunkIndex) {
+                        // Đảm bảo window.chunkBlobs có đủ độ dài (1-based indexing: chunk 1 -> index 1)
+                        const storageIndex = currentChunkIndex + 1; // 1-based index để lưu
+                        while (window.chunkBlobs.length <= storageIndex) {
                             window.chunkBlobs.push(null);
                         }
                         
-                        // QUAN TRỌNG: Kiểm tra xem vị trí này đã có chunk chưa
+                        // QUAN TRỌNG: Kiểm tra xem vị trí này đã có chunk chưa (1-based indexing)
                         // Nếu đã có chunk và chunk đó đã thành công, không ghi đè (có thể là chunk khác)
-                        if (window.chunkBlobs[currentChunkIndex] !== null) {
+                        if (window.chunkBlobs[storageIndex] !== null) {
                             // Kiểm tra xem chunk ở vị trí này có phải là chunk hiện tại không
                             if (window.chunkStatus && window.chunkStatus[currentChunkIndex] === 'success') {
-                                addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Vị trí ${currentChunkIndex} đã có chunk thành công, không ghi đè`, 'warning');
+                                addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Vị trí ${storageIndex} (1-based) đã có chunk thành công, không ghi đè`, 'warning');
                                 // Xóa khỏi processingChunks và return
                                 if (typeof window.processingChunks !== 'undefined') {
                                     window.processingChunks.delete(currentChunkIndex);
@@ -3779,19 +3780,21 @@ async function uSTZrHUt_IC() {
                             }
                             // Nếu vị trí này có chunk nhưng chunk đó failed, có thể ghi đè (retry)
                             if (window.chunkStatus && window.chunkStatus[currentChunkIndex] === 'failed') {
-                                addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Vị trí ${currentChunkIndex} có chunk failed, ghi đè (retry)`, 'info');
+                                addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Vị trí ${storageIndex} (1-based) có chunk failed, ghi đè (retry)`, 'info');
                             }
                         }
                         
                         // Lưu chunk vào đúng vị trí (1-based indexing: chunk 1 -> index 1)
-                        window.chunkBlobs[currentChunkIndex + 1] = qILAV;
+                        window.chunkBlobs[storageIndex] = qILAV;
 
                         // ĐỒNG BỘ HÓA ZTQj$LF$o: Đảm bảo ZTQj$LF$o cũng có chunk ở đúng vị trí (1-based)
                         // Nếu ZTQj$LF$o chưa đủ độ dài, mở rộng mảng
-                        while (ZTQj$LF$o.length <= currentChunkIndex + 1) {
+                        while (ZTQj$LF$o.length <= storageIndex) {
                             ZTQj$LF$o.push(null);
                         }
-                        ZTQj$LF$o[currentChunkIndex + 1] = qILAV;
+                        ZTQj$LF$o[storageIndex] = qILAV;
+                        
+                        addLogEntry(`💾 [Chunk ${currentChunkIndex + 1}] Đã lưu blob vào vị trí ${storageIndex} (1-based indexing)`, 'info');
                         
                         // =======================================================
                         // GIẢI PHÁP: CHỈ RESET window.sendingChunk SAU KHI ĐÃ LƯU BLOB
