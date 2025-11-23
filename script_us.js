@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      26.0
+// @version      24.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -5781,6 +5781,7 @@ async function waitForVoiceModelReady() {
     if (startBtn) {
         startBtn.addEventListener('click', async () => {
             // [BẮT ĐẦU CODE THAY THẾ]
+            addLogEntry('🚀 [DEBUG] Bắt đầu xử lý khi bấm nút "Tạo âm thanh"', 'info');
 
             // 1. Lấy và làm sạch văn bản (Giữ nguyên từ code mới)
             const text = mainTextarea.value.trim();
@@ -6152,6 +6153,7 @@ async function waitForVoiceModelReady() {
             
             addLogEntry(`✅ Đã xóa sạch dữ liệu cũ. Bắt đầu với ${SI$acY.length} chunk mới.`, 'success');
             addLogEntry(`🎉 TẤT CẢ 5 BƯỚC DỌN DẸP ĐÃ HOÀN TẤT!`, 'success');
+            addLogEntry(`🧹 Đã dọn dẹp và sẵn sàng tạo âm thanh mới.`, 'success');
             // =======================================================
 
             // Cập nhật UI (Từ code legacy)
