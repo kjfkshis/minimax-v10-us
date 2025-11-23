@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      36.0
+// @version      37.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -1246,7 +1246,7 @@ button:disabled {
         
         <div id="gemini-quota-display" style="color: #8be9fd; font-weight: bold; margin-left: 15px; margin-top: 10px; font-size: 14px;">Đang tải quota...</div>
         </div> 
-    <div class="column-content"> <div class="section" style="margin-bottom: 10px!important;"> <h4>1. Tải lên tệp âm thanh (Tối đa 1 file, độ dài 20-60 giây)</h4> <input type="file" id="gemini-file-input" accept=".wav,.mp3,.mpeg,.mp4,.m4a,.avi,.mov,.wmv,.flv,.mkv,.webm"> </div> <div class="section"> <h4>2. Chọn ngôn ngữ</h4> <select id="gemini-language-select"><option value="Vietnamese">Vietnamese</option><option value="English">English</option><option value="Arabic">Arabic</option><option value="Cantonese">Cantonese</option><option value="Chinese (Mandarin)">Chinese (Mandarin)</option><option value="Dutch">Dutch</option><option value="French">French</option><option value="German">German</option><option value="Indonesian">Indonesian</option><option value="Italian">Italian</option><option value="Japanese">Japanese</option><option value="Korean">Korean</option><option value="Portuguese">Portuguese</option><option value="Russian">Russian</option><option value="Spanish">Spanish</option><option value="Turkish">Turkish</option><option value="Ukrainian">Ukrainian</option><option value="Thai">Thai</option><option value="Polish">Polish</option><option value="Romanian">Romanian</option><option value="Greek">Greek</option><option value="Czech">Czech</option><option value="Finnish">Finnish</option><option value="Hindi">Hindi</option><option value="Bulgarian">Bulgarian</option><option value="Danish">Danish</option><option value="Hebrew">Hebrew</option><option value="Malay">Malay</option><option value="Persian">Persian</option><option value="Slovak">Slovak</option><option value="Swedish">Swedish</option><option value="Croatian">Croatian</option><option value="Filipino">Filipino</option><option value="Hungarian">Hungarian</option><option value="Norwegian">Norwegian</option><option value="Slovenian">Slovenian</option><option value="Catalan">Catalan</option><option value="Nynorsk">Nynorsk</option><option value="Tamil">Tamil</option><option value="Afrikaans">Afrikaans</option></select> </div> <div class="section"> <button id="gemini-upload-btn">Tải lên & Cấu hình tự động</button> <div id="gemini-upload-status"></div> </div> <div class="log-section"> <h2>Log hoạt động</h2> <div id="log-container" class="log-container"> <div class="log-entry">Sẵn sàng theo dõi văn bản chunk</div> </div> <button id="clear-log-btn" class="clear-log-btn">Xóa log</button> </div> </div> </div> </div> <div id="gemini-col-2" class="gemini-column"> <div class="column-header box-info-version"><h3>Trình tạo nội dung</h3><div>Version: 35.0 - Update: 27/01/2025 - Tạo bởi: <a href="https://fb.com/HuynhDucLoi/" target="_blank">Huỳnh Đức Lợi</a></div></div> <div class="column-content">     <div id="gemini-col-2-left">     <div class="section text-section"> <h4>Nhập văn bản cần tạo giọng nói</h4>
+    <div class="column-content"> <div class="section" style="margin-bottom: 10px!important;"> <h4>1. Tải lên tệp âm thanh (Tối đa 1 file, độ dài 20-60 giây)</h4> <input type="file" id="gemini-file-input" accept=".wav,.mp3,.mpeg,.mp4,.m4a,.avi,.mov,.wmv,.flv,.mkv,.webm"> </div> <div class="section"> <h4>2. Chọn ngôn ngữ</h4> <select id="gemini-language-select"><option value="Vietnamese">Vietnamese</option><option value="English">English</option><option value="Arabic">Arabic</option><option value="Cantonese">Cantonese</option><option value="Chinese (Mandarin)">Chinese (Mandarin)</option><option value="Dutch">Dutch</option><option value="French">French</option><option value="German">German</option><option value="Indonesian">Indonesian</option><option value="Italian">Italian</option><option value="Japanese">Japanese</option><option value="Korean">Korean</option><option value="Portuguese">Portuguese</option><option value="Russian">Russian</option><option value="Spanish">Spanish</option><option value="Turkish">Turkish</option><option value="Ukrainian">Ukrainian</option><option value="Thai">Thai</option><option value="Polish">Polish</option><option value="Romanian">Romanian</option><option value="Greek">Greek</option><option value="Czech">Czech</option><option value="Finnish">Finnish</option><option value="Hindi">Hindi</option><option value="Bulgarian">Bulgarian</option><option value="Danish">Danish</option><option value="Hebrew">Hebrew</option><option value="Malay">Malay</option><option value="Persian">Persian</option><option value="Slovak">Slovak</option><option value="Swedish">Swedish</option><option value="Croatian">Croatian</option><option value="Filipino">Filipino</option><option value="Hungarian">Hungarian</option><option value="Norwegian">Norwegian</option><option value="Slovenian">Slovenian</option><option value="Catalan">Catalan</option><option value="Nynorsk">Nynorsk</option><option value="Tamil">Tamil</option><option value="Afrikaans">Afrikaans</option></select> </div> <div class="section"> <button id="gemini-upload-btn">Tải lên & Cấu hình tự động</button> <div id="gemini-upload-status"></div> </div> <div class="log-section"> <h2>Log hoạt động</h2> <div id="log-container" class="log-container"> <div class="log-entry">Sẵn sàng theo dõi văn bản chunk</div> </div> <button id="clear-log-btn" class="clear-log-btn">Xóa log</button> </div> </div> </div> </div> <div id="gemini-col-2" class="gemini-column"> <div class="column-header box-info-version"><h3>Trình tạo nội dung</h3><div>Version: 37.0 - Update: 27/01/2025 - Tạo bởi: <a href="https://fb.com/HuynhDucLoi/" target="_blank">Huỳnh Đức Lợi</a></div></div> <div class="column-content">     <div id="gemini-col-2-left">     <div class="section text-section"> <h4>Nhập văn bản cần tạo giọng nói</h4>
     <div class="text-input-options">
         <div class="input-tabs">
             <button id="text-tab" class="tab-btn active">Nhập trực tiếp</button>
@@ -4296,42 +4296,13 @@ async function uSTZrHUt_IC() {
                                         }
                                         
                                         // Nếu networkState = 3 (NO_SOURCE), có nghĩa là không có source hợp lệ
-                                        // QUAN TRỌNG: Chỉ coi là lỗi nếu đã đợi ít nhất 2 lần (2 giây) và vẫn còn networkState = 3
-                                        // Vì networkState = 3 có thể xảy ra tạm thời khi audio element mới được tạo và chưa bắt đầu load
+                                        // QUAN TRỌNG: networkState = 3 không phải lỗi nghiêm trọng
+                                        // Vẫn tiếp tục đợi và fetch audio blob
+                                        // Chỉ đánh dấu failed nếu không fetch được blob hoặc blob rỗng
                                         if (networkState === 3 && readyState0Count >= 2) {
-                                            addLogEntry(`❌ [Chunk ${currentChunkIndex + 1}] Audio element không có source hợp lệ (networkState: ${networkState}) sau ${readyState0Count} lần kiểm tra!`, 'error');
-                                            addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] KÍCH HOẠT RETRY - Đánh dấu thất bại!`, 'warning');
-                                            
-                                            // Đánh dấu chunk failed
-                                            if (!window.chunkStatus) window.chunkStatus = [];
-                                            window.chunkStatus[currentChunkIndex] = 'failed';
-                                            if (!window.failedChunks) window.failedChunks = [];
-                                            if (!window.failedChunks.includes(currentChunkIndex)) {
-                                                window.failedChunks.push(currentChunkIndex);
-                                            }
-                                            
-                                            // Xóa khỏi processingChunks
-                                            if (typeof window.processingChunks !== 'undefined') {
-                                                window.processingChunks.delete(currentChunkIndex);
-                                            }
-                                            
-                                            // Reset flag
-                                            if (window.sendingChunk === currentChunkIndex) {
-                                                window.sendingChunk = null;
-                                            }
-                                            
-                                            // Reset web interface - giống như timeout
-                                            await resetWebInterface();
-                                            
-                                            // Sau khi reset, tiếp tục với chunk tiếp theo (không retry chunk lỗi ngay)
-                                            window.retryCount = 0; // Reset bộ đếm retry
-                                            ttuo$y_KhCV = currentChunkIndex + 1; // Chuyển sang chunk tiếp theo
-                                            addLogEntry(`🔄 Sau khi reset, tiếp tục với chunk ${ttuo$y_KhCV + 1}...`, 'info');
-                                            addLogEntry(`📊 Trạng thái: ${window.chunkStatus.filter(s => s === 'success' || s === 'failed').length}/${SI$acY.length} chunks đã xử lý`, 'info');
-                                            addLogEntry(`💡 Chunk bị lỗi sẽ được retry vô hạn sau khi xong tất cả chunks`, 'info');
-                                            setTimeout(uSTZrHUt_IC, 2000); // Chờ 2 giây rồi tiếp tục với chunk tiếp theo
-                                            
-                                            return; // DỪNG, không tiếp tục xử lý chunk này
+                                            addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Audio element có networkState: 3 sau ${readyState0Count} lần kiểm tra, nhưng vẫn tiếp tục đợi và fetch audio blob...`, 'warning');
+                                            addLogEntry(`💡 [Chunk ${currentChunkIndex + 1}] Chỉ cần có audio blob (size > 0) là tính là hợp lệ`, 'info');
+                                            // KHÔNG return, tiếp tục đợi và fetch
                                         }
                                         
                                         // Nếu quá 3 lần mà readyState vẫn = 0 và không có error, kích hoạt retry
@@ -4545,37 +4516,13 @@ async function uSTZrHUt_IC() {
                                             }
                                             
                                             // Nếu networkState = 3 (NO_SOURCE), có nghĩa là không có source hợp lệ
-                                            // QUAN TRỌNG: Chỉ coi là lỗi nếu đã đợi ít nhất 2 lần (2 giây) và vẫn còn networkState = 3
-                                            // Vì networkState = 3 có thể xảy ra tạm thời khi audio element mới được tạo và chưa bắt đầu load
+                                            // QUAN TRỌNG: networkState = 3 không phải lỗi nghiêm trọng
+                                            // Vẫn tiếp tục đợi và fetch audio blob
+                                            // Chỉ đánh dấu failed nếu không fetch được blob hoặc blob rỗng
                                             if (networkState === 3 && readyState0Count2 >= 2) {
-                                                addLogEntry(`❌ [Chunk ${currentChunkIndex + 1}] Audio element không có source hợp lệ (networkState: ${networkState}) sau ${readyState0Count2} lần kiểm tra!`, 'error');
-                                                addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] KÍCH HOẠT RETRY - Đánh dấu thất bại!`, 'warning');
-                                                
-                                                // Đánh dấu chunk failed
-                                                if (!window.chunkStatus) window.chunkStatus = [];
-                                                window.chunkStatus[currentChunkIndex] = 'failed';
-                                                if (!window.failedChunks) window.failedChunks = [];
-                                                if (!window.failedChunks.includes(currentChunkIndex)) {
-                                                    window.failedChunks.push(currentChunkIndex);
-                                                }
-                                                
-                                                // Xóa khỏi processingChunks
-                                                if (typeof window.processingChunks !== 'undefined') {
-                                                    window.processingChunks.delete(currentChunkIndex);
-                                                }
-                                                
-                                                // Reset web interface - giống như timeout
-                                                await resetWebInterface();
-                                                
-                                                // Sau khi reset, tiếp tục với chunk tiếp theo (không retry chunk lỗi ngay)
-                                                window.retryCount = 0; // Reset bộ đếm retry
-                                                ttuo$y_KhCV = currentChunkIndex + 1; // Chuyển sang chunk tiếp theo
-                                                addLogEntry(`🔄 Sau khi reset, tiếp tục với chunk ${ttuo$y_KhCV + 1}...`, 'info');
-                                                addLogEntry(`📊 Trạng thái: ${window.chunkStatus.filter(s => s === 'success' || s === 'failed').length}/${SI$acY.length} chunks đã xử lý`, 'info');
-                                                addLogEntry(`💡 Chunk bị lỗi sẽ được retry vô hạn sau khi xong tất cả chunks`, 'info');
-                                                setTimeout(uSTZrHUt_IC, 2000); // Chờ 2 giây rồi tiếp tục với chunk tiếp theo
-                                                
-                                                return; // DỪNG, không tiếp tục fetch
+                                                addLogEntry(`⚠️ [Chunk ${currentChunkIndex + 1}] Audio element có networkState: 3 sau ${readyState0Count2} lần kiểm tra, nhưng vẫn tiếp tục đợi và fetch audio blob...`, 'warning');
+                                                addLogEntry(`💡 [Chunk ${currentChunkIndex + 1}] Chỉ cần có audio blob (size > 0) là tính là hợp lệ`, 'info');
+                                                // KHÔNG return, tiếp tục đợi và fetch
                                             }
                                             
                                             // Nếu quá 3 lần mà readyState vẫn = 0 và không có error, kích hoạt retry
