@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      25.0
+// @version      24.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -2877,13 +2877,36 @@ async function uSTZrHUt_IC() {
     }
 
     // Logic xử lý khi đã hoàn thành tất cả các chunk
+    // QUAN TRỌNG: Chỉ kiểm tra khi ttuo$y_KhCV >= SI$acY.length (đã xử lý xong chunk cuối cùng)
     if (ttuo$y_KhCV >= SI$acY[tQqGbytKzpHwhGmeQJucsrq(0x216)]) {
         // Kiểm tra xem tất cả chunk đã được xử lý đầy đủ chưa
         const totalChunks = SI$acY.length;
-        const processedChunks = window.chunkStatus ? window.chunkStatus.filter(status => status === 'success' || status === 'failed').length : 0;
+        
+        // QUAN TRỌNG: Đếm chính xác số chunks đã thành công (status = 'success')
+        const successChunks = window.chunkStatus ? window.chunkStatus.filter((status, index) => {
+            // Chỉ đếm các chunk có status = 'success' và index hợp lệ (0 đến totalChunks - 1)
+            return status === 'success' && index >= 0 && index < totalChunks;
+        }).length : 0;
+        
+        const processedChunks = window.chunkStatus ? window.chunkStatus.filter((status, index) => {
+            // Đếm các chunk đã được xử lý (success hoặc failed) và index hợp lệ
+            return (status === 'success' || status === 'failed') && index >= 0 && index < totalChunks;
+        }).length : 0;
+        
         const failedChunks = window.failedChunks || [];
 
-        addLogEntry(`📊 Kiểm tra: ${processedChunks}/${totalChunks} chunks đã được xử lý`, 'info');
+        addLogEntry(`📊 Kiểm tra: ${processedChunks}/${totalChunks} chunks đã được xử lý (${successChunks} thành công, ${failedChunks.length} thất bại)`, 'info');
+        
+        // QUAN TRỌNG: Kiểm tra chunk cuối cùng có được xử lý chưa
+        const lastChunkIndex = totalChunks - 1;
+        const lastChunkStatus = window.chunkStatus && window.chunkStatus[lastChunkIndex];
+        if (!lastChunkStatus || lastChunkStatus === 'pending') {
+            addLogEntry(`⚠️ Chunk cuối cùng (chunk ${totalChunks}) chưa được xử lý! Status: ${lastChunkStatus || 'undefined'}. Đang xử lý chunk cuối...`, 'warning');
+            // Xử lý chunk cuối cùng
+            ttuo$y_KhCV = lastChunkIndex;
+            setTimeout(uSTZrHUt_IC, 1000);
+            return;
+        }
 
         // CẢI THIỆN: Nếu chưa xử lý đủ chunk, tìm và xử lý chunk còn thiếu
         if (processedChunks < totalChunks) {
@@ -2993,16 +3016,38 @@ async function uSTZrHUt_IC() {
                 })();
                 return;
             } else {
-                addLogEntry(`🎉 Hoàn thành xử lý tất cả chunks (đã thử lại các chunk thất bại)!`, 'success');
-                addLogEntry(`✅ TẤT CẢ ${SI$acY.length} chunks đã thành công! Bắt đầu ghép file...`, 'success');
-                // CHỈ ghép file khi TẤT CẢ chunk đã thành công
-                tt__SfNwBHDebpWJOqrSTR();
+                // QUAN TRỌNG: Kiểm tra lại TẤT CẢ chunks (bao gồm chunk cuối) đã thành công chưa
+                const totalChunks = SI$acY.length;
+                const allSuccessChunks = window.chunkStatus ? window.chunkStatus.filter((status, index) => {
+                    return status === 'success' && index >= 0 && index < totalChunks;
+                }).length : 0;
+                
+                if (allSuccessChunks === totalChunks) {
+                    addLogEntry(`🎉 Hoàn thành xử lý tất cả chunks (đã thử lại các chunk thất bại)!`, 'success');
+                    addLogEntry(`✅ TẤT CẢ ${totalChunks} chunks đã thành công (bao gồm chunk cuối cùng)! Bắt đầu ghép file...`, 'success');
+                    // CHỈ ghép file khi TẤT CẢ chunk đã thành công (bao gồm chunk cuối)
+                    tt__SfNwBHDebpWJOqrSTR();
+                } else {
+                    addLogEntry(`⚠️ Chưa đủ chunks thành công: ${allSuccessChunks}/${totalChunks}. Tiếp tục chờ...`, 'warning');
+                    setTimeout(uSTZrHUt_IC, 2000);
+                }
             }
         } else {
-            addLogEntry(`🎉 Tất cả ${SI$acY.length} chunks đã được xử lý xong!`, 'success');
-            addLogEntry(`✅ TẤT CẢ ${SI$acY.length} chunks đã thành công! Bắt đầu ghép file...`, 'success');
-            // CHỈ ghép file khi TẤT CẢ chunk đã thành công
-            tt__SfNwBHDebpWJOqrSTR();
+            // QUAN TRỌNG: Kiểm tra lại TẤT CẢ chunks (bao gồm chunk cuối) đã thành công chưa
+            const totalChunks = SI$acY.length;
+            const allSuccessChunks = window.chunkStatus ? window.chunkStatus.filter((status, index) => {
+                return status === 'success' && index >= 0 && index < totalChunks;
+            }).length : 0;
+            
+            if (allSuccessChunks === totalChunks) {
+                addLogEntry(`🎉 Tất cả ${totalChunks} chunks đã được xử lý xong (bao gồm chunk cuối cùng)!`, 'success');
+                addLogEntry(`✅ TẤT CẢ ${totalChunks} chunks đã thành công! Bắt đầu ghép file...`, 'success');
+                // CHỈ ghép file khi TẤT CẢ chunk đã thành công (bao gồm chunk cuối)
+                tt__SfNwBHDebpWJOqrSTR();
+            } else {
+                addLogEntry(`⚠️ Chưa đủ chunks thành công: ${allSuccessChunks}/${totalChunks}. Tiếp tục chờ...`, 'warning');
+                setTimeout(uSTZrHUt_IC, 2000);
+            }
         }
         return;
     }
@@ -5829,7 +5874,11 @@ async function waitForVoiceModelReady() {
     if (startBtn) {
         startBtn.addEventListener('click', async () => {
             // [BẮT ĐẦU CODE THAY THẾ]
-            addLogEntry('🚀 [DEBUG] Bắt đầu xử lý khi bấm nút "Tạo âm thanh"', 'info');
+            try {
+                addLogEntry('🚀 [DEBUG] Bắt đầu xử lý khi bấm nút "Tạo âm thanh"', 'info');
+            } catch (e) {
+                console.error('Lỗi khi log DEBUG:', e);
+            }
 
             // 1. Lấy và làm sạch văn bản (Giữ nguyên từ code mới)
             const text = mainTextarea.value.trim();
@@ -5841,7 +5890,11 @@ async function waitForVoiceModelReady() {
                 .replace(/[\u201C\u201D]/g, '"')
                 .replace(/\u2026/g, '...')
                 .replace(/[\u2013\u2014]/g, '-');
-            addLogEntry('✅ Đã tự động làm sạch văn bản (fix lỗi beep)', 'success');
+            try {
+                addLogEntry('✅ Đã tự động làm sạch văn bản (fix lỗi beep)', 'success');
+            } catch (e) {
+                console.error('Lỗi khi log làm sạch văn bản:', e);
+            }
             if (!sanitizedText) {
                 Swal.fire({ icon: 'warning', title: 'Chưa có nội dung', text: 'Vui lòng nhập văn bản cần tạo giọng nói.' });
                 return;
@@ -6210,8 +6263,8 @@ async function waitForVoiceModelReady() {
             OdKzziXLxtOGjvaBMHm.style.display = 'block';
             lraDK$WDOgsXHRO.textContent = '⏸️ Tạm dừng'; // Đặt lại tên nút Pause
 
-            // Xóa log cũ
-            clearLog();
+            // KHÔNG XÓA LOG Ở ĐÂY - Để các log dọn dẹp hiển thị
+            // clearLog(); // Đã di chuyển xuống dưới
             addLogEntry(`Bắt đầu xử lý ${SI$acY.length} chunk (Hệ thống Legacy VÔ HẠN)...`, 'info');
 
             // 4. Gọi hàm xử lý VÔ HẠN (Hàm legacy)
