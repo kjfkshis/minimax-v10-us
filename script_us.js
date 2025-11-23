@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      24.0
+// @version      25.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -2368,12 +2368,60 @@ function dExAbhXwTJeTJBIjWr(EARfsfSN_QdgxH){const tENdSoNDV_gGwQKLZv$sYaZKhl=AP$
         // =======================================================
 
         const zEwMPLN$IZxzIwfdDbCfnIYcA=new Date();cHjV$QkAT$JWlL[VCAHyXsrERcpXVhFPxmgdBjjh(0x273)]=VCAHyXsrERcpXVhFPxmgdBjjh(0x1ce)+ymkKApNTfjOanYIBsxsoMNBX((zEwMPLN$IZxzIwfdDbCfnIYcA-dqj_t_Mr)/(Number(-0x27)*Math.floor(-0x26)+0x1f37+0x25*Math.floor(-parseInt(0xe5))));if(ZTQj$LF$o[VCAHyXsrERcpXVhFPxmgdBjjh(0x216)]===parseFloat(-0x1ca4)+Number(-parseInt(0x2445))+parseInt(0x40e9))return;try{
+// =======================================================
+// NÂNG CẤP: LẤY CHUNKS TỪ window.chunkBlobs VỚI 1-BASED INDEXING
+// =======================================================
 // Sử dụng window.chunkBlobs nếu có và có dữ liệu, nếu không thì dùng ZTQj$LF$o
-let finalBlobs = ZTQj$LF$o; // Mặc định dùng ZTQj$LF$o như code gốc
+let finalBlobs = [];
+const currentJobChunkCount = SI$acY ? SI$acY.length : 0;
+
+addLogEntry(`🔍 [Merge] Đang thu thập chunks cho job hiện tại (${currentJobChunkCount} chunks)...`, 'info');
+
+// Ưu tiên dùng window.chunkBlobs (1-based indexing: chunk 1 -> index 1)
 if (window.chunkBlobs && window.chunkBlobs.length > 0) {
-    const validBlobs = window.chunkBlobs.filter(blob => blob !== null);
+    // Tạo mảng chunks với index để giữ thứ tự
+    const chunksWithIndex = [];
+    
+    // Lặp từ index 1 đến currentJobChunkCount (1-based indexing)
+    for (let i = 1; i <= currentJobChunkCount; i++) {
+        if (window.chunkBlobs[i] !== null && window.chunkBlobs[i] !== undefined) {
+            chunksWithIndex.push({
+                index: i - 1, // Chuyển về 0-based để sắp xếp
+                blob: window.chunkBlobs[i]
+            });
+            addLogEntry(`✅ [Merge] Tìm thấy chunk ${i} tại vị trí ${i} (1-based)`, 'info');
+        } else {
+            addLogEntry(`⚠️ [Merge] Chunk ${i} tại vị trí ${i} (1-based) là null/undefined`, 'warning');
+        }
+    }
+    
+    // Sắp xếp theo index (0-based) để đảm bảo thứ tự đúng
+    chunksWithIndex.sort((a, b) => a.index - b.index);
+    
+    // Tạo finalBlobs từ chunks đã sắp xếp
+    finalBlobs = chunksWithIndex.map(item => item.blob);
+    
+    addLogEntry(`📊 [Merge] Đã thu thập ${finalBlobs.length}/${currentJobChunkCount} chunks từ window.chunkBlobs (1-based indexing)`, 'info');
+    
+    // Kiểm tra xem có chunk nào thiếu không
+    if (finalBlobs.length < currentJobChunkCount) {
+        const missingChunks = [];
+        for (let i = 1; i <= currentJobChunkCount; i++) {
+            if (window.chunkBlobs[i] === null || window.chunkBlobs[i] === undefined) {
+                missingChunks.push(i);
+            }
+        }
+        addLogEntry(`⚠️ [Merge] THIẾU ${missingChunks.length} chunk(s): ${missingChunks.join(', ')}`, 'warning');
+    }
+}
+
+// Fallback: Nếu window.chunkBlobs rỗng, dùng ZTQj$LF$o (legacy, 0-based)
+if (finalBlobs.length === 0 && ZTQj$LF$o && ZTQj$LF$o.length > 0) {
+    addLogEntry(`⚠️ [Merge] window.chunkBlobs rỗng, fallback về ZTQj$LF$o (legacy)`, 'warning');
+    const validBlobs = ZTQj$LF$o.filter(blob => blob !== null && blob !== undefined);
     if (validBlobs.length > 0) {
-        finalBlobs = validBlobs; // Chỉ dùng window.chunkBlobs nếu có dữ liệu
+        finalBlobs = validBlobs;
+        addLogEntry(`📊 [Merge] Đã thu thập ${finalBlobs.length} chunks từ ZTQj$LF$o (legacy)`, 'info');
     }
 }
 
