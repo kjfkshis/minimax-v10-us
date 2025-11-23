@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      37.0
+// @version      38.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -4207,8 +4207,13 @@ async function uSTZrHUt_IC() {
                         while (waitCount < maxWait && !audioReady) {
                             // Kiểm tra audio element có src hợp lệ không
                             if (detectedAudioElement.src && detectedAudioElement.src !== '' && detectedAudioElement.src !== 'null' && detectedAudioElement.src !== 'undefined') {
-                                // Kiểm tra audio element có duration > 0 hoặc readyState >= 2 không (có audio thực sự)
-                                if (detectedAudioElement.readyState >= 2 || (detectedAudioElement.duration && detectedAudioElement.duration > 0 && !isNaN(detectedAudioElement.duration))) {
+                                // QUAN TRỌNG: Chỉ cần có src hoặc duration > 0 là tính hợp lệ
+                                // Không cần đợi readyState >= 2, chỉ cần có src hoặc duration > 0 là có thể fetch
+                                if (detectedAudioElement.duration && detectedAudioElement.duration > 0 && !isNaN(detectedAudioElement.duration)) {
+                                    audioReady = true;
+                                    addLogEntry(`✅ [Chunk ${currentChunkIndex + 1}] Audio element đã sẵn sàng (readyState: ${detectedAudioElement.readyState}, duration: ${detectedAudioElement.duration.toFixed(2)}s)`, 'success');
+                                    break;
+                                } else if (detectedAudioElement.readyState >= 2) {
                                     audioReady = true;
                                     addLogEntry(`✅ [Chunk ${currentChunkIndex + 1}] Audio element đã sẵn sàng (readyState: ${detectedAudioElement.readyState}, duration: ${detectedAudioElement.duration ? detectedAudioElement.duration.toFixed(2) : 'N/A'}s)`, 'success');
                                     break;
@@ -4305,43 +4310,6 @@ async function uSTZrHUt_IC() {
                                             // KHÔNG return, tiếp tục đợi và fetch
                                         }
                                         
-                                        // Nếu quá 3 lần mà readyState vẫn = 0 và không có error, kích hoạt retry
-                                        if (readyState0Count > maxWaitReadyState0) {
-                                            addLogEntry(`❌ [Chunk ${currentChunkIndex + 1}] Đợi quá ${maxWaitReadyState0} lần (${maxWaitReadyState0}s) mà readyState vẫn = 0!`, 'error');
-                                            addLogEntry(`❌ [Chunk ${currentChunkIndex + 1}] networkState: ${networkState} (0=EMPTY, 1=IDLE, 2=LOADING, 3=NO_SOURCE)`, 'error');
-                                            addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] KÍCH HOẠT RETRY - Đánh dấu thất bại!`, 'warning');
-                                            
-                                            // Đánh dấu chunk failed
-                                            if (!window.chunkStatus) window.chunkStatus = [];
-                                            window.chunkStatus[currentChunkIndex] = 'failed';
-                                            if (!window.failedChunks) window.failedChunks = [];
-                                            if (!window.failedChunks.includes(currentChunkIndex)) {
-                                                window.failedChunks.push(currentChunkIndex);
-                                            }
-                                            
-                                            // Xóa khỏi processingChunks
-                                            if (typeof window.processingChunks !== 'undefined') {
-                                                window.processingChunks.delete(currentChunkIndex);
-                                            }
-                                            
-                                            // Reset flag
-                                            if (window.sendingChunk === currentChunkIndex) {
-                                                window.sendingChunk = null;
-                                            }
-                                            
-                                            // Reset web interface - giống như timeout
-                                            await resetWebInterface();
-                                            
-                                            // Sau khi reset, tiếp tục với chunk tiếp theo (không retry chunk lỗi ngay)
-                                            window.retryCount = 0; // Reset bộ đếm retry
-                                            ttuo$y_KhCV = currentChunkIndex + 1; // Chuyển sang chunk tiếp theo
-                                            addLogEntry(`🔄 Sau khi reset, tiếp tục với chunk ${ttuo$y_KhCV + 1}...`, 'info');
-                                            addLogEntry(`📊 Trạng thái: ${window.chunkStatus.filter(s => s === 'success' || s === 'failed').length}/${SI$acY.length} chunks đã xử lý`, 'info');
-                                            addLogEntry(`💡 Chunk bị lỗi sẽ được retry vô hạn sau khi xong tất cả chunks`, 'info');
-                                            setTimeout(uSTZrHUt_IC, 2000); // Chờ 2 giây rồi tiếp tục với chunk tiếp theo
-                                            
-                                            return; // DỪNG, không tiếp tục xử lý chunk này
-                                        }
                                     }
                                     
                                     if (waitCount % 3 === 0 || readyState0Count <= maxWaitReadyState0) { // Log mỗi 3 giây hoặc khi readyState0Count <= 3
@@ -4439,8 +4407,12 @@ async function uSTZrHUt_IC() {
                             while (waitCount < maxWait) {
                                 // Kiểm tra audio element có src hợp lệ không
                                 if (audioElementToWait.src && audioElementToWait.src !== '' && audioElementToWait.src !== 'null' && audioElementToWait.src !== 'undefined') {
-                                    // Kiểm tra audio element có duration > 0 không (có audio thực sự)
-                                    if (audioElementToWait.readyState >= 2 || (audioElementToWait.duration && audioElementToWait.duration > 0 && !isNaN(audioElementToWait.duration))) {
+                                    // QUAN TRỌNG: Chỉ cần có src hoặc duration > 0 là tính hợp lệ
+                                    // Không cần đợi readyState >= 2, chỉ cần có src hoặc duration > 0 là có thể fetch
+                                    if (audioElementToWait.duration && audioElementToWait.duration > 0 && !isNaN(audioElementToWait.duration)) {
+                                        addLogEntry(`✅ [Chunk ${currentChunkIndex + 1}] Audio element đã sẵn sàng (readyState: ${audioElementToWait.readyState}, duration: ${audioElementToWait.duration.toFixed(2)}s)`, 'success');
+                                        break;
+                                    } else if (audioElementToWait.readyState >= 2) {
                                         addLogEntry(`✅ [Chunk ${currentChunkIndex + 1}] Audio element đã sẵn sàng (readyState: ${audioElementToWait.readyState}, duration: ${audioElementToWait.duration ? audioElementToWait.duration.toFixed(2) : 'N/A'}s)`, 'success');
                                         break;
                                     } else {
@@ -4525,38 +4497,6 @@ async function uSTZrHUt_IC() {
                                                 // KHÔNG return, tiếp tục đợi và fetch
                                             }
                                             
-                                            // Nếu quá 3 lần mà readyState vẫn = 0 và không có error, kích hoạt retry
-                                            if (readyState0Count2 > maxWaitReadyState0_2) {
-                                                addLogEntry(`❌ [Chunk ${currentChunkIndex + 1}] Đợi quá ${maxWaitReadyState0_2} lần (${maxWaitReadyState0_2}s) mà readyState vẫn = 0!`, 'error');
-                                                addLogEntry(`❌ [Chunk ${currentChunkIndex + 1}] networkState: ${networkState} (0=EMPTY, 1=IDLE, 2=LOADING, 3=NO_SOURCE)`, 'error');
-                                                addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] KÍCH HOẠT RETRY - Đánh dấu thất bại!`, 'warning');
-                                                
-                                                // Đánh dấu chunk failed
-                                                if (!window.chunkStatus) window.chunkStatus = [];
-                                                window.chunkStatus[currentChunkIndex] = 'failed';
-                                                if (!window.failedChunks) window.failedChunks = [];
-                                                if (!window.failedChunks.includes(currentChunkIndex)) {
-                                                    window.failedChunks.push(currentChunkIndex);
-                                                }
-                                                
-                                                // Xóa khỏi processingChunks
-                                                if (typeof window.processingChunks !== 'undefined') {
-                                                    window.processingChunks.delete(currentChunkIndex);
-                                                }
-                                                
-                                                // Reset web interface - giống như timeout
-                                                await resetWebInterface();
-                                                
-                                                // Sau khi reset, tiếp tục với chunk tiếp theo (không retry chunk lỗi ngay)
-                                                window.retryCount = 0; // Reset bộ đếm retry
-                                                ttuo$y_KhCV = currentChunkIndex + 1; // Chuyển sang chunk tiếp theo
-                                                addLogEntry(`🔄 Sau khi reset, tiếp tục với chunk ${ttuo$y_KhCV + 1}...`, 'info');
-                                                addLogEntry(`📊 Trạng thái: ${window.chunkStatus.filter(s => s === 'success' || s === 'failed').length}/${SI$acY.length} chunks đã xử lý`, 'info');
-                                                addLogEntry(`💡 Chunk bị lỗi sẽ được retry vô hạn sau khi xong tất cả chunks`, 'info');
-                                                setTimeout(uSTZrHUt_IC, 2000); // Chờ 2 giây rồi tiếp tục với chunk tiếp theo
-                                                
-                                                return; // DỪNG, không tiếp tục fetch
-                                            }
                                         }
                                         
                                         if (waitCount % 3 === 0 || readyState0Count2 <= maxWaitReadyState0_2) { // Log mỗi 3 giây hoặc khi readyState0Count2 <= 3
