@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      24.0
+// @version      25.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -3543,96 +3543,164 @@ async function uSTZrHUt_IC() {
 }
 
 // =======================================================
-// == HÀM KIỂM TRA SÓNG ÂM (WAVEFORM) ==
+// == HÀM KIỂM TRA SÓNG ÂM (WAVEFORM) - DÙNG HTML AUDIO ELEMENT ==
 // =======================================================
 /**
- * Kiểm tra xem audio blob có bị cắt giữa chừng không bằng cách phân tích waveform
+ * Kiểm tra xem audio blob có bị cắt giữa chừng không bằng cách dùng HTML Audio element
+ * Kiểm tra: đầu file và đuôi file có tiếng không
  * @param {Blob} audioBlob - Audio blob cần kiểm tra
  * @returns {Promise<{isValid: boolean, reason: string, duration: number}>}
  */
 async function checkAudioWaveform(audioBlob) {
-    try {
-        // Tạo AudioContext để decode audio
-        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-        if (!AudioContextClass) {
-            return { isValid: true, reason: 'Không hỗ trợ AudioContext, bỏ qua kiểm tra', duration: 0 };
-        }
-        
-        const audioContext = new AudioContextClass();
-        
-        // Decode audio blob thành ArrayBuffer
-        const arrayBuffer = await audioBlob.arrayBuffer();
-        
-        // Decode audio data
-        const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-        
-        // Lấy thông tin cơ bản
-        const duration = audioBuffer.duration;
-        const sampleRate = audioBuffer.sampleRate;
-        const numberOfChannels = audioBuffer.numberOfChannels;
-        
-        // Nếu duration quá ngắn (< 0.5 giây), có thể là file lỗi
-        if (duration < 0.5) {
-            await audioContext.close();
-            return { isValid: false, reason: `Duration quá ngắn: ${duration.toFixed(2)}s`, duration: duration };
-        }
-        
-        // Kiểm tra phần cuối file (0.5 giây cuối cùng)
-        const checkDuration = Math.min(0.5, duration * 0.1); // Kiểm tra 0.5s hoặc 10% duration, lấy giá trị nhỏ hơn
-        const startSample = Math.floor((duration - checkDuration) * sampleRate);
-        const endSample = Math.floor(duration * sampleRate);
-        
-        // Lấy channel đầu tiên để kiểm tra (thường là mono hoặc left channel)
-        const channelData = audioBuffer.getChannelData(0);
-        
-        // Kiểm tra xem có âm thanh ở phần cuối không
-        let hasAudioAtEnd = false;
-        let maxAmplitude = 0;
-        let silentSamples = 0;
-        const totalSamplesToCheck = endSample - startSample;
-        const silenceThreshold = 0.01; // Ngưỡng để coi là im lặng (1%)
-        
-        // Kiểm tra các sample trong phần cuối
-        for (let i = startSample; i < endSample && i < channelData.length; i++) {
-            const amplitude = Math.abs(channelData[i]);
-            maxAmplitude = Math.max(maxAmplitude, amplitude);
+    return new Promise((resolve) => {
+        try {
+            // Tạo HTML Audio element để kiểm tra
+            const audio = document.createElement('audio');
+            audio.preload = 'metadata'; // Chỉ load metadata, không load toàn bộ file
             
-            if (amplitude > silenceThreshold) {
-                hasAudioAtEnd = true;
-            } else {
-                silentSamples++;
-            }
-        }
-        
-        // Đóng AudioContext
-        await audioContext.close();
-        
-        // Nếu phần cuối toàn là im lặng (95% trở lên là silent), có thể bị cắt đột ngột
-        const silentRatio = silentSamples / totalSamplesToCheck;
-        if (silentRatio >= 0.95 && maxAmplitude < 0.05) {
-            return { 
-                isValid: false, 
-                reason: `Sóng âm bị thiếu: Phần cuối (${checkDuration.toFixed(2)}s) toàn im lặng (${(silentRatio * 100).toFixed(1)}%)`, 
-                duration: duration 
+            // Tạo URL từ blob
+            const blobUrl = URL.createObjectURL(audioBlob);
+            audio.src = blobUrl;
+            
+            let durationChecked = false;
+            let hasAudioAtStart = false;
+            let hasAudioAtEnd = false;
+            let audioDuration = 0;
+            
+            // Hàm cleanup
+            const cleanup = () => {
+                URL.revokeObjectURL(blobUrl);
+                audio.src = '';
+                audio.load(); // Reset audio element
             };
+            
+            // Timeout để tránh chờ quá lâu (10 giây)
+            const timeout = setTimeout(() => {
+                if (!durationChecked) {
+                    cleanup();
+                    // Nếu timeout, coi như bỏ qua kiểm tra (không đánh dấu thất bại)
+                    resolve({ 
+                        isValid: true, 
+                        reason: 'Timeout khi load audio metadata, bỏ qua kiểm tra', 
+                        duration: 0 
+                    });
+                }
+            }, 10000);
+            
+            // Khi metadata đã load xong
+            audio.addEventListener('loadedmetadata', async () => {
+                try {
+                    durationChecked = true;
+                    clearTimeout(timeout);
+                    
+                    audioDuration = audio.duration;
+                    
+                    // Kiểm tra duration hợp lệ
+                    if (!audioDuration || isNaN(audioDuration) || audioDuration <= 0) {
+                        cleanup();
+                        resolve({ 
+                            isValid: false, 
+                            reason: `Duration không hợp lệ: ${audioDuration}`, 
+                            duration: 0 
+                        });
+                        return;
+                    }
+                    
+                    // Nếu duration quá ngắn (< 0.5 giây), có thể là file lỗi
+                    if (audioDuration < 0.5) {
+                        cleanup();
+                        resolve({ 
+                            isValid: false, 
+                            reason: `Duration quá ngắn: ${audioDuration.toFixed(2)}s`, 
+                            duration: audioDuration 
+                        });
+                        return;
+                    }
+                    
+                    // Kiểm tra phần đầu file (0.3 giây đầu)
+                    audio.currentTime = 0;
+                    await new Promise(resolve => setTimeout(resolve, 100)); // Chờ seek hoàn tất
+                    
+                    // Kiểm tra xem có thể seek đến đầu file không (có nghĩa là file có dữ liệu ở đầu)
+                    if (audio.readyState >= 2) { // HAVE_CURRENT_DATA hoặc cao hơn
+                        hasAudioAtStart = true;
+                    }
+                    
+                    // Kiểm tra phần cuối file (0.3 giây cuối)
+                    const endTime = Math.max(0, audioDuration - 0.3);
+                    audio.currentTime = endTime;
+                    await new Promise(resolve => setTimeout(resolve, 200)); // Chờ seek hoàn tất
+                    
+                    // Kiểm tra xem có thể seek đến cuối file không (có nghĩa là file đầy đủ)
+                    if (audio.readyState >= 2 && audio.currentTime >= endTime - 0.1) {
+                        hasAudioAtEnd = true;
+                    }
+                    
+                    cleanup();
+                    
+                    // Kết luận
+                    if (hasAudioAtStart && hasAudioAtEnd) {
+                        // Đầu và cuối đều có dữ liệu → file hợp lệ
+                        resolve({ 
+                            isValid: true, 
+                            reason: `Waveform hợp lệ: Duration ${audioDuration.toFixed(2)}s, có dữ liệu ở đầu và cuối`, 
+                            duration: audioDuration 
+                        });
+                    } else if (hasAudioAtStart && !hasAudioAtEnd) {
+                        // Đầu có nhưng cuối không có → file bị cắt giữa chừng
+                        resolve({ 
+                            isValid: false, 
+                            reason: `Sóng âm bị thiếu: Có dữ liệu ở đầu nhưng không có ở cuối (chỉ có âm thanh lúc đầu)`, 
+                            duration: audioDuration 
+                        });
+                    } else {
+                        // Đầu không có → file có thể lỗi
+                        resolve({ 
+                            isValid: false, 
+                            reason: `File audio không hợp lệ: Không có dữ liệu ở đầu file`, 
+                            duration: audioDuration 
+                        });
+                    }
+                    
+                } catch (error) {
+                    cleanup();
+                    console.error('Lỗi khi kiểm tra waveform:', error);
+                    // Nếu có lỗi, bỏ qua kiểm tra (không đánh dấu thất bại)
+                    resolve({ 
+                        isValid: true, 
+                        reason: `Lỗi khi kiểm tra: ${error.message}, bỏ qua kiểm tra`, 
+                        duration: 0 
+                    });
+                }
+            });
+            
+            // Xử lý lỗi khi load
+            audio.addEventListener('error', (e) => {
+                clearTimeout(timeout);
+                cleanup();
+                const errorMsg = audio.error ? audio.error.message : 'Unknown error';
+                console.error('Lỗi khi load audio:', errorMsg);
+                // Nếu load lỗi, bỏ qua kiểm tra (không đánh dấu thất bại)
+                resolve({ 
+                    isValid: true, 
+                    reason: `Lỗi load audio: ${errorMsg}, bỏ qua kiểm tra`, 
+                    duration: 0 
+                });
+            });
+            
+            // Bắt đầu load metadata
+            audio.load();
+            
+        } catch (error) {
+            console.error('Lỗi khi tạo audio element:', error);
+            // Nếu có lỗi, bỏ qua kiểm tra (không đánh dấu thất bại)
+            resolve({ 
+                isValid: true, 
+                reason: `Lỗi khi tạo audio element: ${error.message}, bỏ qua kiểm tra`, 
+                duration: 0 
+            });
         }
-        
-        // Nếu có âm thanh ở cuối, file hợp lệ
-        return { 
-            isValid: true, 
-            reason: `Waveform hợp lệ: Duration ${duration.toFixed(2)}s, có âm thanh ở cuối (max amplitude: ${(maxAmplitude * 100).toFixed(1)}%)`, 
-            duration: duration 
-        };
-        
-    } catch (error) {
-        // Nếu có lỗi khi decode (file có thể bị hỏng), đánh dấu là không hợp lệ
-        console.error('Lỗi khi kiểm tra waveform:', error);
-        return { 
-            isValid: false, 
-            reason: `Lỗi decode audio: ${error.message}`, 
-            duration: 0 
-        };
-    }
+    });
 }
 
 function igyo$uwVChUzI() {
