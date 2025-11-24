@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      25.0
+// @version      24.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -3540,7 +3540,102 @@ async function uSTZrHUt_IC() {
             setTimeout(uSTZrHUt_IC, 2000); // Tiếp tục với chunk tiếp theo
         }
     }
-}function igyo$uwVChUzI() {
+}
+
+// =======================================================
+// == HÀM KIỂM TRA SÓNG ÂM (WAVEFORM) ==
+// =======================================================
+/**
+ * Kiểm tra xem audio blob có bị cắt giữa chừng không bằng cách phân tích waveform
+ * @param {Blob} audioBlob - Audio blob cần kiểm tra
+ * @returns {Promise<{isValid: boolean, reason: string, duration: number}>}
+ */
+async function checkAudioWaveform(audioBlob) {
+    try {
+        // Tạo AudioContext để decode audio
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) {
+            return { isValid: true, reason: 'Không hỗ trợ AudioContext, bỏ qua kiểm tra', duration: 0 };
+        }
+        
+        const audioContext = new AudioContextClass();
+        
+        // Decode audio blob thành ArrayBuffer
+        const arrayBuffer = await audioBlob.arrayBuffer();
+        
+        // Decode audio data
+        const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+        
+        // Lấy thông tin cơ bản
+        const duration = audioBuffer.duration;
+        const sampleRate = audioBuffer.sampleRate;
+        const numberOfChannels = audioBuffer.numberOfChannels;
+        
+        // Nếu duration quá ngắn (< 0.5 giây), có thể là file lỗi
+        if (duration < 0.5) {
+            await audioContext.close();
+            return { isValid: false, reason: `Duration quá ngắn: ${duration.toFixed(2)}s`, duration: duration };
+        }
+        
+        // Kiểm tra phần cuối file (0.5 giây cuối cùng)
+        const checkDuration = Math.min(0.5, duration * 0.1); // Kiểm tra 0.5s hoặc 10% duration, lấy giá trị nhỏ hơn
+        const startSample = Math.floor((duration - checkDuration) * sampleRate);
+        const endSample = Math.floor(duration * sampleRate);
+        
+        // Lấy channel đầu tiên để kiểm tra (thường là mono hoặc left channel)
+        const channelData = audioBuffer.getChannelData(0);
+        
+        // Kiểm tra xem có âm thanh ở phần cuối không
+        let hasAudioAtEnd = false;
+        let maxAmplitude = 0;
+        let silentSamples = 0;
+        const totalSamplesToCheck = endSample - startSample;
+        const silenceThreshold = 0.01; // Ngưỡng để coi là im lặng (1%)
+        
+        // Kiểm tra các sample trong phần cuối
+        for (let i = startSample; i < endSample && i < channelData.length; i++) {
+            const amplitude = Math.abs(channelData[i]);
+            maxAmplitude = Math.max(maxAmplitude, amplitude);
+            
+            if (amplitude > silenceThreshold) {
+                hasAudioAtEnd = true;
+            } else {
+                silentSamples++;
+            }
+        }
+        
+        // Đóng AudioContext
+        await audioContext.close();
+        
+        // Nếu phần cuối toàn là im lặng (95% trở lên là silent), có thể bị cắt đột ngột
+        const silentRatio = silentSamples / totalSamplesToCheck;
+        if (silentRatio >= 0.95 && maxAmplitude < 0.05) {
+            return { 
+                isValid: false, 
+                reason: `Sóng âm bị thiếu: Phần cuối (${checkDuration.toFixed(2)}s) toàn im lặng (${(silentRatio * 100).toFixed(1)}%)`, 
+                duration: duration 
+            };
+        }
+        
+        // Nếu có âm thanh ở cuối, file hợp lệ
+        return { 
+            isValid: true, 
+            reason: `Waveform hợp lệ: Duration ${duration.toFixed(2)}s, có âm thanh ở cuối (max amplitude: ${(maxAmplitude * 100).toFixed(1)}%)`, 
+            duration: duration 
+        };
+        
+    } catch (error) {
+        // Nếu có lỗi khi decode (file có thể bị hỏng), đánh dấu là không hợp lệ
+        console.error('Lỗi khi kiểm tra waveform:', error);
+        return { 
+            isValid: false, 
+            reason: `Lỗi decode audio: ${error.message}`, 
+            duration: 0 
+        };
+    }
+}
+
+function igyo$uwVChUzI() {
     const VFmk$UVEL = AP$u_huhInYfTj;
     
     // RATE LIMITING: Chỉ cho phép gọi tối đa 1 lần/2 giây
@@ -3843,6 +3938,137 @@ async function uSTZrHUt_IC() {
                         
                         // Log xác nhận kiểm tra dung lượng đã chạy và blob hợp lệ
                         addLogEntry(`✅ [Chunk ${currentChunkIndex + 1}] Đã kiểm tra dung lượng blob: ${(qILAV.size / 1024).toFixed(2)} KB - Hợp lệ`, 'info');
+                        
+                        // =======================================================
+                        // == KIỂM TRA SÓNG ÂM (WAVEFORM): PHẢI CÓ ÂM THANH TỪ ĐẦU ĐẾN CUỐI ==
+                        // =======================================================
+                        addLogEntry(`🔍 [Chunk ${currentChunkIndex + 1}] Đang kiểm tra sóng âm (waveform)...`, 'info');
+                        const waveformCheck = await checkAudioWaveform(qILAV);
+                        
+                        if (!waveformCheck.isValid) {
+                            addLogEntry(`❌ [Chunk ${currentChunkIndex + 1}] Sóng âm không hợp lệ: ${waveformCheck.reason}`, 'error');
+                            addLogEntry(`🔄 Kích hoạt cơ chế reset và đánh dấu thất bại (giống như timeout)...`, 'warning');
+                            
+                            // Hủy bỏ đánh dấu success (đã đánh dấu ở trên)
+                            if (window.chunkStatus) {
+                                window.chunkStatus[currentChunkIndex] = 'failed';
+                            }
+                            
+                            // Thêm vào danh sách failedChunks
+                            if (!window.failedChunks) window.failedChunks = [];
+                            if (!window.failedChunks.includes(currentChunkIndex)) {
+                                window.failedChunks.push(currentChunkIndex);
+                            }
+                            
+                            // QUAN TRỌNG: Đảm bảo vị trí này để trống (null) để sau này retry có thể lưu vào
+                            if (typeof window.chunkBlobs === 'undefined') {
+                                window.chunkBlobs = new Array(SI$acY.length).fill(null);
+                            }
+                            // Đảm bảo window.chunkBlobs có đủ độ dài
+                            while (window.chunkBlobs.length <= currentChunkIndex) {
+                                window.chunkBlobs.push(null);
+                            }
+                            window.chunkBlobs[currentChunkIndex] = null; // Đảm bảo vị trí này để trống
+                            
+                            // ĐỒNG BỘ HÓA ZTQj$LF$o: Đảm bảo ZTQj$LF$o cũng để trống
+                            while (ZTQj$LF$o.length <= currentChunkIndex) {
+                                ZTQj$LF$o.push(null);
+                            }
+                            ZTQj$LF$o[currentChunkIndex] = null; // Đảm bảo vị trí này để trống
+                            
+                            addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Đã đánh dấu thất bại và để trống vị trí ${currentChunkIndex} để retry sau`, 'info');
+                            
+                            // Xóa khỏi processingChunks
+                            if (typeof window.processingChunks !== 'undefined') {
+                                window.processingChunks.delete(currentChunkIndex);
+                            }
+                            
+                            // Reset flag sendingChunk khi chunk thất bại
+                            if (window.sendingChunk === currentChunkIndex) {
+                                window.sendingChunk = null;
+                            }
+                            
+                            // Dừng observer nếu đang chạy
+                            if (xlgJHLP$MATDT$kTXWV) {
+                                xlgJHLP$MATDT$kTXWV.disconnect();
+                                xlgJHLP$MATDT$kTXWV = null;
+                            }
+                            // Reset flag để cho phép thiết lập observer mới
+                            window.isSettingUpObserver = false;
+                            
+                            // Clear timeout 60 giây cho chunk này
+                            if (typeof window.chunkTimeoutIds !== 'undefined' && window.chunkTimeoutIds[currentChunkIndex]) {
+                                clearTimeout(window.chunkTimeoutIds[currentChunkIndex]);
+                                delete window.chunkTimeoutIds[currentChunkIndex];
+                            }
+                            
+                            // Reset web interface - CHỈ reset khi 1 chunk cụ thể render lỗi
+                            await resetWebInterface();
+                            
+                            // KIỂM TRA LỖI CẤU HÌNH: Nếu chunk 1 (index 0) có sóng âm không hợp lệ, đánh dấu
+                            if (currentChunkIndex === 0) {
+                                window.chunk1Failed = true;
+                                addLogEntry(`⚠️ [Chunk 1] Sóng âm không hợp lệ. Sẽ kiểm tra chunk 2...`, 'warning');
+                            }
+                            
+                            // KIỂM TRA LỖI CẤU HÌNH: Nếu chunk 1 đã lỗi và chunk 2 (index 1) cũng có sóng âm không hợp lệ
+                            if (window.chunk1Failed && currentChunkIndex === 1) {
+                                addLogEntry(`🚨 [LỖI CẤU HÌNH] Chunk 1 đã lỗi và Chunk 2 cũng có sóng âm không hợp lệ!`, 'error');
+                                addLogEntry(`💡 Tool yêu cầu: Vui lòng F5 (Refresh) trang và thao tác lại từ đầu!`, 'error');
+                                
+                                // Hiển thị thông báo lỗi cấu hình
+                                if (typeof Swal !== 'undefined') {
+                                    Swal.fire({
+                                        title: '🚨 Lỗi Cấu Hình',
+                                        html: `
+                                            <div style="text-align: left;">
+                                                <p><strong>Chunk 1 và Chunk 2 đều có sóng âm không hợp lệ!</strong></p>
+                                                <hr>
+                                                <p><strong>⚠️ Nguyên nhân có thể:</strong></p>
+                                                <ul>
+                                                    <li>Cấu hình web chưa đúng</li>
+                                                    <li>File âm thanh chưa được tải lên đúng cách</li>
+                                                    <li>Trạng thái web không ổn định</li>
+                                                    <li>Server render bị lỗi, trả về file bị cắt</li>
+                                                </ul>
+                                                <hr>
+                                                <p><strong>💡 Giải pháp:</strong></p>
+                                                <ol>
+                                                    <li>Nhấn <strong>F5</strong> để refresh trang</li>
+                                                    <li>Tải lại file âm thanh</li>
+                                                    <li>Thao tác lại từ đầu</li>
+                                                </ol>
+                                            </div>
+                                        `,
+                                        icon: 'error',
+                                        width: '600px',
+                                        confirmButtonText: 'Đã hiểu - Sẽ F5',
+                                        confirmButtonColor: '#ff6b6b',
+                                        allowOutsideClick: false,
+                                        allowEscapeKey: false
+                                    });
+                                }
+                                
+                                // Reset flag sau khi hiển thị thông báo
+                                window.chunk1Failed = false;
+                                return; // Dừng xử lý
+                            }
+                            
+                            // Sau khi reset, tiếp tục với chunk tiếp theo (không retry chunk lỗi ngay)
+                            window.retryCount = 0; // Reset bộ đếm retry
+                            ttuo$y_KhCV = currentChunkIndex + 1; // Chuyển sang chunk tiếp theo
+                            addLogEntry(`🔄 Sau khi reset, tiếp tục với chunk ${ttuo$y_KhCV + 1}...`, 'info');
+                            addLogEntry(`📊 Trạng thái: ${window.chunkStatus ? window.chunkStatus.filter(s => s === 'success' || s === 'failed').length : 0}/${SI$acY.length} chunks đã xử lý`, 'info');
+                            addLogEntry(`💡 Chunk có sóng âm không hợp lệ sẽ được retry vô hạn sau khi xong tất cả chunks`, 'info');
+                            setTimeout(uSTZrHUt_IC, 2000); // Chờ 2 giây rồi tiếp tục với chunk tiếp theo
+                            return; // Dừng xử lý, không lưu blob
+                        }
+                        
+                        // Log xác nhận waveform hợp lệ
+                        addLogEntry(`✅ [Chunk ${currentChunkIndex + 1}] ${waveformCheck.reason}`, 'success');
+                        // =======================================================
+                        // == END: KIỂM TRA SÓNG ÂM (WAVEFORM) ==
+                        // =======================================================
                         
                         // Lưu chunk vào đúng vị trí dựa trên currentChunkIndex (đã lưu ở đầu callback)
                         if (typeof window.chunkBlobs === 'undefined') {
