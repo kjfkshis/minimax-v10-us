@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      24.0
+// @version      25.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -3840,6 +3840,9 @@ async function uSTZrHUt_IC() {
                         // =======================================================
                         // == END: KIỂM TRA DUNG LƯỢNG BLOB ==
                         // =======================================================
+                        
+                        // Log xác nhận kiểm tra dung lượng đã chạy và blob hợp lệ
+                        addLogEntry(`✅ [Chunk ${currentChunkIndex + 1}] Đã kiểm tra dung lượng blob: ${(qILAV.size / 1024).toFixed(2)} KB - Hợp lệ`, 'info');
                         
                         // Lưu chunk vào đúng vị trí dựa trên currentChunkIndex (đã lưu ở đầu callback)
                         if (typeof window.chunkBlobs === 'undefined') {
