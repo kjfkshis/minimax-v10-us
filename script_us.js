@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      24.0
+// @version      25.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -3805,14 +3805,10 @@ function igyo$uwVChUzI() {
                     clearTimeout(Srnj$swt);
                     // KHÔNG disconnect observer ở đây - sẽ disconnect sau khi xử lý xong
 
-                    // Log khi thành công
-                    addLogEntry(`✅ [Chunk ${currentChunkIndex + 1}/${SI$acY.length}] Xử lý thành công!`, 'success');
-                    window.retryCount = 0; // Reset bộ đếm retry khi thành công
-                    // Reset timeout retry count cho chunk này khi thành công
-                    if (typeof window.timeoutRetryCount !== 'undefined' && window.timeoutRetryCount[currentChunkIndex] !== undefined) {
-                        window.timeoutRetryCount[currentChunkIndex] = 0;
-                    }
-                    // Clear timeout 60 giây cho chunk này khi thành công
+                    // QUAN TRỌNG: KHÔNG đánh dấu success ở đây
+                    // Chỉ đánh dấu success SAU KHI tất cả kiểm tra (dung lượng, waveform) đều hợp lệ và đã lưu blob
+                    
+                    // Clear timeout 60 giây cho chunk này (clear ngay khi detect audio để tránh timeout)
                     if (typeof window.chunkTimeoutIds !== 'undefined' && window.chunkTimeoutIds[currentChunkIndex]) {
                         clearTimeout(window.chunkTimeoutIds[currentChunkIndex]);
                         delete window.chunkTimeoutIds[currentChunkIndex];
@@ -3823,23 +3819,10 @@ function igyo$uwVChUzI() {
                         clearTimeout(Srnj$swt);
                         Srnj$swt = null;
                     }
-                    window.chunkStatus[currentChunkIndex] = 'success'; // Đánh dấu chunk này đã thành công
                     
-                    // Reset flag sendingChunk khi chunk thành công
+                    // Reset flag sendingChunk (reset ngay khi detect audio)
                     if (window.sendingChunk === currentChunkIndex) {
                         window.sendingChunk = null;
-                    }
-                    
-                    // Reset flag chunk1Failed nếu chunk 1 thành công
-                    if (currentChunkIndex === 0) {
-                        window.chunk1Failed = false;
-                        addLogEntry(`✅ [Chunk 1] Đã thành công - Reset flag kiểm tra cấu hình`, 'success');
-                    }
-
-                    // Nếu đang trong giai đoạn kiểm tra cuối, loại bỏ chunk này khỏi danh sách thất bại
-                    if (window.isFinalCheck && window.failedChunks.includes(currentChunkIndex)) {
-                        window.failedChunks = window.failedChunks.filter(index => index !== currentChunkIndex);
-                        addLogEntry(`🎉 [Chunk ${currentChunkIndex + 1}] Đã khôi phục thành công từ trạng thái thất bại!`, 'success');
                     }
 
                     // ĐỒNG BỘ HÓA KHI RETRY: Đảm bảo window.chunkBlobs được cập nhật khi retry thành công
@@ -3993,13 +3976,25 @@ function igyo$uwVChUzI() {
                                 return; // Dừng xử lý
                             }
                             
-                            // Sau khi reset, tiếp tục với chunk tiếp theo (không retry chunk lỗi ngay)
-                            window.retryCount = 0; // Reset bộ đếm retry
-                            ttuo$y_KhCV = currentChunkIndex + 1; // Chuyển sang chunk tiếp theo
-                            addLogEntry(`🔄 Sau khi reset, tiếp tục với chunk ${ttuo$y_KhCV + 1}...`, 'info');
-                            addLogEntry(`📊 Trạng thái: ${window.chunkStatus ? window.chunkStatus.filter(s => s === 'success' || s === 'failed').length : 0}/${SI$acY.length} chunks đã xử lý`, 'info');
-                            addLogEntry(`💡 Chunk có dung lượng <= ${MIN_SIZE_KB} KB sẽ được retry vô hạn sau khi xong tất cả chunks`, 'info');
-                            setTimeout(uSTZrHUt_IC, 2000); // Chờ 2 giây rồi tiếp tục với chunk tiếp theo
+                            // Xử lý retry: Nếu đang trong retry mode, tiếp tục retry chunk hiện tại
+                            // Nếu không phải retry mode, nhảy sang chunk tiếp theo
+                            if (window.isFinalCheck) {
+                                // Đang trong retry mode: tiếp tục retry chunk hiện tại cho đến khi thành công
+                                addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Retry thất bại, sẽ tiếp tục retry chunk này...`, 'warning');
+                                addLogEntry(`📊 Trạng thái: ${window.chunkStatus ? window.chunkStatus.filter(s => s === 'success' || s === 'failed').length : 0}/${SI$acY.length} chunks đã xử lý`, 'info');
+                                addLogEntry(`💡 Chunk ${currentChunkIndex + 1} sẽ được retry vô hạn cho đến khi thành công`, 'info');
+                                // Giữ nguyên ttuo$y_KhCV = currentChunkIndex để retry lại
+                                ttuo$y_KhCV = currentChunkIndex;
+                                setTimeout(uSTZrHUt_IC, 2000); // Chờ 2 giây rồi retry lại chunk này
+                            } else {
+                                // Không phải retry mode: nhảy sang chunk tiếp theo
+                                window.retryCount = 0; // Reset bộ đếm retry
+                                ttuo$y_KhCV = currentChunkIndex + 1; // Chuyển sang chunk tiếp theo
+                                addLogEntry(`🔄 Sau khi reset, tiếp tục với chunk ${ttuo$y_KhCV + 1}...`, 'info');
+                                addLogEntry(`📊 Trạng thái: ${window.chunkStatus ? window.chunkStatus.filter(s => s === 'success' || s === 'failed').length : 0}/${SI$acY.length} chunks đã xử lý`, 'info');
+                                addLogEntry(`💡 Chunk có dung lượng <= ${MIN_SIZE_KB} KB sẽ được retry vô hạn sau khi xong tất cả chunks`, 'info');
+                                setTimeout(uSTZrHUt_IC, 2000); // Chờ 2 giây rồi tiếp tục với chunk tiếp theo
+                            }
                             return; // Dừng xử lý, không lưu blob
                         }
                         // =======================================================
@@ -4124,13 +4119,25 @@ function igyo$uwVChUzI() {
                                 return; // Dừng xử lý
                             }
                             
-                            // Sau khi reset, tiếp tục với chunk tiếp theo (không retry chunk lỗi ngay)
-                            window.retryCount = 0; // Reset bộ đếm retry
-                            ttuo$y_KhCV = currentChunkIndex + 1; // Chuyển sang chunk tiếp theo
-                            addLogEntry(`🔄 Sau khi reset, tiếp tục với chunk ${ttuo$y_KhCV + 1}...`, 'info');
-                            addLogEntry(`📊 Trạng thái: ${window.chunkStatus ? window.chunkStatus.filter(s => s === 'success' || s === 'failed').length : 0}/${SI$acY.length} chunks đã xử lý`, 'info');
-                            addLogEntry(`💡 Chunk có sóng âm không hợp lệ sẽ được retry vô hạn sau khi xong tất cả chunks`, 'info');
-                            setTimeout(uSTZrHUt_IC, 2000); // Chờ 2 giây rồi tiếp tục với chunk tiếp theo
+                            // Xử lý retry: Nếu đang trong retry mode, tiếp tục retry chunk hiện tại
+                            // Nếu không phải retry mode, nhảy sang chunk tiếp theo
+                            if (window.isFinalCheck) {
+                                // Đang trong retry mode: tiếp tục retry chunk hiện tại cho đến khi thành công
+                                addLogEntry(`🔄 [Chunk ${currentChunkIndex + 1}] Retry thất bại, sẽ tiếp tục retry chunk này...`, 'warning');
+                                addLogEntry(`📊 Trạng thái: ${window.chunkStatus ? window.chunkStatus.filter(s => s === 'success' || s === 'failed').length : 0}/${SI$acY.length} chunks đã xử lý`, 'info');
+                                addLogEntry(`💡 Chunk ${currentChunkIndex + 1} sẽ được retry vô hạn cho đến khi thành công`, 'info');
+                                // Giữ nguyên ttuo$y_KhCV = currentChunkIndex để retry lại
+                                ttuo$y_KhCV = currentChunkIndex;
+                                setTimeout(uSTZrHUt_IC, 2000); // Chờ 2 giây rồi retry lại chunk này
+                            } else {
+                                // Không phải retry mode: nhảy sang chunk tiếp theo
+                                window.retryCount = 0; // Reset bộ đếm retry
+                                ttuo$y_KhCV = currentChunkIndex + 1; // Chuyển sang chunk tiếp theo
+                                addLogEntry(`🔄 Sau khi reset, tiếp tục với chunk ${ttuo$y_KhCV + 1}...`, 'info');
+                                addLogEntry(`📊 Trạng thái: ${window.chunkStatus ? window.chunkStatus.filter(s => s === 'success' || s === 'failed').length : 0}/${SI$acY.length} chunks đã xử lý`, 'info');
+                                addLogEntry(`💡 Chunk có sóng âm không hợp lệ sẽ được retry vô hạn sau khi xong tất cả chunks`, 'info');
+                                setTimeout(uSTZrHUt_IC, 2000); // Chờ 2 giây rồi tiếp tục với chunk tiếp theo
+                            }
                             return; // Dừng xử lý, không lưu blob
                         }
                         
@@ -4189,6 +4196,35 @@ function igyo$uwVChUzI() {
                         if (typeof window.processingChunks !== 'undefined') {
                             window.processingChunks.delete(currentChunkIndex);
                         }
+                        
+                        // =======================================================
+                        // == ĐÁNH DẤU THÀNH CÔNG: SAU KHI TẤT CẢ KIỂM TRA ĐỀU HỢP LỆ ==
+                        // =======================================================
+                        // QUAN TRỌNG: Chỉ đánh dấu success SAU KHI đã kiểm tra dung lượng, waveform và lưu blob thành công
+                        window.chunkStatus[currentChunkIndex] = 'success';
+                        window.retryCount = 0; // Reset bộ đếm retry khi thành công
+                        // Reset timeout retry count cho chunk này khi thành công
+                        if (typeof window.timeoutRetryCount !== 'undefined' && window.timeoutRetryCount[currentChunkIndex] !== undefined) {
+                            window.timeoutRetryCount[currentChunkIndex] = 0;
+                        }
+                        
+                        // Log khi thành công
+                        addLogEntry(`✅ [Chunk ${currentChunkIndex + 1}/${SI$acY.length}] Xử lý thành công!`, 'success');
+                        
+                        // Reset flag chunk1Failed nếu chunk 1 thành công
+                        if (currentChunkIndex === 0) {
+                            window.chunk1Failed = false;
+                            addLogEntry(`✅ [Chunk 1] Đã thành công - Reset flag kiểm tra cấu hình`, 'success');
+                        }
+
+                        // Nếu đang trong giai đoạn kiểm tra cuối, loại bỏ chunk này khỏi danh sách thất bại
+                        if (window.isFinalCheck && window.failedChunks.includes(currentChunkIndex)) {
+                            window.failedChunks = window.failedChunks.filter(index => index !== currentChunkIndex);
+                            addLogEntry(`🎉 [Chunk ${currentChunkIndex + 1}] Đã khôi phục thành công từ trạng thái thất bại!`, 'success');
+                        }
+                        // =======================================================
+                        // == END: ĐÁNH DẤU THÀNH CÔNG ==
+                        // =======================================================
                         
                         // DISCONNECT OBSERVER SAU KHI XỬ LÝ XONG (không disconnect trong callback)
                         if (xlgJHLP$MATDT$kTXWV) {
