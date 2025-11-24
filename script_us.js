@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOI - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      25.0
+// @version      24.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -3881,10 +3881,12 @@ function igyo$uwVChUzI() {
                         const qILAV = await FGrxK_RK[ndkpgKnjg(0x26f)]();
                         
                         // =======================================================
-                        // == KIỂM TRA DUNG LƯỢNG BLOB: PHẢI LỚN HƠN 0 ==
+                        // == KIỂM TRA DUNG LƯỢNG BLOB: PHẢI LỚN HƠN 40.41 KB ==
                         // =======================================================
-                        if (!qILAV || qILAV.size === 0) {
-                            addLogEntry(`❌ [Chunk ${currentChunkIndex + 1}] Dung lượng blob = 0 - không hợp lệ!`, 'error');
+                        const MIN_SIZE_KB = 40.41;
+                        const MIN_SIZE_BYTES = MIN_SIZE_KB * 1024; // 40.41 KB = 41379.84 bytes
+                        if (!qILAV || qILAV.size <= MIN_SIZE_BYTES) {
+                            addLogEntry(`❌ [Chunk ${currentChunkIndex + 1}] Dung lượng blob = ${(qILAV ? (qILAV.size / 1024).toFixed(2) : 0)} KB <= ${MIN_SIZE_KB} KB - không hợp lệ!`, 'error');
                             addLogEntry(`🔄 Kích hoạt cơ chế reset và đánh dấu thất bại (giống như timeout)...`, 'warning');
                             
                             // Hủy bỏ đánh dấu success (đã đánh dấu ở trên)
@@ -3943,15 +3945,15 @@ function igyo$uwVChUzI() {
                             // Reset web interface - CHỈ reset khi 1 chunk cụ thể render lỗi
                             await resetWebInterface();
                             
-                            // KIỂM TRA LỖI CẤU HÌNH: Nếu chunk 1 (index 0) có dung lượng = 0, đánh dấu
+                            // KIỂM TRA LỖI CẤU HÌNH: Nếu chunk 1 (index 0) có dung lượng <= 40.41 KB, đánh dấu
                             if (currentChunkIndex === 0) {
                                 window.chunk1Failed = true;
-                                addLogEntry(`⚠️ [Chunk 1] Dung lượng blob = 0. Sẽ kiểm tra chunk 2...`, 'warning');
+                                addLogEntry(`⚠️ [Chunk 1] Dung lượng blob = ${(qILAV ? (qILAV.size / 1024).toFixed(2) : 0)} KB <= ${MIN_SIZE_KB} KB. Sẽ kiểm tra chunk 2...`, 'warning');
                             }
                             
-                            // KIỂM TRA LỖI CẤU HÌNH: Nếu chunk 1 đã lỗi và chunk 2 (index 1) cũng có dung lượng = 0
+                            // KIỂM TRA LỖI CẤU HÌNH: Nếu chunk 1 đã lỗi và chunk 2 (index 1) cũng có dung lượng <= 40.41 KB
                             if (window.chunk1Failed && currentChunkIndex === 1) {
-                                addLogEntry(`🚨 [LỖI CẤU HÌNH] Chunk 1 đã lỗi và Chunk 2 cũng có dung lượng = 0!`, 'error');
+                                addLogEntry(`🚨 [LỖI CẤU HÌNH] Chunk 1 đã lỗi và Chunk 2 cũng có dung lượng <= ${MIN_SIZE_KB} KB!`, 'error');
                                 addLogEntry(`💡 Tool yêu cầu: Vui lòng F5 (Refresh) trang và thao tác lại từ đầu!`, 'error');
                                 
                                 // Hiển thị thông báo lỗi cấu hình
@@ -3960,7 +3962,7 @@ function igyo$uwVChUzI() {
                                         title: '🚨 Lỗi Cấu Hình',
                                         html: `
                                             <div style="text-align: left;">
-                                                <p><strong>Chunk 1 và Chunk 2 đều có dung lượng = 0!</strong></p>
+                                                <p><strong>Chunk 1 và Chunk 2 đều có dung lượng <= ${MIN_SIZE_KB} KB!</strong></p>
                                                 <hr>
                                                 <p><strong>⚠️ Nguyên nhân có thể:</strong></p>
                                                 <ul>
@@ -3996,7 +3998,7 @@ function igyo$uwVChUzI() {
                             ttuo$y_KhCV = currentChunkIndex + 1; // Chuyển sang chunk tiếp theo
                             addLogEntry(`🔄 Sau khi reset, tiếp tục với chunk ${ttuo$y_KhCV + 1}...`, 'info');
                             addLogEntry(`📊 Trạng thái: ${window.chunkStatus ? window.chunkStatus.filter(s => s === 'success' || s === 'failed').length : 0}/${SI$acY.length} chunks đã xử lý`, 'info');
-                            addLogEntry(`💡 Chunk có dung lượng = 0 sẽ được retry vô hạn sau khi xong tất cả chunks`, 'info');
+                            addLogEntry(`💡 Chunk có dung lượng <= ${MIN_SIZE_KB} KB sẽ được retry vô hạn sau khi xong tất cả chunks`, 'info');
                             setTimeout(uSTZrHUt_IC, 2000); // Chờ 2 giây rồi tiếp tục với chunk tiếp theo
                             return; // Dừng xử lý, không lưu blob
                         }
