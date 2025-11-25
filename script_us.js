@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOIUS - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      28.0
+// @version      29.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -482,51 +482,6 @@
 /* END: Styles for Punctuation Detection Modal */
 
 /* START: Styles for Custom Filename Input */
-#custom-filename-input {
-    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%) !important;
-    border: 2px solid #6272a4 !important;
-    border-radius: 12px !important;
-    padding: 14px !important;
-    transition: all 0.3s ease !important;
-    font-family: inherit !important;
-    color: #f8f8f2 !important;
-    font-size: 14px !important;
-}
-
-#custom-filename-input:focus {
-    border-color: #8be9fd !important;
-    box-shadow: 0 0 0 3px rgba(139, 233, 253, 0.1) !important;
-    outline: none !important;
-}
-
-#custom-filename-input::placeholder {
-    color: #94a3b8 !important;
-    font-style: italic !important;
-}
-
-.custom-filename-section {
-    background: rgba(68, 75, 90, 0.3) !important;
-    border: 1px solid rgba(98, 114, 164, 0.2) !important;
-    border-radius: 8px !important;
-    padding: 15px !important;
-    margin-top: 15px !important;
-}
-
-.custom-filename-section label {
-    color: #bd93f9 !important;
-    font-weight: 600 !important;
-    font-size: 14px !important;
-    margin-bottom: 8px !important;
-    display: block !important;
-}
-
-.custom-filename-section small {
-    color: #94a3b8 !important;
-    font-size: 12px !important;
-    margin-top: 5px !important;
-    display: block !important;
-    line-height: 1.4 !important;
-}
 /* END: Styles for Custom Filename Input */
 
 /* ===== MODERN UI IMPROVEMENTS ===== */
@@ -1135,7 +1090,7 @@ button:disabled {
         
         <div id="gemini-quota-display" style="color: #8be9fd; font-weight: bold; margin-left: 15px; margin-top: 10px; font-size: 14px;">Loading quota...</div>
         </div> 
-    <div class="column-content"> <div class="section" style="margin-bottom: 10px!important;"> <h4>1. Upload audio file (Max 1 file, duration 20-60 seconds)</h4> <input type="file" id="gemini-file-input" accept=".wav,.mp3,.mpeg,.mp4,.m4a,.avi,.mov,.wmv,.flv,.mkv,.webm"> </div> <div class="section"> <h4>2. Select language</h4> <select id="gemini-language-select"><option value="Vietnamese">Vietnamese</option><option value="English">English</option><option value="Arabic">Arabic</option><option value="Cantonese">Cantonese</option><option value="Chinese (Mandarin)">Chinese (Mandarin)</option><option value="Dutch">Dutch</option><option value="French">French</option><option value="German">German</option><option value="Indonesian">Indonesian</option><option value="Italian">Italian</option><option value="Japanese">Japanese</option><option value="Korean">Korean</option><option value="Portuguese">Portuguese</option><option value="Russian">Russian</option><option value="Spanish">Spanish</option><option value="Turkish">Turkish</option><option value="Ukrainian">Ukrainian</option><option value="Thai">Thai</option><option value="Polish">Polish</option><option value="Romanian">Romanian</option><option value="Greek">Greek</option><option value="Czech">Czech</option><option value="Finnish">Finnish</option><option value="Hindi">Hindi</option><option value="Bulgarian">Bulgarian</option><option value="Danish">Danish</option><option value="Hebrew">Hebrew</option><option value="Malay">Malay</option><option value="Persian">Persian</option><option value="Slovak">Slovak</option><option value="Swedish">Swedish</option><option value="Croatian">Croatian</option><option value="Filipino">Filipino</option><option value="Hungarian">Hungarian</option><option value="Norwegian">Norwegian</option><option value="Slovenian">Slovenian</option><option value="Catalan">Catalan</option><option value="Nynorsk">Nynorsk</option><option value="Tamil">Tamil</option><option value="Afrikaans">Afrikaans</option></select> </div> <div class="section"> <button id="gemini-upload-btn">Upload & Auto Configure</button> <div id="gemini-upload-status"></div> </div> </div> </div> </div> <div id="gemini-col-2" class="gemini-column"> <div class="column-header box-info-version"><h3>Content Generator</h3><button id="settings-toggle-btn" style="background-color: #6272a4; color: #f8f8f2; border: none; border-radius: 6px; padding: 8px 16px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.3s ease; margin-left: 10px;">⚙️ Settings</button><div>Version: 28.0 - Update: 27/01/2025 - Created by: <a href="https://fb.com/HuynhDucLoi/" target="_blank">Huỳnh Đức Lợi</a></div></div> <div class="column-content">     <div id="gemini-col-2-left">     <div class="section text-section"> <h4>Enter text to generate voice</h4>
+    <div class="column-content"> <div class="section" style="margin-bottom: 10px!important;"> <h4>1. Upload audio file (Max 1 file, duration 10 seconds - 5 minutes)</h4> <input type="file" id="gemini-file-input" accept=".wav,.mp3,.mpeg,.mp4,.m4a,.avi,.mov,.wmv,.flv,.mkv,.webm"> </div> <div class="section"> <h4>2. Select language</h4> <select id="gemini-language-select"><option value="Vietnamese">Vietnamese</option><option value="English">English</option><option value="Arabic">Arabic</option><option value="Cantonese">Cantonese</option><option value="Chinese (Mandarin)">Chinese (Mandarin)</option><option value="Dutch">Dutch</option><option value="French">French</option><option value="German">German</option><option value="Indonesian">Indonesian</option><option value="Italian">Italian</option><option value="Japanese">Japanese</option><option value="Korean">Korean</option><option value="Portuguese">Portuguese</option><option value="Russian">Russian</option><option value="Spanish">Spanish</option><option value="Turkish">Turkish</option><option value="Ukrainian">Ukrainian</option><option value="Thai">Thai</option><option value="Polish">Polish</option><option value="Romanian">Romanian</option><option value="Greek">Greek</option><option value="Czech">Czech</option><option value="Finnish">Finnish</option><option value="Hindi">Hindi</option><option value="Bulgarian">Bulgarian</option><option value="Danish">Danish</option><option value="Hebrew">Hebrew</option><option value="Malay">Malay</option><option value="Persian">Persian</option><option value="Slovak">Slovak</option><option value="Swedish">Swedish</option><option value="Croatian">Croatian</option><option value="Filipino">Filipino</option><option value="Hungarian">Hungarian</option><option value="Norwegian">Norwegian</option><option value="Slovenian">Slovenian</option><option value="Catalan">Catalan</option><option value="Nynorsk">Nynorsk</option><option value="Tamil">Tamil</option><option value="Afrikaans">Afrikaans</option></select> </div> <div class="section"> <button id="gemini-upload-btn">Upload & Auto Configure</button> <div id="gemini-upload-status"></div> </div> </div> </div> </div> <div id="gemini-col-2" class="gemini-column"> <div class="column-header box-info-version"><h3>Content Generator</h3><button id="settings-toggle-btn" style="background-color: #6272a4; color: #f8f8f2; border: none; border-radius: 6px; padding: 8px 16px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.3s ease; margin-left: 10px;">⚙️ Settings</button><div>Version: 28.0 - Update: 27/01/2025 - Created by: <a href="https://fb.com/HuynhDucLoi/" target="_blank">Huỳnh Đức Lợi</a></div></div> <div class="column-content">     <div id="gemini-col-2-left">     <div class="section text-section"> <h4>Enter text to generate voice</h4>
     <div class="text-input-options">
         <div class="input-tabs">
             <button id="text-tab" class="tab-btn active">Enter directly</button>
@@ -1168,17 +1123,7 @@ button:disabled {
         </div>
     </div>
 
- </div> </div> <div id="gemini-col-2-right">     <!-- Ô nhập tên file tùy chỉnh -->
-            <div class="custom-filename-section" style="margin-top: 15px;">
-                <label for="custom-filename-input" style="display: block; margin-bottom: 8px; color: #bd93f9; font-weight: 600; font-size: 14px;">
-                    🏷️ Audio file name (optional)
-                </label>
-                <input type="text" id="custom-filename-input" placeholder="Enter audio file name (no .mp3 extension needed)"
-                       style="width: 100%; padding: 12px; background: #282a36; color: #f8f8f2; border: 2px solid #6272a4; border-radius: 8px; font-size: 14px; transition: all 0.3s ease;">
-                <small style="color: #94a3b8; font-size: 12px; margin-top: 5px; display: block;">
-                    💡 Leave blank to automatically take the name from the first line of text
-                </small>
-            </div>
+ </div> </div> <div id="gemini-col-2-right">
     <div id="gemini-text-stats"><span>Characters: 0</span><span>Words: 0</span><span>Sentences: 0</span><span>Paragraphs: 0</span></div>
 
 <button id="gemini-start-queue-btn" disabled>Start generating audio</button> <button id="apply-punctuation-btn" style="display:none; background-color: #ffb86c; color: #282a36; margin-top: 10px;">Apply punctuation settings</button> <button id="gemini-pause-btn" style="display:none;">Pause</button> <button id="gemini-stop-btn" style="display:none;">Stop</button> <div id="gemini-progress-container" style="display:none;"><div id="gemini-progress-bar"></div><span id="gemini-progress-label">0%</span></div> <div id="gemini-final-result" style="display:none;"> <h4>Final result</h4> <div id="gemini-time-taken"></div> <div id="gemini-waveform"></div> <div id="waveform-controls" style="display:none;"><button id="waveform-play-pause">▶️</button><a id="gemini-download-merged-btn" href="#" download="merged_output.mp3">Download audio</a><button id="gemini-download-chunks-btn" style="display: none; background-color: #ffb86c; color: #282a36;">Download chunks (ZIP)</button></div> </div> </div> </div> </div> <div id="gemini-col-3" class="gemini-column" style="display:none;"> <div class="column-header"><h3></h3></div> <div class="column-content banner-column"> </div> </div>     <textarea id="gemini-hidden-text-for-request" style="display:none;"></textarea>
@@ -3939,11 +3884,11 @@ async function waitForVoiceModelReady() {
                     audio.onloadedmetadata = function() {
                         const duration = audio.duration;
                         URL.revokeObjectURL(audio.src);
-                        if (duration < 20 || duration > 60) {
+                        if (duration < 10 || duration > 300) {
                             Swal.fire({
                                 icon: 'error',
-                                title: 'Lỗi độ dài file',
-                                text: `File âm thanh phải có độ dài từ 20 đến 60 giây. File hiện tại: ${Math.round(duration)} giây.`,
+                                title: 'File duration error',
+                                text: `Audio file must be between 10 seconds and 5 minutes. Current file: ${Math.round(duration)} seconds.`,
                                 confirmButtonText: 'OK'
                             });
                             fileInput.value = '';
