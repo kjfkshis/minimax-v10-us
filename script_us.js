@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DUC LOIUS - Clone Voice (Không cần API) - Modded
 // @namespace    mmx-secure
-// @version      27.0
+// @version      28.0
 // @description  Tạo audio giọng nói clone theo ý của bạn. Không giới hạn. Thêm chức năng Ghép hội thoại, Đổi văn bản hàng loạt & Thiết lập dấu câu (bao gồm dấu xuống dòng).
 // @author       HUỲNH ĐỨC LỢI ( Zalo: 0835795597) - Đã chỉnh sửa
 // @match        https://www.minimax.io/audio*
@@ -53,21 +53,6 @@
 #add-replace-pair-btn{width:40px;background-color:#50fa7b;color:#282a36;padding:8px}
 #execute-replace-btn{flex-grow:1;background-color:#8be9fd;color:#282a36;padding:8px}
 /* Log Section Styles */
-.log-section{background:#44475a;border:1px solid #27304a;border-radius:4px;padding:15px;margin-top:15px}
-.log-section h2{font-size:16px;font-weight:700;margin-bottom:10px;color:#bd93f9}
-.log-container{background:#282a36;border:1px solid #6272a4;border-radius:4px;padding:10px;max-height:25vh;overflow-y:auto;margin-bottom:10px}
-.log-container::-webkit-scrollbar{width:6px}
-.log-container::-webkit-scrollbar-track{background:#282a36}
-.log-container::-webkit-scrollbar-thumb{background:#6272a4;border-radius:3px}
-.log-container::-webkit-scrollbar-thumb:hover{background:#bd93f9}
-.log-entry{color:#f8f8f2;font-size:12px;margin-bottom:5px;padding:3px 0;border-bottom:1px solid #44475a}
-.log-entry:last-child{border-bottom:none}
-.log-entry.info{color:#8be9fd}
-.log-entry.success{color:#50fa7b}
-.log-entry.warning{color:#ffb86c}
-.log-entry.error{color:#f55}
-.clear-log-btn{width:100%;background-color:#f55;color:#f8f8f2;padding:8px;border:none;border-radius:4px;font-weight:700;cursor:pointer;transition:background-color .2s ease}
-.clear-log-btn:hover{background-color:#e44}
 
 /* START: Styles for Punctuation Settings Modal */
 #open-punctuation-settings-btn { margin-top: 20px; background-color: #6272a4; color: #f8f8f2; }
@@ -803,28 +788,6 @@ body {
     box-shadow: 0 4px 12px rgba(98, 114, 164, 0.4) !important;
 }
 
-#settings-panel {
-    background-color: #44475a !important;
-    border-bottom: 1px solid #6272a4 !important;
-    padding: 15px !important;
-    flex-shrink: 0 !important;
-    animation: slideDown 0.3s ease-out !important;
-}
-
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        max-height: 0;
-        padding-top: 0;
-        padding-bottom: 0;
-    }
-    to {
-        opacity: 1;
-        max-height: 1000px;
-        padding-top: 15px;
-        padding-bottom: 15px;
-    }
-}
 
 .column-header::after {
     content: '';
@@ -1167,147 +1130,19 @@ button:disabled {
 }
 
 /* Sales Announcement Styles */
-.sales-announcement {
-    margin-top: 15px;
-    background: linear-gradient(135deg, #44475a 0%, #3b3d4a 100%);
-    border: 2px solid #bd93f9;
-    border-radius: 10px;
-    padding: 12px;
-    box-shadow: 0 4px 15px rgba(189, 147, 249, 0.3);
-    max-width: 100%;
-}
-
-.sales-announcement h3 {
-    color: #ff79c6;
-    font-size: 15px;
-    font-weight: 700;
-    margin: 0 0 10px 0;
-    text-align: center;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.sales-announcement .sales-content {
-    color: #f8f8f2;
-    font-size: 12px;
-    line-height: 1.5;
-    display: flex;
-    gap: 12px;
-}
-
-.sales-announcement .sales-content .sales-left,
-.sales-announcement .sales-content .sales-right {
-    flex: 1;
-}
-
-.sales-announcement .sales-content p {
-    margin: 6px 0;
-}
-
-.sales-announcement .sales-content strong {
-    color: #50fa7b;
-    font-weight: 700;
-}
-
-.sales-announcement .sales-content .highlight {
-    color: #ffb86c;
-    font-weight: 600;
-}
-
-.sales-announcement .sales-content ul {
-    margin: 6px 0;
-    padding-left: 20px;
-}
-
-.sales-announcement .sales-content li {
-    margin: 4px 0;
-}
-
-.sales-announcement .sales-content .commission-box {
-    background: rgba(80, 250, 123, 0.1);
-    border-left: 4px solid #50fa7b;
-    padding: 8px;
-    margin: 8px 0;
-    border-radius: 6px;
-}
-
-.sales-announcement .sales-content .team-offer {
-    background: rgba(255, 184, 108, 0.1);
-    border-left: 4px solid #ffb86c;
-    padding: 8px;
-    margin: 8px 0;
-    border-radius: 6px;
-}
-
-.sales-announcement .sales-content .steps-list {
-    background: rgba(139, 233, 253, 0.1);
-    border-left: 4px solid #8be9fd;
-    padding: 8px;
-    margin: 8px 0;
-    border-radius: 6px;
-}
-
-/* Sales Image Styles */
-.sales-image-container {
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-.sales-image-container img {
-    width: 100%;
-    height: auto;
-    border-radius: 12px;
-    border: 2px solid #bd93f9;
-    box-shadow: 0 4px 15px rgba(189, 147, 249, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.sales-image-container img:hover {
-    transform: scale(1.02);
-    box-shadow: 0 6px 20px rgba(189, 147, 249, 0.5);
-}
-
-/* Responsive cho Sales Announcement */
-@media (max-width: 992px) {
-    .sales-announcement .sales-content {
-        flex-direction: column;
-        gap: 15px;
-    }
-}
-
-@media (max-width: 600px) {
-    .sales-announcement {
-        padding: 15px;
-        margin-top: 15px;
-    }
-    
-    .sales-announcement h3 {
-        font-size: 16px;
-    }
-    
-    .sales-announcement .sales-content {
-        font-size: 13px;
-        gap: 12px;
-    }
-    
-    .sales-announcement .sales-content .commission-box,
-    .sales-announcement .sales-content .team-offer,
-    .sales-announcement .sales-content .steps-list {
-        padding: 10px;
-        margin: 10px 0;
-    }
-}`;
+`;
     const APP_HTML = `<div id="gemini-col-1" class="gemini-column"> <div class="column-header"><div class="logo-user"><a href="" tager="_blank"><div class="logo"><img src="https://minimax.buhaseo.com/wp-content/uploads/2025/08/logo-minimax.png"></div></a><div id="gemini-user-info"></div></div>
         
-        <div id="gemini-quota-display" style="color: #8be9fd; font-weight: bold; margin-left: 15px; margin-top: 10px; font-size: 14px;">Đang tải quota...</div>
+        <div id="gemini-quota-display" style="color: #8be9fd; font-weight: bold; margin-left: 15px; margin-top: 10px; font-size: 14px;">Loading quota...</div>
         </div> 
-    <div class="column-content"> <div class="section" style="margin-bottom: 10px!important;"> <h4>1. Tải lên tệp âm thanh (Tối đa 1 file, độ dài 20-60 giây)</h4> <input type="file" id="gemini-file-input" accept=".wav,.mp3,.mpeg,.mp4,.m4a,.avi,.mov,.wmv,.flv,.mkv,.webm"> </div> <div class="section"> <h4>2. Chọn ngôn ngữ</h4> <select id="gemini-language-select"><option value="Vietnamese">Vietnamese</option><option value="English">English</option><option value="Arabic">Arabic</option><option value="Cantonese">Cantonese</option><option value="Chinese (Mandarin)">Chinese (Mandarin)</option><option value="Dutch">Dutch</option><option value="French">French</option><option value="German">German</option><option value="Indonesian">Indonesian</option><option value="Italian">Italian</option><option value="Japanese">Japanese</option><option value="Korean">Korean</option><option value="Portuguese">Portuguese</option><option value="Russian">Russian</option><option value="Spanish">Spanish</option><option value="Turkish">Turkish</option><option value="Ukrainian">Ukrainian</option><option value="Thai">Thai</option><option value="Polish">Polish</option><option value="Romanian">Romanian</option><option value="Greek">Greek</option><option value="Czech">Czech</option><option value="Finnish">Finnish</option><option value="Hindi">Hindi</option><option value="Bulgarian">Bulgarian</option><option value="Danish">Danish</option><option value="Hebrew">Hebrew</option><option value="Malay">Malay</option><option value="Persian">Persian</option><option value="Slovak">Slovak</option><option value="Swedish">Swedish</option><option value="Croatian">Croatian</option><option value="Filipino">Filipino</option><option value="Hungarian">Hungarian</option><option value="Norwegian">Norwegian</option><option value="Slovenian">Slovenian</option><option value="Catalan">Catalan</option><option value="Nynorsk">Nynorsk</option><option value="Tamil">Tamil</option><option value="Afrikaans">Afrikaans</option></select> </div> <div class="section"> <button id="gemini-upload-btn">Tải lên & Cấu hình tự động</button> <div id="gemini-upload-status"></div> </div> <div class="log-section"> <h2>Log hoạt động</h2> <div id="log-container" class="log-container"> <div class="log-entry">Sẵn sàng theo dõi văn bản chunk</div> </div> <button id="clear-log-btn" class="clear-log-btn">Xóa log</button> </div> </div> </div> </div> <div id="gemini-col-2" class="gemini-column"> <div class="column-header box-info-version"><h3>Trình tạo nội dung</h3><button id="settings-toggle-btn" style="background-color: #6272a4; color: #f8f8f2; border: none; border-radius: 6px; padding: 8px 16px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.3s ease; margin-left: 10px;">⚙️ Cài đặt</button><div>Version: 26.0 - Update: 27/01/2025 - Tạo bởi: <a href="https://fb.com/HuynhDucLoi/" target="_blank">Huỳnh Đức Lợi</a></div></div> <div id="settings-panel" style="display:none; background-color: #44475a; border-bottom: 1px solid #6272a4; padding: 15px; flex-shrink: 0;"> <div class="section"> <button id="open-audio-manager-btn" style="background-color: #8be9fd; color: #282a36; width: 100%; padding: 14px 20px; border: none; border-radius: 8px; font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.3s ease; margin-bottom: 15px;">📂 Mở Kho Âm Thanh (Online)</button> <button id="open-history-btn" style="background-color: #bd93f9; color: #282a36; width: 100%; padding: 14px 20px; border: none; border-radius: 8px; font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.3s ease; margin-bottom: 15px;">📚 Lịch sử</button> </div><div id="batch-replace-section"><h4>Đổi văn bản hàng loạt</h4><div id="batch-replace-pairs"></div><div id="batch-replace-actions"><button id="add-replace-pair-btn" title="Thêm cặp từ">+</button><button id="execute-replace-btn">Thực hiện đổi</button></div></div> <button id="open-punctuation-settings-btn">Thiết lập dấu câu</button> </div> <div class="column-content">     <div id="gemini-col-2-left">     <div class="section text-section"> <h4>Nhập văn bản cần tạo giọng nói</h4>
+    <div class="column-content"> <div class="section" style="margin-bottom: 10px!important;"> <h4>1. Upload audio file (Max 1 file, duration 20-60 seconds)</h4> <input type="file" id="gemini-file-input" accept=".wav,.mp3,.mpeg,.mp4,.m4a,.avi,.mov,.wmv,.flv,.mkv,.webm"> </div> <div class="section"> <h4>2. Select language</h4> <select id="gemini-language-select"><option value="Vietnamese">Vietnamese</option><option value="English">English</option><option value="Arabic">Arabic</option><option value="Cantonese">Cantonese</option><option value="Chinese (Mandarin)">Chinese (Mandarin)</option><option value="Dutch">Dutch</option><option value="French">French</option><option value="German">German</option><option value="Indonesian">Indonesian</option><option value="Italian">Italian</option><option value="Japanese">Japanese</option><option value="Korean">Korean</option><option value="Portuguese">Portuguese</option><option value="Russian">Russian</option><option value="Spanish">Spanish</option><option value="Turkish">Turkish</option><option value="Ukrainian">Ukrainian</option><option value="Thai">Thai</option><option value="Polish">Polish</option><option value="Romanian">Romanian</option><option value="Greek">Greek</option><option value="Czech">Czech</option><option value="Finnish">Finnish</option><option value="Hindi">Hindi</option><option value="Bulgarian">Bulgarian</option><option value="Danish">Danish</option><option value="Hebrew">Hebrew</option><option value="Malay">Malay</option><option value="Persian">Persian</option><option value="Slovak">Slovak</option><option value="Swedish">Swedish</option><option value="Croatian">Croatian</option><option value="Filipino">Filipino</option><option value="Hungarian">Hungarian</option><option value="Norwegian">Norwegian</option><option value="Slovenian">Slovenian</option><option value="Catalan">Catalan</option><option value="Nynorsk">Nynorsk</option><option value="Tamil">Tamil</option><option value="Afrikaans">Afrikaans</option></select> </div> <div class="section"> <button id="gemini-upload-btn">Upload & Auto Configure</button> <div id="gemini-upload-status"></div> </div> </div> </div> </div> <div id="gemini-col-2" class="gemini-column"> <div class="column-header box-info-version"><h3>Content Generator</h3><button id="settings-toggle-btn" style="background-color: #6272a4; color: #f8f8f2; border: none; border-radius: 6px; padding: 8px 16px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.3s ease; margin-left: 10px;">⚙️ Settings</button><div>Version: 28.0 - Update: 27/01/2025 - Created by: <a href="https://fb.com/HuynhDucLoi/" target="_blank">Huỳnh Đức Lợi</a></div></div> <div class="column-content">     <div id="gemini-col-2-left">     <div class="section text-section"> <h4>Enter text to generate voice</h4>
     <div class="text-input-options">
         <div class="input-tabs">
-            <button id="text-tab" class="tab-btn active">Nhập trực tiếp</button>
-            <button id="file-tab" class="tab-btn">Tải từ file</button>
+            <button id="text-tab" class="tab-btn active">Enter directly</button>
+            <button id="file-tab" class="tab-btn">Upload from file</button>
         </div>
         <div id="text-input-area" class="input-area active">
-            <textarea id="gemini-main-textarea" placeholder="Dán nội dung bạn đã chuẩn bị vào đây.
+            <textarea id="gemini-main-textarea" placeholder="Paste the content you have prepared here.
 ⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
             "></textarea>
         </div>
@@ -1317,9 +1152,9 @@ button:disabled {
                 <div class="file-upload-area" id="file-upload-area">
                     <div class="upload-icon">📄</div>
                     <div class="upload-text">
-                        <strong>Kéo thả file vào đây hoặc click để chọn</strong>
+                        <strong>Drag and drop file here or click to select</strong>
                         <br>
-                        <small>Hỗ trợ: TXT, DOC, DOCX, RTF, ODT, PDF, MD, HTML, XML, CSV, JSON</small>
+                        <small>Supported: TXT, DOC, DOCX, RTF, ODT, PDF, MD, HTML, XML, CSV, JSON</small>
                     </div>
                 </div>
                 <div id="file-info" class="file-info" style="display: none;">
@@ -1333,56 +1168,44 @@ button:disabled {
         </div>
     </div>
 
-    <div class="sales-announcement">
-        <h3>🎉 CHƯƠNG TRÌNH SALE – HOA HỒNG VĨNH VIỄN 💰</h3>
-        <div class="sales-content">
-            <div class="sales-left">
-                <div class="commission-box">
-                    <p><strong>🔥 Hoa hồng: 50.000đ / khách</strong></p>
-                    <p><span class="highlight">👉 Khách còn dùng → bạn còn nhận tiền mỗi tháng!</span></p>
-                </div>
-                
-                <div class="team-offer">
-                    <p><strong>👥 Team từ 5 người: 300.000đ / máy</strong></p>
-                </div>
-                
-                <p style="font-size: 12px; color: #94a3b8; margin-top: 10px;">💡 Hoa hồng trích từ hệ thống, không ảnh hưởng khách hàng</p>
-            </div>
-            
-            <div class="sales-right">
-                <h4 style="color: #ff79c6; font-size: 16px; margin: 0 0 15px 0; text-align: center;">🚀 Cách tham gia cực đơn giản</h4>
-                <div class="steps-list">
-                    <ul>
-                        <li>Tạo nhóm riêng của bạn.</li>
-                        <li>Add admin vào nhóm.</li>
-                        <li>Admin sẽ hỗ trợ chốt khách giúp bạn.</li>
-                        <li>Khách mua → bạn nhận hoa hồng.</li>
-                        <li>Tháng sau khách gia hạn → bạn tiếp tục nhận tiền</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
  </div> </div> <div id="gemini-col-2-right">     <!-- Ô nhập tên file tùy chỉnh -->
             <div class="custom-filename-section" style="margin-top: 15px;">
                 <label for="custom-filename-input" style="display: block; margin-bottom: 8px; color: #bd93f9; font-weight: 600; font-size: 14px;">
-                    🏷️ Tên file âm thanh (tùy chọn)
+                    🏷️ Audio file name (optional)
                 </label>
-                <input type="text" id="custom-filename-input" placeholder="Nhập tên file âm thanh (không cần đuôi .mp3)"
+                <input type="text" id="custom-filename-input" placeholder="Enter audio file name (no .mp3 extension needed)"
                        style="width: 100%; padding: 12px; background: #282a36; color: #f8f8f2; border: 2px solid #6272a4; border-radius: 8px; font-size: 14px; transition: all 0.3s ease;">
                 <small style="color: #94a3b8; font-size: 12px; margin-top: 5px; display: block;">
-                    💡 Để trống sẽ tự động lấy tên từ dòng đầu tiên của văn bản
+                    💡 Leave blank to automatically take the name from the first line of text
                 </small>
             </div>
-    <div id="gemini-text-stats"><span>Ký tự: 0</span><span>Từ: 0</span><span>Câu: 0</span><span>Đoạn: 0</span></div>
+    <div id="gemini-text-stats"><span>Characters: 0</span><span>Words: 0</span><span>Sentences: 0</span><span>Paragraphs: 0</span></div>
 
-<button id="gemini-merge-btn">Ghép đoạn hội thoại</button> <button id="gemini-start-queue-btn" disabled>Bắt đầu tạo âm thanh</button> <button id="apply-punctuation-btn" style="display:none; background-color: #ffb86c; color: #282a36; margin-top: 10px;">Áp dụng thiết lập dấu câu</button> <button id="gemini-pause-btn" style="display:none;">Tạm dừng</button> <button id="gemini-stop-btn" style="display:none;">Dừng hẳn</button> <div id="gemini-progress-container" style="display:none;"><div id="gemini-progress-bar"></div><span id="gemini-progress-label">0%</span></div> <div id="gemini-final-result" style="display:none;"> <h4>Kết quả cuối cùng</h4> <div id="gemini-time-taken"></div> <div id="gemini-waveform"></div> <div id="waveform-controls" style="display:none;"><button id="waveform-play-pause">▶️</button><a id="gemini-download-merged-btn" href="#" download="merged_output.mp3">Tải xuống âm thanh</a><button id="gemini-download-chunks-btn" style="display: none; background-color: #ffb86c; color: #282a36;">Tải các chunk (ZIP)</button></div> </div> </div> </div> </div> <div id="gemini-col-3" class="gemini-column" style="display:none;"> <div class="column-header"><h3></h3></div> <div class="column-content banner-column"> </div> </div>     <textarea id="gemini-hidden-text-for-request" style="display:none;"></textarea>
+<button id="gemini-start-queue-btn" disabled>Start generating audio</button> <button id="apply-punctuation-btn" style="display:none; background-color: #ffb86c; color: #282a36; margin-top: 10px;">Apply punctuation settings</button> <button id="gemini-pause-btn" style="display:none;">Pause</button> <button id="gemini-stop-btn" style="display:none;">Stop</button> <div id="gemini-progress-container" style="display:none;"><div id="gemini-progress-bar"></div><span id="gemini-progress-label">0%</span></div> <div id="gemini-final-result" style="display:none;"> <h4>Final result</h4> <div id="gemini-time-taken"></div> <div id="gemini-waveform"></div> <div id="waveform-controls" style="display:none;"><button id="waveform-play-pause">▶️</button><a id="gemini-download-merged-btn" href="#" download="merged_output.mp3">Download audio</a><button id="gemini-download-chunks-btn" style="display: none; background-color: #ffb86c; color: #282a36;">Download chunks (ZIP)</button></div> </div> </div> </div> </div> <div id="gemini-col-3" class="gemini-column" style="display:none;"> <div class="column-header"><h3></h3></div> <div class="column-content banner-column"> </div> </div>     <textarea id="gemini-hidden-text-for-request" style="display:none;"></textarea>
+
+    <!-- Modal Cài đặt -->
+    <div id="settings-modal" class="punctuation-modal" style="display:none;">
+        <div class="punctuation-modal-card" style="width: 500px; max-width: 90vw; max-height: 85vh;">
+            <div class="punctuation-modal-header">
+                <h3>⚙️ Settings</h3>
+                <button id="close-settings-modal-btn" class="punctuation-modal-close-btn">&times;</button>
+            </div>
+            <div class="punctuation-modal-body" style="max-height: calc(85vh - 120px); overflow-y: auto;">
+                <div class="section">
+                    <button id="open-audio-manager-btn" style="background-color: #8be9fd; color: #282a36; width: 100%; padding: 14px 20px; border: none; border-radius: 8px; font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.3s ease; margin-bottom: 15px;">📂 Open Audio Library (Online)</button>
+                    <button id="open-history-btn" style="background-color: #bd93f9; color: #282a36; width: 100%; padding: 14px 20px; border: none; border-radius: 8px; font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.3s ease; margin-bottom: 15px;">📚 History</button>
+                </div>
+                <div id="batch-replace-section"><h4>Batch text replacement</h4><div id="batch-replace-pairs"></div><div id="batch-replace-actions"><button id="add-replace-pair-btn" title="Add word pair">+</button><button id="execute-replace-btn">Execute replacement</button></div></div>
+                <button id="open-punctuation-settings-btn" style="width: 100%; margin-top: 15px;">Punctuation settings</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Modal Kho Âm Thanh Online -->
     <div id="audio-manager-modal" class="punctuation-modal" style="display:none;">
         <div class="punctuation-modal-card" style="width: 80vw; height: 90vh; max-width: 1400px; max-height: 90vh;">
             <div class="punctuation-modal-header">
-                <h3>📁 Kho Âm Thanh Online</h3>
+                <h3>📁 Online Audio Library</h3>
                 <button id="close-audio-manager-btn" class="punctuation-modal-close-btn">&times;</button>
             </div>
             <div style="padding: 10px; height: calc(100% - 60px); overflow: hidden;">
@@ -1395,18 +1218,18 @@ button:disabled {
     <div id="history-modal" class="punctuation-modal" style="display:none;">
         <div class="punctuation-modal-card" style="width: 80vw; max-width: 900px; max-height: 85vh;">
             <div class="punctuation-modal-header">
-                <h3>📚 Lịch sử</h3>
+                <h3>📚 History</h3>
                 <button id="close-history-btn" class="punctuation-modal-close-btn">&times;</button>
             </div>
             <div class="punctuation-modal-body" style="max-height: calc(85vh - 120px); overflow-y: auto;">
                 <div id="history-list-container" style="min-height: 200px;">
                     <div style="text-align: center; padding: 40px; color: #94a3b8;">
-                        <p>Đang tải lịch sử...</p>
+                        <p>Loading history...</p>
                     </div>
                 </div>
             </div>
             <div class="punctuation-modal-footer">
-                <button id="clear-all-history-btn" style="background-color: #f55; color: #f8f8f2; flex-grow: 1;">🗑️ Xóa tất cả lịch sử</button>
+                <button id="clear-all-history-btn" style="background-color: #f55; color: #f8f8f2; flex-grow: 1;">🗑️ Clear all history</button>
             </div>
         </div>
     </div>
@@ -1415,7 +1238,7 @@ button:disabled {
     <div id="punctuation-detection-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 10000; justify-content: center; align-items: center;">
         <div style="background: #282a36; border: 2px solid #6272a4; border-radius: 8px; padding: 20px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3 style="margin: 0; color: #ffb86c; font-size: 18px;">⚠️ Phát hiện dấu câu trùng lặp</h3>
+                <h3 style="margin: 0; color: #ffb86c; font-size: 18px;">⚠️ Duplicate punctuation detected</h3>
                 <button id="close-punctuation-modal" onclick="window.ignoreAllPunctuationIssues()" style="background: #ff5555; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 14px;">✕</button>
             </div>
 
@@ -1423,18 +1246,18 @@ button:disabled {
 
             <div style="background: #44475a; padding: 15px; border-radius: 6px; border: 1px solid #6272a4;">
                 <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
-                    <label style="color: #f8f8f2; font-size: 14px; font-weight: bold;">Dấu câu mặc định:</label>
+                    <label style="color: #f8f8f2; font-size: 14px; font-weight: bold;">Default punctuation:</label>
                     <select id="default-punctuation-select" style="background: #282a36; color: #f8f8f2; border: 1px solid #6272a4; border-radius: 4px; padding: 8px 12px; font-size: 14px; min-width: 150px;">
-                        <option value=".">Dấu chấm (.)</option>
-                        <option value=",">Dấu phẩy (,)</option>
-                        <option value="!">Dấu chấm than (!)</option>
-                        <option value="?">Dấu chấm hỏi (?)</option>
+                        <option value=".">Period (.)</option>
+                        <option value=",">Comma (,)</option>
+                        <option value="!">Exclamation mark (!)</option>
+                        <option value="?">Question mark (?)</option>
                     </select>
                 </div>
 
                 <div style="display: flex; gap: 10px; margin-top: 15px; justify-content: center;">
-                    <button id="auto-fix-punctuation-btn" onclick="window.autoFixAllPunctuationIssues()" style="background: #50fa7b; color: #282a36; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: bold; min-width: 120px;">🔧 Tự động sửa tất cả</button>
-                    <button id="ignore-punctuation-btn" onclick="window.ignoreAllPunctuationIssues()" style="background: #6272a4; color: #f8f8f2; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: bold; min-width: 120px;">❌ Bỏ qua tất cả</button>
+                    <button id="auto-fix-punctuation-btn" onclick="window.autoFixAllPunctuationIssues()" style="background: #50fa7b; color: #282a36; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: bold; min-width: 120px;">🔧 Auto fix all</button>
+                    <button id="ignore-punctuation-btn" onclick="window.ignoreAllPunctuationIssues()" style="background: #6272a4; color: #f8f8f2; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: bold; min-width: 120px;">❌ Ignore all</button>
                 </div>
             </div>
         </div>
@@ -1444,12 +1267,12 @@ button:disabled {
     <div id="punctuation-settings-modal" class="punctuation-modal" style="display:none;">
         <div class="punctuation-modal-card">
             <div class="punctuation-modal-header">
-                <h3>Thiết lập dấu câu</h3>
+                <h3>Punctuation settings</h3>
                 <button class="punctuation-modal-close-btn">&times;</button>
             </div>
             <div class="punctuation-modal-body">
                 <div class="punctuation-setting-row">
-                    <label for="pause-period">Dấu chấm [.]</label>
+                    <label for="pause-period">Period [.]</label>
                     <div style="display: flex; align-items: center; gap: 8px; margin-left: -10px;">
                         <label class="switch">
                             <input type="checkbox" id="toggle-period">
@@ -1463,7 +1286,7 @@ button:disabled {
                     </div>
                 </div>
                 <div class="punctuation-setting-row">
-                    <label for="pause-comma">Dấu phẩy [,]</label>
+                    <label for="pause-comma">Comma [,]</label>
                     <div style="display: flex; align-items: center; gap: 8px; margin-left: -10px;">
                         <label class="switch">
                             <input type="checkbox" id="toggle-comma">
@@ -1477,7 +1300,7 @@ button:disabled {
                     </div>
                 </div>
                 <div class="punctuation-setting-row">
-                    <label for="pause-semicolon">Dấu chấm phẩy [;]</label>
+                    <label for="pause-semicolon">Semicolon [;]</label>
                     <div style="display: flex; align-items: center; gap: 8px; margin-left: -10px;">
                         <label class="switch">
                             <input type="checkbox" id="toggle-semicolon">
@@ -1491,7 +1314,7 @@ button:disabled {
                     </div>
                 </div>
                 <div class="punctuation-setting-row">
-                    <label for="pause-question">Dấu chấm hỏi [?]</label>
+                    <label for="pause-question">Question mark [?]</label>
                     <div style="display: flex; align-items: center; gap: 8px; margin-left: -10px;">
                         <label class="switch">
                             <input type="checkbox" id="toggle-question">
@@ -1505,7 +1328,7 @@ button:disabled {
                     </div>
                 </div>
                 <div class="punctuation-setting-row">
-                    <label for="pause-exclamation">Dấu chấm than [!]</label>
+                    <label for="pause-exclamation">Exclamation mark [!]</label>
                     <div style="display: flex; align-items: center; gap: 8px; margin-left: -10px;">
                         <label class="switch">
                             <input type="checkbox" id="toggle-exclamation">
@@ -1519,7 +1342,7 @@ button:disabled {
                     </div>
                 </div>
                 <div class="punctuation-setting-row">
-                    <label for="pause-colon">Dấu hai chấm [:]</label>
+                    <label for="pause-colon">Colon [:]</label>
                     <div style="display: flex; align-items: center; gap: 8px; margin-left: -10px;">
                         <label class="switch">
                             <input type="checkbox" id="toggle-colon">
@@ -1533,7 +1356,7 @@ button:disabled {
                     </div>
                 </div>
                 <div class="punctuation-setting-row">
-                    <label for="pause-ellipsis">Dấu ba chấm [...]</label>
+                    <label for="pause-ellipsis">Ellipsis [...]</label>
                     <div style="display: flex; align-items: center; gap: 8px; margin-left: -10px;">
                         <label class="switch">
                             <input type="checkbox" id="toggle-ellipsis">
@@ -1547,7 +1370,7 @@ button:disabled {
                     </div>
                 </div>
                 <div class="punctuation-setting-row">
-                    <label for="pause-newline">Dấu xuống dòng [\n]</label>
+                    <label for="pause-newline">Newline [\n]</label>
                     <div style="display: flex; align-items: center; gap: 8px; margin-left: -10px;">
                         <label class="switch">
                             <input type="checkbox" id="toggle-newline">
@@ -1562,8 +1385,8 @@ button:disabled {
                 </div>
             </div>
             <div class="punctuation-modal-footer">
-                <button id="save-punctuation-settings-btn">Lưu thay đổi</button>
-                <button id="default-punctuation-settings-btn">Mặc định</button>
+                <button id="save-punctuation-settings-btn">Save changes</button>
+                <button id="default-punctuation-settings-btn">Default</button>
             </div>
         </div>
     </div>
@@ -1602,7 +1425,7 @@ button:disabled {
             const mainTextarea = document.getElementById('gemini-main-textarea');
             if (startButton && startButton.disabled && mainTextarea && mainTextarea.value.trim() !== '') {
                  startButton.disabled = false;
-                 startButton.textContent = 'Bắt đầu tạo âm thanh';
+                 startButton.textContent = 'Start generating audio';
             }
         } else if (remaining <= 0) {
             // Hết ký tự
@@ -1619,7 +1442,7 @@ button:disabled {
             const mainTextarea = document.getElementById('gemini-main-textarea');
             if (startButton && startButton.disabled && mainTextarea && mainTextarea.value.trim() !== '') {
                  startButton.disabled = false;
-                 startButton.textContent = 'Bắt đầu tạo âm thanh';
+                 startButton.textContent = 'Start generating audio';
             }
         }
     }
@@ -1646,22 +1469,8 @@ button:disabled {
 
     // Log functionality
     function addLogEntry(message, type = 'info') {
-        const logContainer = document.getElementById('log-container');
-        if (logContainer) {
-            const logEntry = document.createElement('div');
-            logEntry.className = `log-entry ${type}`;
-            logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
-            logContainer.appendChild(logEntry);
-            logContainer.scrollTop = logContainer.scrollHeight;
-        }
-    }
-
-    function clearLog() {
-        const logContainer = document.getElementById('log-container');
-        if (logContainer) {
-            logContainer.innerHTML = '';
-            addLogEntry('Log đã được xóa', 'info');
-        }
+        // Log functionality has been disabled
+        return;
     }
 
 
@@ -2066,12 +1875,6 @@ button:disabled {
         }
     });
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const clearLogBtn = document.getElementById('clear-log-btn');
-        if (clearLogBtn) {
-            clearLogBtn.addEventListener('click', clearLog);
-        }
-    });
 
 const aZpcvyD_mnWYN_qgEq=DHk$uTvcFuLEMnixYuADkCeA;let SI$acY=[],ZTQj$LF$o=[],ttuo$y_KhCV=Number(0x90d)+Number(0xdac)+parseFloat(-0x16b9),EfNjYNYj_O_CGB=![],MEpJezGZUsmpZdAgFRBRZW=![],xlgJHLP$MATDT$kTXWV=null,Srnj$swt=null,n_WwsStaC$jzsWjOIjRqedTG=null,dqj_t_Mr=null;const FMFjWZYZzPXRHIjRRnOwV_G=JSON[aZpcvyD_mnWYN_qgEq(0x1df)];JSON[aZpcvyD_mnWYN_qgEq(0x1df)]=function(o__htsdYW,...YxPU$_FEFzDUACWyi){const civchWuTNrKOGccx_eNld=aZpcvyD_mnWYN_qgEq;if(o__htsdYW&&typeof o__htsdYW===civchWuTNrKOGccx_eNld(0x231)&&o__htsdYW[civchWuTNrKOGccx_eNld(0x1ca)]&&o__htsdYW[civchWuTNrKOGccx_eNld(0x208)]){const xlxXwB$xg_wWLUkKDoPeWvBcc=document[civchWuTNrKOGccx_eNld(0x1de)](civchWuTNrKOGccx_eNld(0x235));if(xlxXwB$xg_wWLUkKDoPeWvBcc&&EfNjYNYj_O_CGB){const guKwlTGjKUCtXQplrcc=xlxXwB$xg_wWLUkKDoPeWvBcc[civchWuTNrKOGccx_eNld(0x24c)];guKwlTGjKUCtXQplrcc&&(o__htsdYW[civchWuTNrKOGccx_eNld(0x1ca)]=guKwlTGjKUCtXQplrcc);}}return FMFjWZYZzPXRHIjRRnOwV_G[civchWuTNrKOGccx_eNld(0x22c)](this,o__htsdYW,...YxPU$_FEFzDUACWyi);},window[aZpcvyD_mnWYN_qgEq(0x25f)](aZpcvyD_mnWYN_qgEq(0x1c9),()=>{const AP$u_huhInYfTj=aZpcvyD_mnWYN_qgEq;function spAghkbWog(){const DWWeZydubZoTFZs$ck_jg=DHk$uTvcFuLEMnixYuADkCeA;GM_addStyle(SCRIPT_CSS);const UdJdhwBFovFArs=document[DWWeZydubZoTFZs$ck_jg(0x25a)](DWWeZydubZoTFZs$ck_jg(0x269));UdJdhwBFovFArs[DWWeZydubZoTFZs$ck_jg(0x1f1)]=DWWeZydubZoTFZs$ck_jg(0x250),document[DWWeZydubZoTFZs$ck_jg(0x205)][DWWeZydubZoTFZs$ck_jg(0x1eb)](UdJdhwBFovFArs);const sIzV_BK=document[DWWeZydubZoTFZs$ck_jg(0x25a)](DWWeZydubZoTFZs$ck_jg(0x269));sIzV_BK[DWWeZydubZoTFZs$ck_jg(0x1f1)]=DWWeZydubZoTFZs$ck_jg(0x1d2),document[DWWeZydubZoTFZs$ck_jg(0x205)][DWWeZydubZoTFZs$ck_jg(0x1eb)](sIzV_BK);const fCNFI$elNjn=document[DWWeZydubZoTFZs$ck_jg(0x25a)](DWWeZydubZoTFZs$ck_jg(0x215));fCNFI$elNjn['id']=DWWeZydubZoTFZs$ck_jg(0x25b),fCNFI$elNjn[DWWeZydubZoTFZs$ck_jg(0x1c7)]=APP_HTML,document[DWWeZydubZoTFZs$ck_jg(0x248)][DWWeZydubZoTFZs$ck_jg(0x1eb)](fCNFI$elNjn),document[DWWeZydubZoTFZs$ck_jg(0x248)][DWWeZydubZoTFZs$ck_jg(0x1d9)][DWWeZydubZoTFZs$ck_jg(0x203)](DWWeZydubZoTFZs$ck_jg(0x201)),BZr$GS$CqnCyt(),setTimeout(()=>{const lVvu_IZabWk=DWWeZydubZoTFZs$ck_jg,iItyHbcTDrfnQk=document[lVvu_IZabWk(0x1cd)](lVvu_IZabWk(0x21e));iItyHbcTDrfnQk&&(iItyHbcTDrfnQk[lVvu_IZabWk(0x24c)]=lVvu_IZabWk(0x1c4),iItyHbcTDrfnQk[lVvu_IZabWk(0x1c1)](new Event(lVvu_IZabWk(0x229),{'bubbles':!![]}))),s_BrlXXxPOJaBMKQX();},0x8*parseInt(0x182)+0x17*Math.trunc(parseInt(0xd3))+Math.max(-0x1541,-0x1541));}spAghkbWog();const LrkOcBYz_$AGjPqXLWnyiATpCI=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x261)),lraDK$WDOgsXHRO=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x1da)),OdKzziXLxtOGjvaBMHm=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x23a)),WRVxYBSrPsjcqQs_bXI=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x24f)),rUxbIRagbBVychZ$GfsogD=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x235)),zQizakWdLEdLjtenmCbNC=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x23f)),PEYtOIOW=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x230)),PcLAEW=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x1e7)),yU_jfkzmffcnGgLWrq=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x1ba)),VcTcfGnbfWZdhQRvBp$emAVjf=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x223)),CVjXA$H=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x260)),pT$bOHGEGbXDSpcuLWAq_yMVf=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x214)),pemHAD=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x1dc)),SCOcXEQXTPOOS=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x211)),XvyPnqSRdJtYjSxingI=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x20a)),cHjV$QkAT$JWlL=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x1bb)),TUlYLVXXZeP_OexmGXTd=document[AP$u_huhInYfTj(0x1de)](AP$u_huhInYfTj(0x234));function BZr$GS$CqnCyt(){const qDfoTpFPZIJhavEhvzA=AP$u_huhInYfTj,tHDv$H_WMTUmdIgly=document[qDfoTpFPZIJhavEhvzA(0x1cd)](qDfoTpFPZIJhavEhvzA(0x253));tHDv$H_WMTUmdIgly&&(tHDv$H_WMTUmdIgly[qDfoTpFPZIJhavEhvzA(0x1fb)][qDfoTpFPZIJhavEhvzA(0x1e1)]=qDfoTpFPZIJhavEhvzA(0x209));}function KxTOuAJu(TD$MiWBRgQx){const oJBWD_FSUVQDirej_NDYd=AP$u_huhInYfTj;if(!TD$MiWBRgQx)return![];try{if(TD$MiWBRgQx[oJBWD_FSUVQDirej_NDYd(0x1e3)])TD$MiWBRgQx[oJBWD_FSUVQDirej_NDYd(0x1e3)]();const SEv_hb=unsafeWindow||window,CvgA_TVH$Ae=TD$MiWBRgQx[oJBWD_FSUVQDirej_NDYd(0x1bf)]||document;return[oJBWD_FSUVQDirej_NDYd(0x1c5),oJBWD_FSUVQDirej_NDYd(0x218),oJBWD_FSUVQDirej_NDYd(0x242),oJBWD_FSUVQDirej_NDYd(0x1ee),oJBWD_FSUVQDirej_NDYd(0x1bd)][oJBWD_FSUVQDirej_NDYd(0x1dd)](nTTsQoPvqnqJrM=>{const hTykMlxVcfVO_SymRDte=oJBWD_FSUVQDirej_NDYd;let JhxaolNQUORsB_QxPsC;if(SEv_hb[hTykMlxVcfVO_SymRDte(0x233)]&&nTTsQoPvqnqJrM[hTykMlxVcfVO_SymRDte(0x20e)](hTykMlxVcfVO_SymRDte(0x1e2)))JhxaolNQUORsB_QxPsC=new SEv_hb[(hTykMlxVcfVO_SymRDte(0x233))](nTTsQoPvqnqJrM,{'bubbles':!![],'cancelable':!![],'pointerId':0x1,'isPrimary':!![]});else SEv_hb[hTykMlxVcfVO_SymRDte(0x206)]?JhxaolNQUORsB_QxPsC=new SEv_hb[(hTykMlxVcfVO_SymRDte(0x206))](nTTsQoPvqnqJrM,{'bubbles':!![],'cancelable':!![],'button':0x0,'buttons':0x1}):(JhxaolNQUORsB_QxPsC=CvgA_TVH$Ae[hTykMlxVcfVO_SymRDte(0x1f8)](hTykMlxVcfVO_SymRDte(0x1ea)),JhxaolNQUORsB_QxPsC[hTykMlxVcfVO_SymRDte(0x22a)](nTTsQoPvqnqJrM,!![],!![],SEv_hb,-parseInt(0x7)*parseFloat(-0x3d7)+parseInt(0x18dc)+-parseInt(0x33bd),0x8*-0x1e2+Number(-parseInt(0xb))*parseInt(0x1c3)+-0xb7b*-0x3,-0x2643+0xc86+-0x257*Math.floor(-0xb),parseInt(parseInt(0x159d))*-0x1+Math.max(parseInt(0x2240),parseInt(0x2240))*Math.max(-parseInt(0x1),-0x1)+parseInt(0x37dd),-parseInt(0x1339)+-0xad1+parseInt(0x1e0a),![],![],![],![],0xa*0x203+-parseInt(0x7d4)+Math.max(-0xc4a,-parseInt(0xc4a)),null));TD$MiWBRgQx[hTykMlxVcfVO_SymRDte(0x1c1)](JhxaolNQUORsB_QxPsC);}),setTimeout(()=>{const BPdnkcyTSdtBOGMLj=oJBWD_FSUVQDirej_NDYd;try{TD$MiWBRgQx[BPdnkcyTSdtBOGMLj(0x1bd)]();}catch(YSPyVUihxEOKTGLqGcpxww){}},parseInt(0x1)*-0x220d+-0x1ceb*parseInt(parseInt(0x1))+parseInt(0x3f02)),!![];}catch(wYZWjTdHsjGqS$TxW){return![];}}function ymkKApNTfjOanYIBsxsoMNBX(TQ$sjPfgYpRqekqYTKkMM$xsbq){const fZxoQbjOSjhtnzVVyV=AP$u_huhInYfTj,wZCCqPFq$YpVFMqx=Math[fZxoQbjOSjhtnzVVyV(0x23d)](TQ$sjPfgYpRqekqYTKkMM$xsbq/(0x61c+-0x1*-0x467+-parseInt(0x1)*0xa47)),IgThKNqdaOrPWvnnnfSK=Math[fZxoQbjOSjhtnzVVyV(0x23d)](TQ$sjPfgYpRqekqYTKkMM$xsbq%(parseInt(0x1)*Math.ceil(-parseInt(0x1675))+-0x1*parseFloat(parseInt(0x3f8))+Math.floor(parseInt(0x23))*Math.ceil(0xc3)));return wZCCqPFq$YpVFMqx+fZxoQbjOSjhtnzVVyV(0x1ef)+IgThKNqdaOrPWvnnnfSK+fZxoQbjOSjhtnzVVyV(0x25d);}function i_B_kZYD() {
     // ƯU TIÊN 1: Kiểm tra tên file do người dùng nhập tùy chỉnh
@@ -2556,7 +2359,7 @@ if(n_WwsStaC$jzsWjOIjRqedTG)n_WwsStaC$jzsWjOIjRqedTG[VCAHyXsrERcpXVhFPxmgdBjjh(0
 
                     if (successfulChunks.length === 0) {
                         addLogEntry('❌ Không tìm thấy chunk nào để tải!', 'error');
-                        Swal.fire('Lỗi', 'Không có chunk nào để tải xuống.', 'error');
+                        Swal.fire('Error', 'No chunks to download.', 'error');
                         return;
                     }
 
@@ -2573,8 +2376,8 @@ if(n_WwsStaC$jzsWjOIjRqedTG)n_WwsStaC$jzsWjOIjRqedTG[VCAHyXsrERcpXVhFPxmgdBjjh(0
 
                     // Hiển thị thông báo
                     Swal.fire({
-                        title: 'Đang tải các chunk...',
-                        text: `Sẽ tải ${successfulChunks.length} file chunk trực tiếp về thư mục.`,
+                        title: 'Downloading chunks...',
+                        text: `Will download ${successfulChunks.length} chunk files directly to folder.`,
                         icon: 'info',
                         timer: 2000,
                         showConfirmButton: false
@@ -2636,8 +2439,8 @@ function downloadAllChunksAtOnce(chunks, folderName) {
     setTimeout(() => {
         addLogEntry('✅ Đã tải xong tất cả các chunk!', 'success');
         Swal.fire({
-            title: 'Hoàn thành!',
-            text: `Đã tải xuống ${chunks.length} file chunk thành công. Chunk 1 -> "1.mp3", Chunk 2 -> "2.mp3", v.v.`,
+            title: 'Completed!',
+            text: `Successfully downloaded ${chunks.length} chunk files. Chunk 1 -> "1.mp3", Chunk 2 -> "2.mp3", etc.`,
             icon: 'success',
             timer: 3000
         });
@@ -4169,47 +3972,12 @@ async function waitForVoiceModelReady() {
         })();
 
         // Get references to new elements
-        const mergeBtn = document.getElementById('gemini-merge-btn');
         const mainTextareaForNewFunc = document.getElementById('gemini-main-textarea');
         const pairsContainer = document.getElementById('batch-replace-pairs');
         const addPairBtn = document.getElementById('add-replace-pair-btn');
         const executeReplaceBtn = document.getElementById('execute-replace-btn');
 
-        // --- 1. Merge Dialogue Functionality ---
-        if (mergeBtn && mainTextareaForNewFunc) {
-            mergeBtn.addEventListener('click', () => {
-                const text = mainTextareaForNewFunc.value;
-                if (!text) return;
-
-                const lines = text.split('\n')
-                    .map(line => line.trim())
-                    .filter(line => line.length > 0);
-
-                if (lines.length <= 1) return;
-
-                let result = lines.map((line, index) => {
-                    if (index < lines.length - 1) { // Not the last line
-                        if (!/[.,?!:;]$/.test(line)) {
-                            return line + ',';
-                        }
-                    } else { // The very last line
-                        if (!/[.?!]$/.test(line)) {
-                            if (line.endsWith(',')) {
-                                return line.slice(0, -1) + '.';
-                            }
-                            return line + '.';
-                        }
-                    }
-                    return line;
-                }).join(' ');
-
-                mainTextareaForNewFunc.value = result;
-                mainTextareaForNewFunc.dispatchEvent(new Event('input', { 'bubbles': true }));
-            });
-        }
-
-
-        // --- 2. Batch Replace Functionality ---
+        // --- 1. Batch Replace Functionality ---
         if (pairsContainer && addPairBtn && executeReplaceBtn && mainTextareaForNewFunc) {
             const STORAGE_KEY = 'DUC_LOI_REPLACE_PAIRS_V2';
             const SETTINGS_KEY = 'DUC_LOI_REPLACE_SETTINGS_V1';
@@ -4226,18 +3994,18 @@ async function waitForVoiceModelReady() {
             `;
             replaceOptionsContainer.innerHTML = `
                 <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
-                    <label style="color: #f8f8f2; font-weight: bold; font-size: 14px;">Cách thay thế:</label>
+                    <label style="color: #f8f8f2; font-weight: bold; font-size: 14px;">Replacement method:</label>
                     <label style="display: flex; align-items: center; gap: 5px; color: #f8f8f2; cursor: pointer;">
                         <input type="radio" name="replace-mode" value="word" id="replace-word-mode" checked>
-                        <span>Thay thế theo từ</span>
+                        <span>Replace by word</span>
                     </label>
                     <label style="display: flex; align-items: center; gap: 5px; color: #f8f8f2; cursor: pointer;">
                         <input type="radio" name="replace-mode" value="string" id="replace-string-mode">
-                        <span>Thay thế theo ký tự</span>
+                        <span>Replace by character</span>
                     </label>
                 </div>
                 <div style="margin-top: 8px; font-size: 12px; color: #94a3b8;">
-                    <span id="replace-mode-description">Thay thế chỉ khi là từ hoàn chỉnh (ví dụ: "anh" → "em" nhưng "thanh" không đổi)</span>
+                    <span id="replace-mode-description">Replace only when it is a complete word (e.g., "anh" → "em" but "thanh" does not change)</span>
                 </div>
             `;
 
@@ -4278,9 +4046,9 @@ async function waitForVoiceModelReady() {
             // Cập nhật mô tả
             const updateModeDescription = () => {
                 if (wordModeRadio.checked) {
-                    modeDescription.textContent = 'Thay thế chỉ khi là từ hoàn chỉnh (ví dụ: "anh" → "em" nhưng "thanh" không đổi)';
+                    modeDescription.textContent = 'Replace only when it is a complete word (e.g., "anh" → "em" but "thanh" does not change)';
                 } else {
-                    modeDescription.textContent = 'Thay thế tất cả chuỗi tìm thấy (ví dụ: "anh" → "em" trong cả "thanh")';
+                    modeDescription.textContent = 'Replace all found strings (e.g., "anh" → "em" even in "thanh")';
                 }
             };
 
@@ -4539,7 +4307,7 @@ async function waitForVoiceModelReady() {
 
                 if (shouldCloseModal) {
                     closeModal();
-                    Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Đã lưu cài đặt!', showConfirmButton: false, timer: 1500 });
+                    Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Settings saved!', showConfirmButton: false, timer: 1500 });
                 }
                 checkPunctuationState();
             };
@@ -4660,7 +4428,7 @@ async function waitForVoiceModelReady() {
                 startQueueBtn.disabled = mainTextarea.value.trim() === '';
                 applyPunctuationBtn.style.display = 'none';
 
-                Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Đã áp dụng thiết lập vào văn bản!', showConfirmButton: false, timer: 2000 });
+                Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Settings applied to text!', showConfirmButton: false, timer: 2000 });
             });
 
             // Gắn các sự kiện
@@ -4683,20 +4451,31 @@ async function waitForVoiceModelReady() {
         // Gọi hàm thiết lập dấu câu sau khi các element khác đã sẵn sàng
         initializePunctuationSettings();
 
-        // --- Settings Panel Toggle ---
+        // --- Settings Modal Toggle ---
         (function() {
             const settingsToggleBtn = document.getElementById('settings-toggle-btn');
-            const settingsPanel = document.getElementById('settings-panel');
+            const settingsModal = document.getElementById('settings-modal');
+            const closeSettingsBtn = document.getElementById('close-settings-modal-btn');
             
-            if (settingsToggleBtn && settingsPanel) {
+            // Mở modal
+            if (settingsToggleBtn && settingsModal) {
                 settingsToggleBtn.addEventListener('click', function() {
-                    const isVisible = settingsPanel.style.display !== 'none';
-                    if (isVisible) {
-                        settingsPanel.style.display = 'none';
-                        settingsToggleBtn.textContent = '⚙️ Cài đặt';
-                    } else {
-                        settingsPanel.style.display = 'block';
-                        settingsToggleBtn.textContent = '✕ Đóng';
+                    settingsModal.style.display = 'flex';
+                });
+            }
+            
+            // Đóng modal
+            if (closeSettingsBtn && settingsModal) {
+                closeSettingsBtn.addEventListener('click', function() {
+                    settingsModal.style.display = 'none';
+                });
+            }
+            
+            // Đóng modal khi click vào background
+            if (settingsModal) {
+                settingsModal.addEventListener('click', function(e) {
+                    if (e.target === settingsModal) {
+                        settingsModal.style.display = 'none';
                     }
                 });
             }
@@ -6371,7 +6150,7 @@ async function waitForVoiceModelReady() {
                 if (history.length === 0) {
                     historyListContainer.innerHTML = `
                         <div style="text-align: center; padding: 40px; color: #94a3b8;">
-                            <p style="font-size: 16px;">📭 Chưa có file nào trong lịch sử</p>
+                            <p style="font-size: 16px;">📭 No files in history</p>
                             <p style="font-size: 12px; margin-top: 10px;">Các file đã ghép thành công sẽ được lưu ở đây</p>
                         </div>
                     `;
